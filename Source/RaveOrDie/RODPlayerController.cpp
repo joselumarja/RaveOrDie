@@ -8,7 +8,7 @@
 ARODPlayerController::ARODPlayerController()
 {
 	bShowMouseCursor = true;
-	DefaultMouseCursor = EMouseCursor::Crosshairs;
+	DefaultMouseCursor = EMouseCursor::GrabHand;
 }
 
 void ARODPlayerController::PlayerTick(float DeltaTime)
