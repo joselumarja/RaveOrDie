@@ -40,7 +40,6 @@ void ARODPlayerController::SetupInputComponent()
 void ARODPlayerController::MoveToMouseCursor()
 {
 
-
 		// Trace to see what is under the mouse cursor
 		FHitResult Hit;
 		GetHitResultUnderCursor(ECC_Visibility, false, Hit);

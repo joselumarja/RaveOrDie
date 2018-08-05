@@ -83,7 +83,6 @@ void ARODCharacter::Tick(float DeltaTime)
 			CursorToWorld->SetWorldRotation(CursorR);
 		}
 	}
-
 }
 
 // Called to bind functionality to input
