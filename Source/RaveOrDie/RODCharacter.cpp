@@ -9,6 +9,7 @@
 #include "GameFramework/PlayerController.h"
 #include "GameFramework/SpringArmComponent.h"
 #include "Materials/Material.h"
+#include "Engine.h"
 #include "Engine/World.h"
 
 // Sets default values
@@ -37,6 +38,7 @@ ARODCharacter::ARODCharacter()
 	CameraBoom->RelativeRotation = FRotator(-60.f, 0.f, 0.f);
 	CameraBoom->bDoCollisionTest = false; // Don't want to pull camera in when it collides with level
 
+	OnActorHit.AddDynamic(this, &ARODCharacter::OnHit);
 										  // Create a camera...
 	TopDownCameraComponent = CreateDefaultSubobject<UCameraComponent>(TEXT("TopDownCamera"));
 	TopDownCameraComponent->SetupAttachment(CameraBoom, USpringArmComponent::SocketName);
@@ -92,3 +94,9 @@ void ARODCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCompon
 
 }
 
+void ARODCharacter::OnHit(AActor* SelfActor, AActor* OtherActor, FVector NormalImpulse, const FHitResult& Hit) {
+
+	GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, TEXT("Me ha golpeado el enemigo"));
+
+
+}
