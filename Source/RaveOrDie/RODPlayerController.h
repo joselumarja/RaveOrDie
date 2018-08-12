@@ -18,6 +18,19 @@ protected:
 	/** True if the controlled character should navigate to the mouse cursor. */
 	uint32 bMoveToMouseCursor : 1;
 
+	bool bNorthMove;
+	bool bSouthMove;
+	bool bEastMove;
+	bool bWestMove;
+
+	FVector CalcDirection();
+
+
+	const FVector NorthDirection = FVector(1, 0, 0);
+	const FVector SouthDirection = FVector(-1, 0, 0);
+	const FVector EastDirection = FVector(0, 1, 0);
+	const FVector WestDirection = FVector(0, -1, 0);
+
 	// Begin PlayerController interface
 	virtual void PlayerTick(float DeltaTime) override;
 	virtual void SetupInputComponent() override;
