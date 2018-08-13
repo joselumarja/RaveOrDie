@@ -6,7 +6,7 @@
 #include "GameFramework/Character.h"
 #include "RODCharacter.generated.h"
 
-UCLASS()
+UCLASS(Blueprintable)
 class RAVEORDIE_API ARODCharacter : public ACharacter
 {
 	GENERATED_BODY()
@@ -22,7 +22,7 @@ public:
 	/** Returns CursorToWorld subobject **/
 	FORCEINLINE class UDecalComponent* GetCursorToWorld() { return CursorToWorld; }
 
-protected:
+/*protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
@@ -31,7 +31,7 @@ public:
 	virtual void Tick(float DeltaTime) override;
 
 	// Called to bind functionality to input
-	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
+	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;*/
 
 private:
 	/** Top down camera */

@@ -49,7 +49,7 @@ ARODCharacter::ARODCharacter()
 	PrimaryActorTick.bStartWithTickEnabled = true;
 
 }
-
+/*
 // Called when the game starts or when spawned
 void ARODCharacter::BeginPlay()
 {
@@ -70,7 +70,7 @@ void ARODCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCompon
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
 
 }
-
+*/
 void ARODCharacter::OnHit(AActor* SelfActor, AActor* OtherActor, FVector NormalImpulse, const FHitResult& Hit) {
 
 	GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, TEXT("Me ha golpeado el enemigo"));
