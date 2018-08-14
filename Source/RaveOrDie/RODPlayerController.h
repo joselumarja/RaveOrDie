@@ -19,21 +19,11 @@ public:
 	const FName MoveXBinding=FName("MoveX");
 
 protected:
-	/** True if the controlled character should navigate to the mouse cursor. */
-	uint32 bMoveToMouseCursor : 1;
-
-	FVector CalcDirection();
-
-	const float Velocity = 100.f;
-
-	FVector AcumulatedDirection;
 
 	// Begin PlayerController interface
-	virtual void PlayerTick(float DeltaTime) override;
 	virtual void SetupInputComponent() override;
 
-	/** Navigate player to the given world location. */
-	void SetNewMoveDestination(const FVector DestLocation);
-	
+	void MoveFordward(float Value);
 
+	void MoveRight(float Value);
 };
