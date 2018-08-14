@@ -17,8 +17,13 @@ public:
 
 	const FName MoveYBinding=FName("MoveY");
 	const FName MoveXBinding=FName("MoveX");
+	const FName MeleeAttakName = FName("MeleeAttak");
+	const FName DistanceAttakName = FName("DistanceAttak");
 
 protected:
+
+	bool bCanMeleeAttak;
+	bool bCanDistanceAttak;
 
 	// Begin PlayerController interface
 	virtual void SetupInputComponent() override;
@@ -26,4 +31,12 @@ protected:
 	void MoveFordward(float Value);
 
 	void MoveRight(float Value);
+
+	void MeleeAttak();
+
+	void FinishMeleeAttak();
+
+	void DistanceAttak();
+
+	void FinishDistanceAttak();
 };

@@ -5,10 +5,12 @@
 #include "AI/Navigation/NavigationSystem.h"
 #include "Runtime/Engine/Classes/Components/DecalComponent.h"
 #include "Engine/World.h"
+#include "Engine.h"
 
 ARODPlayerController::ARODPlayerController()
 {
-
+	bCanDistanceAttak = true;
+	bCanMeleeAttak = true;
 }
 
 void ARODPlayerController::MoveFordward(float Value)
@@ -40,8 +42,42 @@ void ARODPlayerController::SetupInputComponent()
 	InputComponent->BindAxis(MoveYBinding,this,&ARODPlayerController::MoveFordward);
 	InputComponent->BindAxis(MoveXBinding,this,&ARODPlayerController::MoveRight);
 
+	InputComponent->BindAction(MeleeAttakName, IE_Pressed, this, &ARODPlayerController::MeleeAttak);
+	InputComponent->BindAction(DistanceAttakName, IE_Pressed, this, &ARODPlayerController::DistanceAttak);
+
+	InputComponent->BindAction(MeleeAttakName, IE_Released, this, &ARODPlayerController::FinishMeleeAttak);
+	InputComponent->BindAction(DistanceAttakName, IE_Released, this, &ARODPlayerController::FinishDistanceAttak);
 }
 
+void ARODPlayerController::MeleeAttak()
+{
+	if (bCanMeleeAttak) 
+	{
+		bCanDistanceAttak = false;
+		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, TEXT("Navajeo"));
+		//hacer cosas
+	}
+}
+
+void ARODPlayerController::FinishMeleeAttak()
+{
+	bCanDistanceAttak = true;
+}
+
+void ARODPlayerController::DistanceAttak()
+{
+	if (bCanDistanceAttak)
+	{
+		bCanMeleeAttak = false;
+		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, TEXT("Disparo"));
+		//hacer cosas
+	}
+}
+
+void ARODPlayerController::FinishDistanceAttak()
+{
+	bCanMeleeAttak = true;
+}
 
 
 
