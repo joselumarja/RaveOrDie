@@ -9,8 +9,8 @@
 
 ARODPlayerController::ARODPlayerController()
 {
-	bCanDistanceAttak = true;
-	bCanMeleeAttak = true;
+	bCanDistanceAttack = true;
+	bCanMeleeAttack = true;
 }
 
 void ARODPlayerController::MoveFordward(float Value)
@@ -42,41 +42,41 @@ void ARODPlayerController::SetupInputComponent()
 	InputComponent->BindAxis(MoveYBinding,this,&ARODPlayerController::MoveFordward);
 	InputComponent->BindAxis(MoveXBinding,this,&ARODPlayerController::MoveRight);
 
-	InputComponent->BindAction(MeleeAttakName, IE_Pressed, this, &ARODPlayerController::MeleeAttak);
-	InputComponent->BindAction(DistanceAttakName, IE_Pressed, this, &ARODPlayerController::DistanceAttak);
+	InputComponent->BindAction(MeleeAttackBinding, IE_Pressed, this, &ARODPlayerController::MeleeAttack);
+	InputComponent->BindAction(DistanceAttackBinding, IE_Pressed, this, &ARODPlayerController::DistanceAttack);
 
-	InputComponent->BindAction(MeleeAttakName, IE_Released, this, &ARODPlayerController::FinishMeleeAttak);
-	InputComponent->BindAction(DistanceAttakName, IE_Released, this, &ARODPlayerController::FinishDistanceAttak);
+	InputComponent->BindAction(MeleeAttackBinding, IE_Released, this, &ARODPlayerController::FinishMeleeAttack);
+	InputComponent->BindAction(DistanceAttackBinding, IE_Released, this, &ARODPlayerController::FinishDistanceAttack);
 }
 
-void ARODPlayerController::MeleeAttak()
+void ARODPlayerController::MeleeAttack()
 {
-	if (bCanMeleeAttak) 
+	if (bCanMeleeAttack) 
 	{
-		bCanDistanceAttak = false;
+		bCanDistanceAttack = false;
 		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, TEXT("Navajeo"));
 		//hacer cosas
 	}
 }
 
-void ARODPlayerController::FinishMeleeAttak()
+void ARODPlayerController::FinishMeleeAttack()
 {
-	bCanDistanceAttak = true;
+	bCanDistanceAttack = true;
 }
 
-void ARODPlayerController::DistanceAttak()
+void ARODPlayerController::DistanceAttack()
 {
-	if (bCanDistanceAttak)
+	if (bCanDistanceAttack)
 	{
-		bCanMeleeAttak = false;
+		bCanMeleeAttack = false;
 		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, TEXT("Disparo"));
 		//hacer cosas
 	}
 }
 
-void ARODPlayerController::FinishDistanceAttak()
+void ARODPlayerController::FinishDistanceAttack()
 {
-	bCanMeleeAttak = true;
+	bCanMeleeAttack = true;
 }
 
 
