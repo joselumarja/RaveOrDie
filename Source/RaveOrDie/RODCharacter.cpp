@@ -11,6 +11,7 @@
 #include "Materials/Material.h"
 #include "Engine.h"
 #include "Engine/World.h"
+#include "RODPlayerController.h"
 
 // Sets default values
 ARODCharacter::ARODCharacter()
@@ -48,6 +49,9 @@ ARODCharacter::ARODCharacter()
 	PrimaryActorTick.bCanEverTick = false;
 	PrimaryActorTick.bStartWithTickEnabled = false;
 
+	bCanAttack = true;
+	bIsInMeleeAttack = false;
+
 }
 
 // Called when the game starts or when spawned
@@ -62,4 +66,26 @@ void ARODCharacter::OnHit(AActor* SelfActor, AActor* OtherActor, FVector NormalI
 	GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, TEXT("Me ha golpeado el enemigo"));
 
 
+}
+
+void ARODCharacter::MeleeAttack()
+{
+	bIsInMeleeAttack = true;
+
+}
+
+void ARODCharacter::DistanceAttack()
+{
+
+}
+
+void ARODCharacter::FinishMeleeAttack()
+{
+	bCanAttack = true;
+	bIsInMeleeAttack = false;
+}
+
+void ARODCharacter::FinishDistanceAttack()
+{
+	bCanAttack = true;
 }

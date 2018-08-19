@@ -20,6 +20,14 @@ public:
 	/** Returns CameraBoom subobject **/
 	FORCEINLINE class USpringArmComponent* GetCameraBoom() const { return CameraBoom; }
 
+	FORCEINLINE bool IsInMeleeAttack() const { return bIsInMeleeAttack; }
+
+	FORCEINLINE bool GetCanAttack() const { return bCanAttack; }
+
+
+	void MeleeAttack();
+
+	void DistanceAttack();
 
 protected:
 	// Called when the game starts or when spawned
@@ -36,5 +44,13 @@ private:
 
 	UFUNCTION()
 		void OnHit(AActor* SelfActor, AActor* OtherActor, FVector NormalImpulse, const FHitResult& Hit);
+
+	bool bCanAttack;
+
+	bool bIsInMeleeAttack;
+
+	void FinishMeleeAttack();
+
+	void FinishDistanceAttack();
 	
 };

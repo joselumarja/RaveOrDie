@@ -7,9 +7,7 @@
 #include "BehaviorTree/BehaviorTreeComponent.h"
 #include "MyAIController.generated.h"
 
-/**
- * 
- */
+
 UCLASS()
 class RAVEORDIE_API AMyAIController : public AAIController
 {
