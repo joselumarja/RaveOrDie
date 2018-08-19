@@ -24,6 +24,7 @@ public:
 
 	FORCEINLINE bool GetCanAttack() const { return bCanAttack; }
 
+	float GetMeleeDamage() const;
 
 	void MeleeAttack();
 

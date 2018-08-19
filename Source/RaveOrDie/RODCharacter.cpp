@@ -68,6 +68,11 @@ void ARODCharacter::OnHit(AActor* SelfActor, AActor* OtherActor, FVector NormalI
 
 }
 
+float ARODCharacter::GetMeleeDamage() const
+{
+	return 0.f;
+}
+
 void ARODCharacter::MeleeAttack()
 {
 	bIsInMeleeAttack = true;

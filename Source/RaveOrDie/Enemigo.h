@@ -23,6 +23,8 @@ private:
 	UFUNCTION()
 		void OnSeePlayer(APawn* Pawn);
 
+	void UpdateLife(float Damage);
+
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
@@ -43,5 +45,4 @@ public:
 	UFUNCTION()
 		void OnHit(AActor* SelfActor, AActor* OtherActor, FVector NormalImpulse, const FHitResult& Hit);
 
-	void UpdateLife();
 };
