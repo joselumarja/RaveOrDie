@@ -5,6 +5,7 @@
 #include "Engine.h"
 #include "BehaviorTree/BehaviorTree.h"
 #include "Perception/PawnSensingComponent.h"
+#include "GameManager.h"
 #include "RODCharacter.h"
 
 
@@ -82,5 +83,22 @@ void AEnemigo::UpdateLife(float Damage) {
 
 		Destroy();
 
+	}
+}
+
+void AEnemigo::AddManager(UGameManager* Manager)
+{
+
+	if (!ManagerPtr.IsValid())
+	{
+		ManagerPtr = Manager;
+	}
+}
+
+void AEnemigo::NotifyDead()
+{
+	if (ManagerPtr.IsValid())
+	{
+		ManagerPtr.Get()->EnemyKilled();
 	}
 }
