@@ -22,9 +22,6 @@ public:
 
 protected:
 
-	bool bCanMeleeAttack;
-	bool bCanDistanceAttack;
-
 	// Begin PlayerController interface
 	virtual void SetupInputComponent() override;
 
@@ -34,9 +31,6 @@ protected:
 
 	void MeleeAttack();
 
-	void FinishMeleeAttack();
-
 	void DistanceAttack();
 
-	void FinishDistanceAttack();
 };

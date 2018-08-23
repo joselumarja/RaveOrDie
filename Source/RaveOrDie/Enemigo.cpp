@@ -5,6 +5,8 @@
 #include "Engine.h"
 #include "BehaviorTree/BehaviorTree.h"
 #include "Perception/PawnSensingComponent.h"
+#include "GameManager.h"
+#include "RODCharacter.h"
 
 
 // Sets default values
@@ -62,17 +64,41 @@ void AEnemigo::OnHit(AActor* SelfActor, AActor* OtherActor, FVector NormalImpuls
 	if (AIController)
 	{
 
-		//GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, TEXT("Enemigo golpeado!"));
-		UpdateLife();
-		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, FString::Printf(TEXT("Enemigo golpeado! %f"), Health));
+		ARODCharacter* RODCharacter = Cast<ARODCharacter>(OtherActor);
+
+		if (RODCharacter != NULL && RODCharacter->IsInMeleeAttack())
+		{
+			UpdateLife(RODCharacter->GetMeleeDamage());
+			GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, FString::Printf(TEXT("Enemigo golpeado! %f"), Health));
+		}
+		
 		//SelfActor->Destroy();
 	}
 }
 
-void AEnemigo::UpdateLife() {
-	Health -= 25.f;
+void AEnemigo::UpdateLife(float Damage) {
+	Health -= Damage;
+
 	if (Health <= 0) {
-		Health = 0.0f;
+
 		Destroy();
+
+	}
+}
+
+void AEnemigo::AddManager(UGameManager* Manager)
+{
+
+	if (!ManagerPtr.IsValid())
+	{
+		ManagerPtr = Manager;
+	}
+}
+
+void AEnemigo::NotifyDead()
+{
+	if (ManagerPtr.IsValid())
+	{
+		ManagerPtr.Get()->EnemyKilled();
 	}
 }

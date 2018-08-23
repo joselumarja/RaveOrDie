@@ -9,8 +9,7 @@
 
 ARODPlayerController::ARODPlayerController()
 {
-	bCanDistanceAttack = true;
-	bCanMeleeAttack = true;
+	
 }
 
 void ARODPlayerController::MoveFordward(float Value)
@@ -45,39 +44,30 @@ void ARODPlayerController::SetupInputComponent()
 	InputComponent->BindAction(MeleeAttackBinding, IE_Pressed, this, &ARODPlayerController::MeleeAttack);
 	InputComponent->BindAction(DistanceAttackBinding, IE_Pressed, this, &ARODPlayerController::DistanceAttack);
 
-	InputComponent->BindAction(MeleeAttackBinding, IE_Released, this, &ARODPlayerController::FinishMeleeAttack);
-	InputComponent->BindAction(DistanceAttackBinding, IE_Released, this, &ARODPlayerController::FinishDistanceAttack);
 }
 
 void ARODPlayerController::MeleeAttack()
 {
-	if (bCanMeleeAttack) 
+	ARODCharacter* RODCharacter = Cast<ARODCharacter>(GetPawn());
+	if (RODCharacter !=NULL && RODCharacter->GetCanAttack())
 	{
-		bCanDistanceAttack = false;
+		RODCharacter->MeleeAttack();
 		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, TEXT("Navajeo"));
-		//hacer cosas
 	}
 }
 
-void ARODPlayerController::FinishMeleeAttack()
-{
-	bCanDistanceAttack = true;
-}
+
 
 void ARODPlayerController::DistanceAttack()
 {
-	if (bCanDistanceAttack)
+	ARODCharacter* RODCharacter = Cast<ARODCharacter>(GetPawn());
+	if (RODCharacter != NULL && RODCharacter->GetCanAttack())
 	{
-		bCanMeleeAttack = false;
+		RODCharacter->DistanceAttack();
 		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, TEXT("Disparo"));
-		//hacer cosas
 	}
 }
 
-void ARODPlayerController::FinishDistanceAttack()
-{
-	bCanMeleeAttack = true;
-}
 
 
 

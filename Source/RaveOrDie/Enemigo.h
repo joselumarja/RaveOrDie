@@ -6,6 +6,8 @@
 #include "GameFramework/Character.h"
 #include "Enemigo.generated.h"
 
+class UGameManager;
+
 UCLASS()
 class RAVEORDIE_API AEnemigo : public ACharacter
 {
@@ -19,9 +21,16 @@ protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
+	UPROPERTY()
+	TWeakObjectPtr<UGameManager> ManagerPtr;
+
 private:
 	UFUNCTION()
 		void OnSeePlayer(APawn* Pawn);
+
+	void UpdateLife(float Damage);
+
+	void NotifyDead();
 
 public:	
 	// Called every frame
@@ -42,6 +51,8 @@ public:
 
 	UFUNCTION()
 		void OnHit(AActor* SelfActor, AActor* OtherActor, FVector NormalImpulse, const FHitResult& Hit);
+	
+	UFUNCTION()
+	void AddManager(UGameManager* Manager);
 
-	void UpdateLife();
 };
