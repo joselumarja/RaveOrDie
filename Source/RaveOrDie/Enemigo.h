@@ -17,6 +17,8 @@ public:
 	// Sets default values for this character's properties
 	AEnemigo();
 
+	~AEnemigo();
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
@@ -29,8 +31,6 @@ private:
 		void OnSeePlayer(APawn* Pawn);
 
 	void UpdateLife(float Damage);
-
-	void NotifyDead();
 
 public:	
 	// Called every frame

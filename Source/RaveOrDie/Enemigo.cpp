@@ -20,6 +20,14 @@ AEnemigo::AEnemigo()
 	OnActorHit.AddDynamic(this, &AEnemigo::OnHit);
 }
 
+AEnemigo::~AEnemigo()
+{
+	if (ManagerPtr.IsValid())
+	{
+		ManagerPtr.Get()->EnemyKilled();
+	}
+}
+
 // Called when the game starts or when spawned
 void AEnemigo::BeginPlay()
 {
@@ -95,10 +103,3 @@ void AEnemigo::AddManager(UGameManager* Manager)
 	}
 }
 
-void AEnemigo::NotifyDead()
-{
-	if (ManagerPtr.IsValid())
-	{
-		ManagerPtr.Get()->EnemyKilled();
-	}
-}
