@@ -18,6 +18,10 @@ public:
 
 	static UGameManager* GetManager();
 
+	FORCEINLINE void IncrementShots() { Shots++; }
+
+	FORCEINLINE void IncrementShotsOnTarget() { ShotsOnTarget++; }
+
 private:
 
 	UGameManager();
@@ -39,6 +43,8 @@ private:
 	uint32 Kills;
 
 	uint32 Shots;
+
+	uint32 ShotsOnTarget;
 
 	float Accuracy;
 	

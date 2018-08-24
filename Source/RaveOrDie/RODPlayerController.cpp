@@ -2,6 +2,7 @@
 
 #include "RODPlayerController.h"
 #include "RODCharacter.h"
+#include "GameManager.h"
 #include "AI/Navigation/NavigationSystem.h"
 #include "Runtime/Engine/Classes/Components/DecalComponent.h"
 #include "Engine/World.h"
@@ -9,7 +10,7 @@
 
 ARODPlayerController::ARODPlayerController()
 {
-	
+	Manager = UGameManager::GetManager();
 }
 
 void ARODPlayerController::MoveFordward(float Value)
@@ -65,6 +66,11 @@ void ARODPlayerController::DistanceAttack()
 	{
 		RODCharacter->DistanceAttack();
 		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, TEXT("Disparo"));
+
+		if (Manager!=NULL)
+		{
+			Manager->IncrementShots();
+		}
 	}
 }
 
