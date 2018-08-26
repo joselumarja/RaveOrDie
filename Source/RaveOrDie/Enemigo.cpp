@@ -6,6 +6,7 @@
 #include "BehaviorTree/BehaviorTree.h"
 #include "Perception/PawnSensingComponent.h"
 #include "GameManager.h"
+#include "Bullet.h"
 #include "RODCharacter.h"
 
 
@@ -18,6 +19,14 @@ AEnemigo::AEnemigo()
 	//Set the peripheral vision angle to 90 degrees
 	PawnSensingComp->SetPeripheralVisionAngle(30.f);
 	OnActorHit.AddDynamic(this, &AEnemigo::OnHit);
+}
+
+AEnemigo::~AEnemigo()
+{
+	if (ManagerPtr.IsValid())
+	{
+		ManagerPtr.Get()->EnemyKilled();
+	}
 }
 
 // Called when the game starts or when spawned
@@ -70,9 +79,18 @@ void AEnemigo::OnHit(AActor* SelfActor, AActor* OtherActor, FVector NormalImpuls
 		{
 			UpdateLife(RODCharacter->GetMeleeDamage());
 			GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, FString::Printf(TEXT("Enemigo golpeado! %f"), Health));
+
+			return;
 		}
-		
-		//SelfActor->Destroy();
+
+		if (OtherActor->IsA(ABullet::StaticClass()))
+		{
+			ABullet* Bullet = Cast<ABullet>(OtherActor);
+
+			UpdateLife(Bullet->GetDamage());
+			Bullet->Destroy();
+		}
+
 	}
 }
 
@@ -95,10 +113,3 @@ void AEnemigo::AddManager(UGameManager* Manager)
 	}
 }
 
-void AEnemigo::NotifyDead()
-{
-	if (ManagerPtr.IsValid())
-	{
-		ManagerPtr.Get()->EnemyKilled();
-	}
-}

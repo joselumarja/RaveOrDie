@@ -6,6 +6,8 @@
 #include "GameFramework/PlayerController.h"
 #include "RODPlayerController.generated.h"
 
+class UGameManager;
+
 UCLASS()
 class RAVEORDIE_API ARODPlayerController : public APlayerController
 {
@@ -21,6 +23,8 @@ public:
 	const FName DistanceAttackBinding = FName("DistanceAttack");
 
 protected:
+
+	TWeakObjectPtr<UGameManager> Manager;
 
 	// Begin PlayerController interface
 	virtual void SetupInputComponent() override;

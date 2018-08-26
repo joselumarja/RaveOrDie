@@ -4,9 +4,21 @@
 #include "Enemigo.h"
 #include "Engine.h"
 
+UGameManager* UGameManager::Manager = NULL;
+
 UGameManager::UGameManager()
 {
 
+}
+
+UGameManager* UGameManager::GetManager()
+{
+	if (Manager == NULL)
+	{
+		Manager = NewObject<UGameManager>();
+	}
+
+	return Manager;
 }
 
 void UGameManager::InitializeGameManager()
@@ -25,4 +37,14 @@ void UGameManager::InitializeGameManager()
 void UGameManager::EnemyKilled()
 {
 	EnemiesKilled++;
+}
+
+void UGameManager::ResetStatistics()
+{
+
+}
+
+void UGameManager::GameOver()
+{
+
 }
