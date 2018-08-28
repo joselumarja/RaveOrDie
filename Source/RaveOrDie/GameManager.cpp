@@ -6,7 +6,7 @@
 
 UGameManager* UGameManager::Manager = NULL;
 
-UGameManager::UGameManager()
+UGameManager::UGameManager() 
 {
 
 }
