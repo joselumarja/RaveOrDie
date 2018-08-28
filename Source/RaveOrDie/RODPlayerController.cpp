@@ -10,7 +10,12 @@
 
 ARODPlayerController::ARODPlayerController()
 {
-//	Manager = UGameManager::GetManager();
+
+}
+
+void ARODPlayerController::BeginPlay()
+{
+	Manager = UGameManager::GetManager();
 }
 
 void ARODPlayerController::MoveFordward(float Value)
