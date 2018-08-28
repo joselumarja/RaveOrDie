@@ -17,6 +17,8 @@ public:
 
 	ARODPlayerController();
 
+	void BeginPlay() override;
+
 	const FName MoveYBinding=FName("MoveY");
 	const FName MoveXBinding=FName("MoveX");
 	const FName MeleeAttackBinding = FName("MeleeAttack");
@@ -24,6 +26,7 @@ public:
 
 protected:
 
+	UPROPERTY()
 	TWeakObjectPtr<UGameManager> Manager;
 
 	// Begin PlayerController interface
