@@ -88,6 +88,7 @@ void AEnemigo::OnHit(AActor* SelfActor, AActor* OtherActor, FVector NormalImpuls
 			ABullet* Bullet = Cast<ABullet>(OtherActor);
 
 			UpdateLife(Bullet->GetDamage());
+			ManagerPtr.Get()->IncrementShotsOnTarget();
 			Bullet->Destroy();
 		}
 
