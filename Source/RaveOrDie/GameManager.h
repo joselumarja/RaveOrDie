@@ -16,7 +16,7 @@ public:
 
 	void EnemyKilled();
 
-	static UGameManager* GetManager();
+	static TWeakObjectPtr<UGameManager> GetManager();
 
 	FORCEINLINE void IncrementShots() { Shots++; }
 
@@ -26,7 +26,7 @@ private:
 
 	UGameManager();
 
-	static UGameManager* Manager;
+	static TWeakObjectPtr<UGameManager> Manager;
 
 	uint32 EnemiesKilled;
 	
