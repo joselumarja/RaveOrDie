@@ -3,11 +3,12 @@
 #include "HUDManager.h"
 #include "UObject/ConstructorHelpers.h"
 #include "Blueprint/UserWidget.h"
+#include "TextWidgetTypes.h"
 #include "Runtime/UMG/Public/Components/Image.h"
 #include "Runtime/UMG/Public/Components/ProgressBar.h"
 #include "Runtime/UMG/Public/Components/TextBlock.h"
 
-#define LOCKTEXT_NAMESPACE "HUD Manager"
+#define LOCTEXT_NAMESPACE "HUD Manager"
 
 // Sets default values
 AHUDManager::AHUDManager()
@@ -53,6 +54,44 @@ void AHUDManager::BeginPlay()
 	}
 }
 
+void AHUDManager::TurnToMelee()
+{
 
-#undef LOCKTEXT_NAMESPACE
+}
 
+void AHUDManager::TurnToGun()
+{
+
+}
+
+void AHUDManager::StartBossFight(const float & MAXLIFE, const float & LIFE, const FString & Name)
+{
+	pBossLife->SetPercent(LIFE / MAXLIFE);
+	pBoss->SetText(FText::Format(LOCTEXT("BossName", "{0}"), FText::FromString(Name)));
+	pBossLife->SetVisibility(ESlateVisibility::Visible);
+	pBoss->SetVisibility(ESlateVisibility::Visible);
+}
+
+void AHUDManager::FinishBossFight()
+{
+	pBoss->SetVisibility(ESlateVisibility::Hidden);
+	pBossLife->SetVisibility(ESlateVisibility::Hidden);
+}
+
+void AHUDManager::UpdateLife(const float & MAXLIFE, const float & LIFE)
+{
+	pLife->SetPercent(LIFE/MAXLIFE);
+}
+
+void AHUDManager::UpdateAmo(const uint32 & Amo)
+{
+	pAmo->SetText(FText::Format(LOCTEXT("AMO", "{0}"), FText::AsNumber(Amo)));
+}
+
+void AHUDManager::UpdateTime(const uint8 & Hours, const uint8 & Minutes, const uint8 & Seconds)
+{
+	pTime->SetText(FText::Format(LOCTEXT("Time", "{0}:{1}:{2}"), FText::AsNumber(Hours), FText::AsNumber(Minutes), FText::AsNumber(Seconds)));
+}
+
+
+#undef LOCTEXT_NAMESPACE

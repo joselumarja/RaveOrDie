@@ -48,35 +48,30 @@ void ARODPlayerController::SetupInputComponent()
 	InputComponent->BindAxis(MoveYBinding,this,&ARODPlayerController::MoveFordward);
 	InputComponent->BindAxis(MoveXBinding,this,&ARODPlayerController::MoveRight);
 
-	InputComponent->BindAction(MeleeAttackBinding, IE_Pressed, this, &ARODPlayerController::MeleeAttack);
-	InputComponent->BindAction(DistanceAttackBinding, IE_Pressed, this, &ARODPlayerController::DistanceAttack);
+	InputComponent->BindAction(AttackBinding, IE_Pressed, this, &ARODPlayerController::Attack);
+	InputComponent->BindAction(SwapWeaponBinding, IE_Pressed, this, &ARODPlayerController::SwapWeapon);
 
 }
 
-void ARODPlayerController::MeleeAttack()
+void ARODPlayerController::Attack()
 {
 	ARODCharacter* RODCharacter = Cast<ARODCharacter>(GetPawn());
 	if (RODCharacter !=NULL && RODCharacter->GetCanAttack())
 	{
-		RODCharacter->MeleeAttack();
+		RODCharacter->Attack();
 		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, TEXT("Navajeo"));
 	}
 }
 
 
 
-void ARODPlayerController::DistanceAttack()
+void ARODPlayerController::SwapWeapon()
 {
 	ARODCharacter* RODCharacter = Cast<ARODCharacter>(GetPawn());
 	if (RODCharacter != NULL && RODCharacter->GetCanAttack())
 	{
-		RODCharacter->DistanceAttack();
+		RODCharacter->SwapWeapon();
 		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, TEXT("Disparo"));
-
-		if (Manager!=NULL)
-		{
-			Manager->IncrementShots();
-		}
 	}
 }
 

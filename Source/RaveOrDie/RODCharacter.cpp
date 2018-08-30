@@ -11,6 +11,7 @@
 #include "Materials/Material.h"
 #include "Engine.h"
 #include "Engine/World.h"
+#include "HUDManager.h"
 #include "RODPlayerController.h"
 
 // Sets default values
@@ -51,6 +52,13 @@ ARODCharacter::ARODCharacter()
 
 	bCanAttack = true;
 	bIsInMeleeAttack = false;
+	GunEquipped = false;
+
+	Seconds = 0;
+	Minutes = 0;
+	Hours = 0;
+
+	LIFE=MAXLIFE = 100.f;
 
 }
 
@@ -59,6 +67,18 @@ void ARODCharacter::BeginPlay()
 {
 	Super::BeginPlay();
 	
+	GetWorld()->GetTimerManager().SetTimer(ClockTimer, this, &ARODCharacter::Clock, 1.0f);
+	HUDManager=GetWorld()->SpawnActor<AHUDManager>();
+	InitializeHUDValues();
+}
+
+void ARODCharacter::InitializeHUDValues()
+{
+	HUDManager->UpdateTime(Hours, Minutes, Seconds);
+	HUDManager->FinishBossFight();
+	HUDManager->UpdateLife(MAXLIFE, LIFE);
+	HUDManager->TurnToMelee();
+	//HUDManager->UpdateAmo();
 }
 
 void ARODCharacter::OnHit(AActor* SelfActor, AActor* OtherActor, FVector NormalImpulse, const FHitResult& Hit) {
@@ -66,6 +86,48 @@ void ARODCharacter::OnHit(AActor* SelfActor, AActor* OtherActor, FVector NormalI
 	GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, TEXT("Me ha golpeado el enemigo"));
 
 
+}
+
+void ARODCharacter::Clock()
+{
+	if (++Seconds >= 60)
+	{
+		Seconds = 0;
+		
+		if (++Minutes >= 60)
+		{
+			Minutes = 0;
+			Hours++;
+		}
+	}
+
+	HUDManager->UpdateTime(Hours, Minutes, Seconds);
+}
+
+void ARODCharacter::Attack()
+{
+	if (GunEquipped)
+	{
+		DistanceAttack();
+	}
+	else
+	{
+		MeleeAttack();
+	}
+}
+
+void ARODCharacter::SwapWeapon()
+{
+	GunEquipped = !GunEquipped;
+
+	if (GunEquipped)
+	{
+		HUDManager->TurnToGun();
+	}
+	else
+	{
+		HUDManager->TurnToMelee();
+	}
 }
 
 float ARODCharacter::GetMeleeDamage() const

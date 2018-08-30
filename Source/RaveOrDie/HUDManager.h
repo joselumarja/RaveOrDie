@@ -20,6 +20,20 @@ public:
 	// Sets default values for this actor's properties
 	AHUDManager();
 
+	void TurnToMelee();
+
+	void TurnToGun();
+
+	void StartBossFight(const float &MAXLIFE,const float &LIFE,const FString &Name);
+
+	void FinishBossFight();
+
+	void UpdateLife(const float &MAXLIFE,const float &LIFE);
+
+	void UpdateAmo(const uint32 &Amo);
+
+	void UpdateTime(const uint8 &Hours,const uint8 &Minutes,const uint8 &Seconds);
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;

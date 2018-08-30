@@ -4,7 +4,10 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
+#include "TimerManager.h"
 #include "RODCharacter.generated.h"
+
+class AHUDManager;
 
 UCLASS(Blueprintable)
 class RAVEORDIE_API ARODCharacter : public ACharacter
@@ -26,9 +29,11 @@ public:
 
 	float GetMeleeDamage() const;
 
-	void MeleeAttack();
+	void Attack();
 
-	void DistanceAttack();
+	void SwapWeapon();
+
+	void Clock();
 
 protected:
 	// Called when the game starts or when spawned
@@ -46,6 +51,12 @@ private:
 	UFUNCTION()
 		void OnHit(AActor* SelfActor, AActor* OtherActor, FVector NormalImpulse, const FHitResult& Hit);
 
+	void MeleeAttack();
+
+	void DistanceAttack();
+
+	void InitializeHUDValues();
+
 	bool bCanAttack;
 
 	bool bIsInMeleeAttack;
@@ -53,5 +64,21 @@ private:
 	void FinishMeleeAttack();
 
 	void FinishDistanceAttack();
+
+	float MAXLIFE;
+
+	float LIFE;
+
+	uint8 Seconds;
+
+	uint8 Minutes;
+
+	uint8 Hours;
+
+	bool GunEquipped;
+
+	TWeakObjectPtr<AHUDManager> HUDManager;
+
+	FTimerHandle ClockTimer;
 	
 };
