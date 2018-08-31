@@ -15,7 +15,8 @@ ARODPlayerController::ARODPlayerController()
 
 void ARODPlayerController::BeginPlay()
 {
-	//Manager = UGameManager::GetManager();
+
+
 }
 
 void ARODPlayerController::MoveFordward(float Value)
@@ -47,36 +48,31 @@ void ARODPlayerController::SetupInputComponent()
 	InputComponent->BindAxis(MoveYBinding,this,&ARODPlayerController::MoveFordward);
 	InputComponent->BindAxis(MoveXBinding,this,&ARODPlayerController::MoveRight);
 
-	InputComponent->BindAction(MeleeAttackBinding, IE_Pressed, this, &ARODPlayerController::MeleeAttack);
-	InputComponent->BindAction(DistanceAttackBinding, IE_Pressed, this, &ARODPlayerController::DistanceAttack);
+	InputComponent->BindAction(AttackBinding, IE_Pressed, this, &ARODPlayerController::Attack);
+	InputComponent->BindAction(SwapWeaponBinding, IE_Pressed, this, &ARODPlayerController::SwapWeapon);
 
 }
 
-void ARODPlayerController::MeleeAttack()
+void ARODPlayerController::Attack()
 {
 	ARODCharacter* RODCharacter = Cast<ARODCharacter>(GetPawn());
 	if (RODCharacter !=NULL && RODCharacter->GetCanAttack())
 	{
-		RODCharacter->MeleeAttack();
-		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, TEXT("Navajeo"));
+		RODCharacter->Attack();
+		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, TEXT("Ataco"));
 	}
 	//RODCharacter->FinishMeleeAttack();
 }
 
 
 
-void ARODPlayerController::DistanceAttack()
+void ARODPlayerController::SwapWeapon()
 {
 	ARODCharacter* RODCharacter = Cast<ARODCharacter>(GetPawn());
-	if (RODCharacter != NULL && RODCharacter->GetCanAttack())
+	if (RODCharacter != NULL)
 	{
-		RODCharacter->DistanceAttack();
-		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, TEXT("Disparo"));
-
-		if (Manager!=NULL)
-		{
-			Manager->IncrementShots();
-		}
+		RODCharacter->SwapWeapon();
+		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, TEXT("Cambio de arma"));
 	}
 }
 

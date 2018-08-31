@@ -11,6 +11,8 @@
 #include "Materials/Material.h"
 #include "Engine.h"
 #include "Engine/World.h"
+#include "HUDManager.h"
+#include "GameManager.h"
 #include "RODPlayerController.h"
 
 // Sets default values
@@ -51,6 +53,13 @@ ARODCharacter::ARODCharacter()
 
 	bCanMeleeAttack = true;
 	bIsInMeleeAttack = false;
+	GunEquipped = false;
+
+	Seconds = 0;
+	Minutes = 0;
+	Hours = 0;
+
+	LIFE=MAXLIFE = 100.f;
 
 
 }
@@ -60,6 +69,20 @@ void ARODCharacter::BeginPlay()
 {
 	Super::BeginPlay();
 	
+	Manager = UGameManager::GetManager();
+	Manager->InitializeGameManager();
+	GetWorld()->GetTimerManager().SetTimer(ClockTimer, this, &ARODCharacter::Clock, 1.0f);
+	HUDManager=GetWorld()->SpawnActor<AHUDManager>();
+	InitializeHUDValues();
+}
+
+void ARODCharacter::InitializeHUDValues()
+{
+	HUDManager->UpdateTime(Hours, Minutes, Seconds);
+	HUDManager->FinishBossFight();
+	HUDManager->UpdateLife(MAXLIFE, LIFE);
+	HUDManager->TurnToMelee();
+	//HUDManager->UpdateAmo();
 }
 
 void ARODCharacter::OnHit(AActor* SelfActor, AActor* OtherActor, FVector NormalImpulse, const FHitResult& Hit) {
@@ -83,6 +106,53 @@ void ARODCharacter::OnHit(AActor* SelfActor, AActor* OtherActor, FVector NormalI
 
 }
 
+void ARODCharacter::Clock()
+{
+	if (++Seconds >= 60)
+	{
+		Seconds = 0;
+		
+		if (++Minutes >= 60)
+		{
+			Minutes = 0;
+			Hours++;
+		}
+	}
+
+	HUDManager->UpdateTime(Hours, Minutes, Seconds);
+	GetWorld()->GetTimerManager().SetTimer(ClockTimer, this, &ARODCharacter::Clock, 1.0f);
+}
+
+void ARODCharacter::Attack()
+{
+	if (bCanAttack)
+	{
+		if (GunEquipped)
+		{
+			DistanceAttack();
+		}
+		else
+		{
+			MeleeAttack();
+		}
+	}
+	
+}
+
+void ARODCharacter::SwapWeapon()
+{
+	GunEquipped = !GunEquipped;
+
+	if (GunEquipped)
+	{
+		HUDManager->TurnToGun();
+	}
+	else
+	{
+		HUDManager->TurnToMelee();
+	}
+}
+
 float ARODCharacter::GetMeleeDamage() const
 {
 	return 0.f;
@@ -98,7 +168,9 @@ void ARODCharacter::MeleeAttack()
 
 void ARODCharacter::DistanceAttack()
 {
-	//World->GetTimerManager().SetTimer(TimerHandle_InvulnerabilityHitExpired, this, &ARODCharacter::AnimationExpired, 1.167f);
+	//World->GetTimerManager().SetTimer(TimerHandle_InvulnerabilityHitExpired, this, &ARODCharacter::AnimationExpired, 1.167f)
+	Manager->IncrementShots();
+
 }
 
 /*************************************************************

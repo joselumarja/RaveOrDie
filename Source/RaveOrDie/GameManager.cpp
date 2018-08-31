@@ -4,16 +4,16 @@
 #include "Enemigo.h"
 #include "Engine.h"
 
-UGameManager* UGameManager::Manager = NULL;
+TWeakObjectPtr<UGameManager> UGameManager::Manager = nullptr;
 
 UGameManager::UGameManager() 
 {
 
 }
 
-UGameManager* UGameManager::GetManager()
+TWeakObjectPtr<UGameManager> UGameManager::GetManager()
 {
-	if (Manager == NULL)
+	if (!Manager.IsValid())
 	{
 		Manager = NewObject<UGameManager>();
 	}

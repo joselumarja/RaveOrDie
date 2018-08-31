@@ -21,13 +21,10 @@ public:
 
 	const FName MoveYBinding=FName("MoveY");
 	const FName MoveXBinding=FName("MoveX");
-	const FName MeleeAttackBinding = FName("MeleeAttack");
-	const FName DistanceAttackBinding = FName("DistanceAttack");
+	const FName AttackBinding = FName("Attack");
+	const FName SwapWeaponBinding = FName("SwapWeapon");
 
 protected:
-
-	UPROPERTY()
-	TWeakObjectPtr<UGameManager> Manager;
 
 	// Begin PlayerController interface
 	virtual void SetupInputComponent() override;
@@ -36,8 +33,8 @@ protected:
 
 	void MoveRight(float Value);
 
-	void MeleeAttack();
+	void Attack();
 
-	void DistanceAttack();
+	void SwapWeapon();
 
 };
