@@ -16,7 +16,7 @@
 // Sets default values
 ARODCharacter::ARODCharacter()
 {
-
+	World = GetWorld();
 	// Set size for player capsule
 	GetCapsuleComponent()->InitCapsuleSize(42.f, 96.0f);
 
@@ -49,8 +49,9 @@ ARODCharacter::ARODCharacter()
 	PrimaryActorTick.bCanEverTick = false;
 	PrimaryActorTick.bStartWithTickEnabled = false;
 
-	bCanAttack = true;
+	bCanMeleeAttack = true;
 	bIsInMeleeAttack = false;
+
 
 }
 
@@ -62,9 +63,23 @@ void ARODCharacter::BeginPlay()
 }
 
 void ARODCharacter::OnHit(AActor* SelfActor, AActor* OtherActor, FVector NormalImpulse, const FHitResult& Hit) {
-
+	
 	GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, TEXT("Me ha golpeado el enemigo"));
+	if (!bInvulnerability)
+	{
 
+		//if ((OtherActor != NULL) && (OtherActor->IsA(ALuchadoresAereosProjectile::StaticClass())) || (OtherActor->IsA(AEnemy::StaticClass())))
+		//{
+
+				//Manager->UpdateLives();
+				//SetNormalShotState();
+				//SetHitInvulnerability();
+				//UGameplayStatics::PlaySoundAtLocation(this, HitSound, GetActorLocation());
+			//UGameplayStatics::SpawnEmitterAtLocation(GetWorld(), ExplosionParticleSystem.Get(), GetActorLocation());
+		//}
+		//OtherActor->Destroy();
+		bInvulnerability = true;
+	}
 
 }
 
@@ -75,22 +90,65 @@ float ARODCharacter::GetMeleeDamage() const
 
 void ARODCharacter::MeleeAttack()
 {
+	CanMeleeAttack = false;
 	bIsInMeleeAttack = true;
-
+	GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Purple, TEXT("atacando"));
+	//World->GetTimerManager().SetTimer(TimerHandle_InvulnerabilityHitExpired, this, &ARODCharacter::AnimationExpired, 2.167f);
 }
 
 void ARODCharacter::DistanceAttack()
 {
-
+	//World->GetTimerManager().SetTimer(TimerHandle_InvulnerabilityHitExpired, this, &ARODCharacter::AnimationExpired, 1.167f);
 }
+
+/*************************************************************
+	CAMBIAR CONDICIONES DE ATAQUE AL PLAYER CONTROLLER
+	AQUI SOLO TENER LAS LLAMADAS
+	
+-*************************************************************/
 
 void ARODCharacter::FinishMeleeAttack()
 {
-	bCanAttack = true;
+	CanMeleeAttack = true;
 	bIsInMeleeAttack = false;
+	GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, TEXT("He dejado de atacar"));
 }
 
 void ARODCharacter::FinishDistanceAttack()
 {
-	bCanAttack = true;
+	bCanMeleeAttack = true;
 }
+
+void ARODCharacter::InvulnerabilityTimerExpired()
+{
+	bInvulnerability = false;
+}
+
+void ARODCharacter::SetHitInvulnerability()
+{
+	bInvulnerability = true;
+	HitInvulnerabilityTime++;
+	if (HitInvulnerabilityTime == 4.0) {
+		bInvulnerability = false;
+		HitInvulnerabilityTime = 0.0f;
+		
+	}
+	else {
+		
+		//World->GetTimerManager().SetTimer(TimerHandle_InvulnerabilityHitExpired, this, &ARODCharacter::HitInvulnerabilityExpired, 0.5f);
+	}
+}
+
+void ARODCharacter::HitInvulnerabilityExpired()
+{
+	//World->GetTimerManager().SetTimer(TimerHandle_InvulnerabilityHitExpired, this, &ARODCharacter::SetHitInvulnerability, 0.5f);
+}
+
+void ARODCharacter::SetInvulnerability()
+{
+	bInvulnerability = true;
+	
+	//UGameplayStatics::PlaySoundAtLocation(this, InvulnerabilitySound, GetActorLocation());
+	//World->GetTimerManager().SetTimer(TimerHandle_InvulnerabilityExpired, this, &ARODCharacter::InvulnerabilityTimerExpired, InvulnerabilityTime);
+}
+

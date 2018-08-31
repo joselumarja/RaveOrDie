@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
+#include "Animation/BlendSpace.h"
 #include "RODCharacter.generated.h"
 
 UCLASS(Blueprintable)
@@ -22,13 +23,33 @@ public:
 
 	FORCEINLINE bool IsInMeleeAttack() const { return bIsInMeleeAttack; }
 
-	FORCEINLINE bool GetCanAttack() const { return bCanAttack; }
+	FORCEINLINE bool GetCanAttack() const { return bCanMeleeAttack; }
 
 	float GetMeleeDamage() const;
 
 	void MeleeAttack();
 
 	void DistanceAttack();
+
+	UPROPERTY(Category = Gameplay, EditAnywhere, BlueprintReadWrite)
+		float InvulnerabilityTime;
+
+	UPROPERTY(Category = Gameplay, EditAnywhere, BlueprintReadWrite)
+		float HitInvulnerabilityTime;
+
+	void InvulnerabilityTimerExpired();
+
+	void HitInvulnerabilityExpired();
+
+	void SetHitInvulnerability();
+
+	void SetInvulnerability();
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Stats")
+		bool CanMeleeAttack = false;
+
+
+	void FinishMeleeAttack();
 
 protected:
 	// Called when the game starts or when spawned
@@ -45,13 +66,20 @@ private:
 
 	UFUNCTION()
 		void OnHit(AActor* SelfActor, AActor* OtherActor, FVector NormalImpulse, const FHitResult& Hit);
+	
+	bool bInvulnerability = false;
 
-	bool bCanAttack;
+	bool bCanMeleeAttack=true;
 
 	bool bIsInMeleeAttack;
 
-	void FinishMeleeAttack();
 
 	void FinishDistanceAttack();
+
+	FTimerHandle TimerHandle_InvulnerabilityHitExpired;
+
+	FTimerHandle TimerHandle_InvulnerabilityExpired;
 	
+	UWorld* World;
+
 };

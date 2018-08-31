@@ -67,7 +67,7 @@ void AEnemigo::OnSeePlayer(APawn* Pawn)
 
 void AEnemigo::OnHit(AActor* SelfActor, AActor* OtherActor, FVector NormalImpulse, const FHitResult& Hit)
 {
-
+	//GetMesh()->PlayAnimation(HitAnim, false);
 	AMyAIController* AIController = Cast<AMyAIController>(GetController());
 	//Set the seen target on the blackboard
 	if (AIController)

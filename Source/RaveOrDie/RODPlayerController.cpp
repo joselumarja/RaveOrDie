@@ -15,7 +15,7 @@ ARODPlayerController::ARODPlayerController()
 
 void ARODPlayerController::BeginPlay()
 {
-	Manager = UGameManager::GetManager();
+	//Manager = UGameManager::GetManager();
 }
 
 void ARODPlayerController::MoveFordward(float Value)
@@ -60,6 +60,7 @@ void ARODPlayerController::MeleeAttack()
 		RODCharacter->MeleeAttack();
 		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, TEXT("Navajeo"));
 	}
+	//RODCharacter->FinishMeleeAttack();
 }
 
 
