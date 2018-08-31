@@ -50,7 +50,7 @@ private:
 		class USpringArmComponent* CameraBoom;
 
 	UPROPERTY()
-		TWeakObjectPtr<UGameManager> Manager;
+	TWeakObjectPtr<UGameManager> Manager;
 
 	UFUNCTION()
 		void OnHit(AActor* SelfActor, AActor* OtherActor, FVector NormalImpulse, const FHitResult& Hit);

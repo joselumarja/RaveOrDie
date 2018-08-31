@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
+#include "Runtime/Engine/Classes/Engine/Texture2D.h"
 #include "HUDManager.generated.h"
 
 class UUserWidget;
@@ -53,4 +54,8 @@ protected:
 	TWeakObjectPtr<UProgressBar> pBossLife;
 
 	TWeakObjectPtr<UImage> pWeapon;
+
+	UTexture2D* Knife;
+
+	UTexture2D* Gun;
 };

@@ -8,6 +8,8 @@
 #include "Runtime/UMG/Public/Components/ProgressBar.h"
 #include "Runtime/UMG/Public/Components/TextBlock.h"
 
+
+
 #define LOCTEXT_NAMESPACE "HUD Manager"
 
 // Sets default values
@@ -18,6 +20,20 @@ AHUDManager::AHUDManager()
 	if (FHUDWidget.Succeeded())
 	{
 		HUDWidget = FHUDWidget.Class;
+	}
+
+	auto FKnife = ConstructorHelpers::FObjectFinder<UTexture2D>(TEXT("'/Game/Blueprints/Knife.Knife'"));
+
+	if (FKnife.Succeeded())
+	{
+		Knife = FKnife.Object;
+	}
+
+	auto FGun = ConstructorHelpers::FObjectFinder<UTexture2D>(TEXT("'/Game/Blueprints/Gun.Gun'"));
+
+	if (FGun.Succeeded())
+	{
+		Gun = FGun.Object;
 	}
 }
 
@@ -56,12 +72,12 @@ void AHUDManager::BeginPlay()
 
 void AHUDManager::TurnToMelee()
 {
-
+	pWeapon->SetBrushFromTexture(Knife,false);
 }
 
 void AHUDManager::TurnToGun()
 {
-
+	pWeapon->SetBrushFromTexture(Gun,false);
 }
 
 void AHUDManager::StartBossFight(const float & MAXLIFE, const float & LIFE, const FString & Name)
