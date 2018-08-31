@@ -12,6 +12,7 @@
 #include "Engine.h"
 #include "Engine/World.h"
 #include "HUDManager.h"
+#include "GameManager.h"
 #include "RODPlayerController.h"
 
 // Sets default values
@@ -67,6 +68,8 @@ void ARODCharacter::BeginPlay()
 {
 	Super::BeginPlay();
 	
+	Manager = UGameManager::GetManager();
+	Manager->InitializeGameManager();
 	GetWorld()->GetTimerManager().SetTimer(ClockTimer, this, &ARODCharacter::Clock, 1.0f);
 	HUDManager=GetWorld()->SpawnActor<AHUDManager>();
 	InitializeHUDValues();
@@ -102,18 +105,23 @@ void ARODCharacter::Clock()
 	}
 
 	HUDManager->UpdateTime(Hours, Minutes, Seconds);
+	GetWorld()->GetTimerManager().SetTimer(ClockTimer, this, &ARODCharacter::Clock, 1.0f);
 }
 
 void ARODCharacter::Attack()
 {
-	if (GunEquipped)
+	if (bCanAttack)
 	{
-		DistanceAttack();
+		if (GunEquipped)
+		{
+			DistanceAttack();
+		}
+		else
+		{
+			MeleeAttack();
+		}
 	}
-	else
-	{
-		MeleeAttack();
-	}
+	
 }
 
 void ARODCharacter::SwapWeapon()
@@ -143,7 +151,7 @@ void ARODCharacter::MeleeAttack()
 
 void ARODCharacter::DistanceAttack()
 {
-
+	Manager->IncrementShots();
 }
 
 void ARODCharacter::FinishMeleeAttack()

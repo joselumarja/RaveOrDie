@@ -15,7 +15,6 @@ ARODPlayerController::ARODPlayerController()
 
 void ARODPlayerController::BeginPlay()
 {
-	Manager = UGameManager::GetManager();
 
 }
 
@@ -59,7 +58,7 @@ void ARODPlayerController::Attack()
 	if (RODCharacter !=NULL && RODCharacter->GetCanAttack())
 	{
 		RODCharacter->Attack();
-		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, TEXT("Navajeo"));
+		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, TEXT("Ataco"));
 	}
 }
 
@@ -68,10 +67,10 @@ void ARODPlayerController::Attack()
 void ARODPlayerController::SwapWeapon()
 {
 	ARODCharacter* RODCharacter = Cast<ARODCharacter>(GetPawn());
-	if (RODCharacter != NULL && RODCharacter->GetCanAttack())
+	if (RODCharacter != NULL)
 	{
 		RODCharacter->SwapWeapon();
-		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, TEXT("Disparo"));
+		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, TEXT("Cambio de arma"));
 	}
 }
 

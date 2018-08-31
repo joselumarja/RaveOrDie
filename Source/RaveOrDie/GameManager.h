@@ -18,6 +18,8 @@ public:
 
 	static TWeakObjectPtr<UGameManager> GetManager();
 
+	void InitializeGameManager();
+
 	FORCEINLINE void IncrementShots() { Shots++; }
 
 	FORCEINLINE void IncrementShotsOnTarget() { ShotsOnTarget++; }
@@ -29,8 +31,6 @@ private:
 	static TWeakObjectPtr<UGameManager> Manager;
 
 	uint32 EnemiesKilled;
-	
-	void InitializeGameManager();
 
 	bool bIsGameSesionInProgress;
 

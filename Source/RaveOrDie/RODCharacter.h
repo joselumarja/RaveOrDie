@@ -8,6 +8,7 @@
 #include "RODCharacter.generated.h"
 
 class AHUDManager;
+class UGameManager;
 
 UCLASS(Blueprintable)
 class RAVEORDIE_API ARODCharacter : public ACharacter
@@ -47,6 +48,9 @@ private:
 	/** Camera boom positioning the camera above the character */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
 		class USpringArmComponent* CameraBoom;
+
+	UPROPERTY()
+		TWeakObjectPtr<UGameManager> Manager;
 
 	UFUNCTION()
 		void OnHit(AActor* SelfActor, AActor* OtherActor, FVector NormalImpulse, const FHitResult& Hit);

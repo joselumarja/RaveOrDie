@@ -26,9 +26,6 @@ public:
 
 protected:
 
-	UPROPERTY()
-	TWeakObjectPtr<UGameManager> Manager;
-
 	// Begin PlayerController interface
 	virtual void SetupInputComponent() override;
 
