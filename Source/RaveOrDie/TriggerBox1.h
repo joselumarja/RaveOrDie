@@ -28,5 +28,5 @@ public:
 	UFUNCTION()
 		void OnOverlapEnd(AActor* OverlappedActor, AActor* OtherActor);
 	
-	
+	TSubclassOf<class AEnemigo> MyItemBlueprint;
 };
