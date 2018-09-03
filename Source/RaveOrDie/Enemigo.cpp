@@ -55,7 +55,7 @@ void AEnemigo::BeginPlay()
 void AEnemigo::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-
+	DeltaSeconds = DeltaTime;
 }
 
 // Called to bind functionality to input
@@ -131,20 +131,6 @@ void AEnemigo::ShotTimerExpired(){
 }
 
 void AEnemigo::Shoot(){
-
-	/*FVector PlayerPoint = PlayerPawn->GetActorLocation();
-	FVector EnemyPoint = GetActorLocation();
-	float x, y, z;
-	x = PlayerPoint.X - EnemyPoint.X;
-	x = x * x;
-	y = PlayerPoint.Y - EnemyPoint.Y;
-	y = y * y;
-	z = PlayerPoint.Z - EnemyPoint.Z;
-	z = z * z;
-
-	return FMath::Sqrt(x + y + z);
-
-	*/
 	if (bCanFire){
 		bCanFire = false;
 		FVector EnemyLocation = GetActorLocation();
@@ -158,4 +144,38 @@ void AEnemigo::Shoot(){
 		World->GetTimerManager().SetTimer(TimerHandle_ShotTimerExpired, this, &AEnemigo::ShotTimerExpired, 0.4f);
 
 	}
+}
+
+void AEnemigo::MoveToPlayer() {
+	//float Distance = DistanceToPlayer();
+	//if (Distance > 500.0f) {
+		FVector ActualLocation = GetActorLocation();
+		FVector DirectionVector = PlayerPawn->GetActorLocation() - ActualLocation;
+
+		FVector Movement = (DirectionVector.GetSafeNormal()*(DeltaSeconds*MoveSpeed));
+		const FRotator NewRotation(0, 0, 0);
+		FHitResult Hit(1.f);
+		RootComponent->MoveComponent(Movement, NewRotation, true);
+
+		if (Hit.IsValidBlockingHit())
+		{
+			const FVector Normal2D = Hit.Normal.GetSafeNormal2D();
+			const FVector Deflection = FVector::VectorPlaneProject(Movement, Normal2D) * (1.f - Hit.Time);
+			RootComponent->MoveComponent(Deflection, NewRotation, true);
+		}
+	//}
+}
+float AEnemigo::DistanceToPlayer()
+{
+	FVector PlayerPoint = PlayerPawn->GetActorLocation();
+	FVector EnemyPoint = GetActorLocation();
+	float x, y, z;
+	x = PlayerPoint.X - EnemyPoint.X;
+	x = x * x;
+	y = PlayerPoint.Y - EnemyPoint.Y;
+	y = y * y;
+	z = PlayerPoint.Z - EnemyPoint.Z;
+	z = z * z;
+
+	return FMath::Sqrt(x + y + z);
 }

@@ -28,7 +28,11 @@ protected:
 	
 	TWeakObjectPtr<ACharacter> PlayerPawn;
 
-	FTimerHandle TimerHandle_ShotTimerExpired;
+	FTimerHandle TimerHandle_ShotTimerExpired; 
+	
+	float DeltaSeconds;
+
+	float MoveSpeed;
 
 private:
 	UFUNCTION()
@@ -66,4 +70,8 @@ public:
 	void Shoot();
 
 	void ShotTimerExpired();
+
+	void MoveToPlayer();
+
+	float DistanceToPlayer();
 };
