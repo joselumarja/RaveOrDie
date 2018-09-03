@@ -20,9 +20,7 @@ AEnemigo::AEnemigo()
 	PawnSensingComp->SetPeripheralVisionAngle(30.f);
 	OnActorHit.AddDynamic(this, &AEnemigo::OnHit);
 
-	/*static ConstructorHelpers::FObjectFinder<UBehaviorTree> MyBT(TEXT("/Game/AI/Enemigo/BTEnemigo.BTEnemigo"));
-	BehaviorTree = MyBT.Object;*/
-
+	World = GetWorld();
 }
 
 AEnemigo::~AEnemigo()
@@ -41,6 +39,16 @@ void AEnemigo::BeginPlay()
 	{
 		PawnSensingComp->OnSeePawn.AddDynamic(this, &AEnemigo::OnSeePlayer);
 	}
+
+	for (TActorIterator<ARODCharacter>ActorItr(GetWorld()); ActorItr; ++ActorItr)
+	{
+		if (FString(TEXT("RODCharacter_C_0")).Equals(ActorItr->GetName()))
+		{
+			//finding pawn
+			PlayerPawn = *ActorItr;
+		}
+	}
+
 }
 
 // Called every frame
@@ -118,3 +126,36 @@ void AEnemigo::AddManager(UGameManager* Manager)
 	}
 }
 
+void AEnemigo::ShotTimerExpired(){
+	bCanFire = true;
+}
+
+void AEnemigo::Shoot(){
+
+	/*FVector PlayerPoint = PlayerPawn->GetActorLocation();
+	FVector EnemyPoint = GetActorLocation();
+	float x, y, z;
+	x = PlayerPoint.X - EnemyPoint.X;
+	x = x * x;
+	y = PlayerPoint.Y - EnemyPoint.Y;
+	y = y * y;
+	z = PlayerPoint.Z - EnemyPoint.Z;
+	z = z * z;
+
+	return FMath::Sqrt(x + y + z);
+
+	*/
+	if (bCanFire){
+		bCanFire = false;
+		FVector EnemyLocation = GetActorLocation();
+		FVector PlayerLocation = PlayerPawn->GetActorLocation();
+		FVector DirectionVector = FVector(PlayerLocation.X - EnemyLocation.X, PlayerLocation.Y - EnemyLocation.Y, .0f).GetSafeNormal();
+		FRotator Rotation = DirectionVector.Rotation();
+		EnemyLocation = EnemyLocation + (DirectionVector * 100);
+		World->SpawnActor<ABullet>(EnemyLocation, Rotation);
+		//UGameplayStatics::PlaySoundAtLocation(this, FireSound, GetActorLocation());
+
+		World->GetTimerManager().SetTimer(TimerHandle_ShotTimerExpired, this, &AEnemigo::ShotTimerExpired, 0.4f);
+
+	}
+}

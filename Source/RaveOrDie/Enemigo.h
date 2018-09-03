@@ -25,6 +25,10 @@ protected:
 
 	UPROPERTY()
 	TWeakObjectPtr<UGameManager> ManagerPtr;
+	
+	TWeakObjectPtr<ACharacter> PlayerPawn;
+
+	FTimerHandle TimerHandle_ShotTimerExpired;
 
 private:
 	UFUNCTION()
@@ -32,6 +36,9 @@ private:
 
 	void UpdateLife(float Damage);
 
+	UWorld* World;
+
+	bool bCanFire =true;
 
 public:	
 	// Called every frame
@@ -56,4 +63,7 @@ public:
 	UFUNCTION()
 	void AddManager(UGameManager* Manager);
 
+	void Shoot();
+
+	void ShotTimerExpired();
 };
