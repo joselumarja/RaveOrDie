@@ -34,7 +34,7 @@ protected:
 
 	float MoveSpeed;
 
-private:
+protected:
 	UFUNCTION()
 		void OnSeePlayer(APawn* Pawn);
 
