@@ -25,6 +25,10 @@ void AMyAIController::Possess(APawn* Pawn)
 			BlackboardComp->InitializeBlackboard(*(AICharacter->BehaviorTree->BlackboardAsset));
 			BehaviorComp->StartTree(*AICharacter->BehaviorTree);
 		}
+		if (BlackboardComp)
+		{
+			BlackboardComp->SetValueAsObject("SelfActor", Pawn);
+		}
 	}
 }
 
