@@ -72,8 +72,10 @@ void AEnemigo::OnSeePlayer(APawn* Pawn)
 	//Set the seen target on the blackboard
 	if (AIController)
 	{
+		
 		GLog->Log("Oh hello there");
 		AIController->SetSeenTarget(Pawn);
+		
 	}
 }
 

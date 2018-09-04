@@ -12,7 +12,7 @@ EBTNodeResult::Type UBTTEnemyShoot::ExecuteTask(UBehaviorTreeComponent & OwnerCo
 {
 	AMyAIController* AICon = Cast<AMyAIController>(OwnerComp.GetAIOwner());
 
-	/*If the Controller is valid: 
+	/*If the Controller is valid:
 	1)Get the Blackboard Component and the Current Point of the bot
 	2)Search for the next point, which will be different from the Current Point*/
 	if (AICon)
