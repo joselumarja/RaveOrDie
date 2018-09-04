@@ -17,6 +17,7 @@ EBTNodeResult::Type UBTMoveToPlayer::ExecuteTask(UBehaviorTreeComponent & OwnerC
 	2)Search for the next point, which will be different from the Current Point*/
 	if (AICon)
 	{
+
 		UBlackboardComponent* BlackboardComp = AICon->GetBlackboardComp();
 		AEnemigo* Enemigo = Cast<AEnemigo>(BlackboardComp->GetValueAsObject("SelfActor"));
 
