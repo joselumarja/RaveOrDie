@@ -72,8 +72,10 @@ void AEnemigo::OnSeePlayer(APawn* Pawn)
 	//Set the seen target on the blackboard
 	if (AIController)
 	{
+		
 		GLog->Log("Oh hello there");
 		AIController->SetSeenTarget(Pawn);
+		
 	}
 }
 
@@ -100,7 +102,7 @@ void AEnemigo::OnHit(AActor* SelfActor, AActor* OtherActor, FVector NormalImpuls
 			ABullet* Bullet = Cast<ABullet>(OtherActor);
 
 			UpdateLife(Bullet->GetDamage());
-			ManagerPtr.Get()->IncrementShotsOnTarget();
+			//ManagerPtr.Get()->IncrementShotsOnTarget();
 			Bullet->Destroy();
 		}
 
@@ -126,12 +128,9 @@ void AEnemigo::AddManager(UGameManager* Manager)
 	}
 }
 
-void AEnemigo::ShotTimerExpired(){
-	bCanFire = true;
-}
-
-void AEnemigo::Shoot(){
-	if (bCanFire){
+void AEnemigo::Shoot()
+{
+	if (bCanFire) {
 		bCanFire = false;
 		FVector EnemyLocation = GetActorLocation();
 		FVector PlayerLocation = PlayerPawn->GetActorLocation();
@@ -142,9 +141,13 @@ void AEnemigo::Shoot(){
 		//UGameplayStatics::PlaySoundAtLocation(this, FireSound, GetActorLocation());
 
 		World->GetTimerManager().SetTimer(TimerHandle_ShotTimerExpired, this, &AEnemigo::ShotTimerExpired, 0.4f);
-
 	}
 }
+
+void AEnemigo::ShotTimerExpired(){
+	bCanFire = true;
+}
+
 
 void AEnemigo::MoveToPlayer() {
 	//float Distance = DistanceToPlayer();

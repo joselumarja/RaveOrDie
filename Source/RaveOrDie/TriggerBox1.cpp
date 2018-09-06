@@ -20,6 +20,11 @@ ATriggerBox1::ATriggerBox1() {
 	if (ItemBlueprint.Object) {
 		MyItemBlueprint = (UClass*)ItemBlueprint.Object->GeneratedClass;
 	}
+
+	static ConstructorHelpers::FObjectFinder<UBlueprint> RangedItemBlueprint(TEXT("/Game/AI/Enemigo/BP_Enemigo_Ranged.BP_Enemigo_Ranged"));
+	if (RangedItemBlueprint.Object) {
+		MyRangedBlueprint = (UClass*)RangedItemBlueprint.Object->GeneratedClass;
+	}
 }
 
 
@@ -31,7 +36,9 @@ void ATriggerBox1::OnOverlapBegin(AActor* OverlappedActor, AActor* OtherActor) {
 	FRotator Rotation(0.0f, 180.0f, 0.0f);
 
 	AEnemigo* DroppedItem = GetWorld()->SpawnActor<AEnemigo>(MyItemBlueprint, RandomLocation, Rotation);
-
+	FVector RandomLocation2(1520.f, 1020.f, 108.f);
+	FRotator Rotation2(0.0f, 180.0f, 0.0f);
+	DroppedItem = GetWorld()->SpawnActor<AEnemigo>(MyRangedBlueprint, RandomLocation2, Rotation2);
 }
 void ATriggerBox1::OnOverlapEnd(AActor* OverlappedActor, AActor* OtherActor) {
 	GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Black, TEXT("Fuera caja"));

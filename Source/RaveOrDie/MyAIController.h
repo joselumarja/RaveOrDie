@@ -30,8 +30,9 @@ public:
 
 	FORCEINLINE UBlackboardComponent* GetBlackboardComp() const { return BlackboardComp; }
 
+	FORCEINLINE UBehaviorTreeComponent* GetBehaviorTreeComp() const { return BehaviorComp; }
+
 	//Sets the sensed target in the blackboard
 	void SetSeenTarget(APawn* Pawn);
 
-	
 };

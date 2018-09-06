@@ -29,4 +29,6 @@ public:
 		void OnOverlapEnd(AActor* OverlappedActor, AActor* OtherActor);
 	
 	TSubclassOf<class AEnemigo> MyItemBlueprint;
+
+	TSubclassOf<class AEnemigo> MyRangedBlueprint;
 };
