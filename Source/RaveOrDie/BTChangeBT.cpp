@@ -10,6 +10,6 @@
 EBTNodeResult::Type UBTChangeBT::ExecuteTask(UBehaviorTreeComponent & OwnerComp, uint8 * NodeMemory)
 {
 
-
-	return EBTNodeResult::Succeeded;
+		//At this point, the task has been successfully completed
+		return EBTNodeResult::Succeeded;
 }
