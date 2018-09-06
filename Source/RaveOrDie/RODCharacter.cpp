@@ -48,19 +48,22 @@ ARODCharacter::ARODCharacter()
 	TopDownCameraComponent->bUsePawnControlRotation = false; // Camera does not rotate relative to arm
 
 	// Activate ticking in order to update the cursor every frame.
-	PrimaryActorTick.bCanEverTick = false;
-	PrimaryActorTick.bStartWithTickEnabled = false;
+	PrimaryActorTick.bCanEverTick = true;
+	PrimaryActorTick.bStartWithTickEnabled = true;
 
 	bCanMeleeAttack = true;
 	bIsInMeleeAttack = false;
 	GunEquipped = false;
+	bInactivity = false;
+	bReloading = false;
+	bDead = false;
+	bCanAttack = true;
 
 	Seconds = 0;
 	Minutes = 0;
 	Hours = 0;
 
 	LIFE=MAXLIFE = 100.f;
-
 
 }
 
@@ -74,6 +77,14 @@ void ARODCharacter::BeginPlay()
 	GetWorld()->GetTimerManager().SetTimer(ClockTimer, this, &ARODCharacter::Clock, 1.0f);
 	HUDManager=GetWorld()->SpawnActor<AHUDManager>();
 	InitializeHUDValues();
+}
+
+void ARODCharacter::Tick(float DeltaTime)
+{
+	Super::Tick(DeltaTime);
+
+	if (GetVelocity().SizeSquared() != 0.f) UpdateInactivity();
+
 }
 
 void ARODCharacter::InitializeHUDValues()
@@ -106,6 +117,17 @@ void ARODCharacter::OnHit(AActor* SelfActor, AActor* OtherActor, FVector NormalI
 
 }
 
+void ARODCharacter::UpdateInactivity()
+{
+	bInactivity = false;
+	GetWorld()->GetTimerManager().SetTimer(InactivityTimer, this, &ARODCharacter::SetInactivity, 6.0f);
+}
+
+void ARODCharacter::SetInactivity()
+{
+	bInactivity = true;
+}
+
 void ARODCharacter::Clock()
 {
 	if (++Seconds >= 60)
@@ -127,6 +149,8 @@ void ARODCharacter::Attack()
 {
 	if (bCanAttack)
 	{
+		UpdateInactivity();
+
 		if (GunEquipped)
 		{
 			DistanceAttack();
@@ -142,6 +166,7 @@ void ARODCharacter::Attack()
 void ARODCharacter::SwapWeapon()
 {
 	GunEquipped = !GunEquipped;
+	UpdateInactivity();
 
 	if (GunEquipped)
 	{

@@ -24,9 +24,22 @@ public:
 	/** Returns CameraBoom subobject **/
 	FORCEINLINE class USpringArmComponent* GetCameraBoom() const { return CameraBoom; }
 
+	UFUNCTION(BlueprintCallable)
 	FORCEINLINE bool IsInMeleeAttack() const { return bIsInMeleeAttack; }
 
 	FORCEINLINE bool GetCanAttack() const { return bCanMeleeAttack; }
+
+	UFUNCTION(BlueprintCallable)
+	FORCEINLINE	bool GetIsDead() const { return bDead; }
+
+	UFUNCTION(BlueprintCallable)
+	FORCEINLINE	bool GetIsReloading() const { return bReloading; }
+
+	UFUNCTION(BlueprintCallable)
+	FORCEINLINE	bool GetCanDance() const { return bInactivity && !GunEquipped; }
+
+	UFUNCTION(BlueprintCallable)
+	FORCEINLINE bool GetIsGunEquipped() const { return GunEquipped; }
 
 	float GetMeleeDamage() const;
 
@@ -50,15 +63,13 @@ public:
 
 	void SetInvulnerability();
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Stats")
-		bool CanMeleeAttack = false;
-
-
 	void FinishMeleeAttack();
 
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
+
+	virtual void Tick(float DeltaTime) override;
 
 private:
 	/** Top down camera */
@@ -74,9 +85,11 @@ private:
 
 	UFUNCTION()
 		void OnHit(AActor* SelfActor, AActor* OtherActor, FVector NormalImpulse, const FHitResult& Hit);
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Stats", meta = (AllowPrivateAccess = "true"))
+	bool bReloading;
 	
 	bool bInvulnerability = false;
-
 
 	bool bCanMeleeAttack=true;
 
@@ -86,13 +99,29 @@ private:
 
 	void InitializeHUDValues();
 
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Stats", meta = (AllowPrivateAccess = "true"))
+	bool CanMeleeAttack;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Stats", meta = (AllowPrivateAccess = "true"))
 	bool bCanAttack;
 
-
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Stats", meta = (AllowPrivateAccess = "true"))
 	bool bIsInMeleeAttack;
 
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Stats", meta = (AllowPrivateAccess = "true"))
+	bool bDead;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Stats", meta = (AllowPrivateAccess = "true"))
+	bool bInactivity;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Stats", meta = (AllowPrivateAccess = "true"))
+	bool GunEquipped;
 
 	void FinishDistanceAttack();
+
+	void UpdateInactivity();
+
+	void SetInactivity();
 
 	FTimerHandle TimerHandle_InvulnerabilityHitExpired;
 
@@ -108,11 +137,11 @@ private:
 
 	uint8 Hours;
 
-	bool GunEquipped;
-
 	TWeakObjectPtr<AHUDManager> HUDManager;
 
 	FTimerHandle ClockTimer;
+
+	FTimerHandle InactivityTimer;
 
 	UWorld* World;
 
