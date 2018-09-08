@@ -20,7 +20,7 @@ AEnemigo::AEnemigo()
 	PawnSensingComp->SetPeripheralVisionAngle(30.f);
 	OnActorHit.AddDynamic(this, &AEnemigo::OnHit);
 
-	World = GetWorld();
+
 }
 
 AEnemigo::~AEnemigo()
@@ -35,6 +35,8 @@ AEnemigo::~AEnemigo()
 void AEnemigo::BeginPlay()
 {
 	Super::BeginPlay();
+	World = GetWorld();
+
 	if (PawnSensingComp)
 	{
 		PawnSensingComp->OnSeePawn.AddDynamic(this, &AEnemigo::OnSeePlayer);

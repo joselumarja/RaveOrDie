@@ -15,7 +15,7 @@ class RAVEORDIE_API ABossAIController : public AAIController
 {
 	GENERATED_BODY()
 	
-	
+public:
 	ABossAIController();
 
 	//Behavior tree comp ref

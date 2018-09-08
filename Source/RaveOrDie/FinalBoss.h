@@ -6,6 +6,8 @@
 #include "GameFramework/Character.h"
 #include "FinalBoss.generated.h"
 
+class UGameManager;
+
 UCLASS()
 class RAVEORDIE_API AFinalBoss : public ACharacter
 {
@@ -14,6 +16,10 @@ class RAVEORDIE_API AFinalBoss : public ACharacter
 public:
 	// Sets default values for this character's properties
 	AFinalBoss();
+
+
+	~AFinalBoss();
+
 
 
 protected:
@@ -33,6 +39,9 @@ protected:
 
 	bool bCanFire = true;
 
+	UPROPERTY()
+		TWeakObjectPtr<UGameManager> ManagerPtr;
+
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
@@ -40,6 +49,8 @@ public:
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
+	UFUNCTION()
+		void AddManager(UGameManager* Manager);
 	
 	UPROPERTY(VisibleAnywhere, Category = "AI")
 		class UPawnSensingComponent* PawnSensingComp;

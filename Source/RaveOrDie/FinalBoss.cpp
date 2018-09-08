@@ -1,7 +1,7 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "FinalBoss.h"
-#include "MyAIController.h"
+#include "BossAIController.h"
 #include "Engine.h"
 #include "BehaviorTree/BehaviorTree.h"
 #include "Perception/PawnSensingComponent.h"
@@ -12,20 +12,32 @@
 // Sets default values
 AFinalBoss::AFinalBoss()
 {
+	
  	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 	PawnSensingComp = CreateDefaultSubobject<UPawnSensingComponent>(TEXT("PawnSensingComp"));
 	//Set the peripheral vision angle to 90 degrees
 	PawnSensingComp->SetPeripheralVisionAngle(30.f);
 	OnActorHit.AddDynamic(this, &AFinalBoss::OnHit);
+	
+	
+}
 
-	World = GetWorld();
+AFinalBoss::~AFinalBoss()
+{
+	if (ManagerPtr.IsValid())
+	{
+		ManagerPtr.Get()->EnemyKilled();
+	}
 }
 
 // Called when the game starts or when spawned
 void AFinalBoss::BeginPlay()
 {
 	Super::BeginPlay();
+
+	World = GetWorld();
+
 	if (PawnSensingComp)
 	{
 		PawnSensingComp->OnSeePawn.AddDynamic(this, &AFinalBoss::OnSeePlayer);
@@ -39,12 +51,12 @@ void AFinalBoss::BeginPlay()
 			PlayerPawn = *ActorItr;
 		}
 	}
-
+	
 }
 
 void AFinalBoss::OnSeePlayer(APawn * Pawn)
 {
-	AMyAIController* AIController = Cast<AMyAIController>(GetController());
+	ABossAIController* AIController = Cast<ABossAIController>(GetController());
 	//Set the seen target on the blackboard
 	if (AIController)
 	{
@@ -88,11 +100,18 @@ void AFinalBoss::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent
 
 }
 
+void AFinalBoss::AddManager(UGameManager * Manager)
+{
+	if (!ManagerPtr.IsValid())
+	{
+		ManagerPtr = Manager;
+	}
+}
+
 void AFinalBoss::OnHit(AActor * SelfActor, AActor * OtherActor, FVector NormalImpulse, const FHitResult & Hit)
 {
 
-	//GetMesh()->PlayAnimation(HitAnim, false);
-	AMyAIController* AIController = Cast<AMyAIController>(GetController());
+	ABossAIController* AIController = Cast<ABossAIController>(GetController());
 	//Set the seen target on the blackboard
 	if (AIController)
 	{

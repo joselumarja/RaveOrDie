@@ -6,7 +6,11 @@
 #include "BehaviorTree/BlackboardComponent.h"
 
 
+ABossAIController::ABossAIController() {
+	BehaviorComp = CreateDefaultSubobject<UBehaviorTreeComponent>(TEXT("BehaviorComp"));
 
+	BlackboardComp = CreateDefaultSubobject<UBlackboardComponent>(TEXT("BlackboardComp"));
+}
 
 void ABossAIController::Possess(APawn* Pawn)
 {
