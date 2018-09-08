@@ -2,6 +2,7 @@
 
 #include "Bullet.h"
 #include "Enemigo.h"
+#include "FinalBoss.h"
 
 
 // Sets default values
@@ -30,7 +31,7 @@ ABullet::ABullet()
 void ABullet::OnHit(UPrimitiveComponent* HitComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit)
 {
 
-	if ((OtherActor != NULL) && !OtherActor->IsA(AEnemigo::StaticClass()))
+	if ((OtherActor != NULL) && !OtherActor->IsA(AEnemigo::StaticClass()) && !OtherActor->IsA(AFinalBoss::StaticClass()))
 	{
 		Destroy();
 	}

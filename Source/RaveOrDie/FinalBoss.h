@@ -4,37 +4,28 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
-#include "Enemigo.generated.h"
+#include "FinalBoss.generated.h"
 
 class UGameManager;
 
 UCLASS()
-class RAVEORDIE_API AEnemigo : public ACharacter
+class RAVEORDIE_API AFinalBoss : public ACharacter
 {
 	GENERATED_BODY()
 
 public:
 	// Sets default values for this character's properties
-	AEnemigo();
+	AFinalBoss();
 
-	~AEnemigo();
+
+	~AFinalBoss();
+
+
 
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
-	UPROPERTY()
-	TWeakObjectPtr<UGameManager> ManagerPtr;
-	
-	TWeakObjectPtr<ACharacter> PlayerPawn;
-
-	FTimerHandle TimerHandle_ShotTimerExpired; 
-	
-	float DeltaSeconds;
-
-	float MoveSpeed;
-
-protected:
 	UFUNCTION()
 		void OnSeePlayer(APawn* Pawn);
 
@@ -42,7 +33,14 @@ protected:
 
 	UWorld* World;
 
-	bool bCanFire =true;
+	TWeakObjectPtr<ACharacter> PlayerPawn;
+
+	FTimerHandle TimerHandle_ShotTimerExpired;
+
+	bool bCanFire = true;
+
+	UPROPERTY()
+		TWeakObjectPtr<UGameManager> ManagerPtr;
 
 public:	
 	// Called every frame
@@ -50,6 +48,15 @@ public:
 
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
+
+	UFUNCTION()
+		void AddManager(UGameManager* Manager);
+	
+	UPROPERTY(VisibleAnywhere, Category = "AI")
+		class UPawnSensingComponent* PawnSensingComp;
+
+	UFUNCTION()
+		void OnHit(AActor* SelfActor, AActor* OtherActor, FVector NormalImpulse, const FHitResult& Hit);
 
 	UPROPERTY(EditAnywhere, Category = "AI")
 		class UBehaviorTree* BehaviorTree;
@@ -60,21 +67,15 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Stats")
 		float Damage = 100.f;
 
-	/*The Component which is used for the "seeing" sense of the AI*/
-	UPROPERTY(VisibleAnywhere, Category = "AI")
-		class UPawnSensingComponent* PawnSensingComp;
-
-	UFUNCTION()
-		void OnHit(AActor* SelfActor, AActor* OtherActor, FVector NormalImpulse, const FHitResult& Hit);
-	
-	UFUNCTION()
-	void AddManager(UGameManager* Manager);
-
 	void Shoot();
 
-	void ShotTimerExpired();
-
 	void MoveToPlayer();
+
+	float DeltaSeconds;
+
+	float MoveSpeed;
+
+	void ShotTimerExpired();
 
 	float DistanceToPlayer();
 };

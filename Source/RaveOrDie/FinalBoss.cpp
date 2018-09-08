@@ -1,7 +1,7 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
-#include "Enemigo.h"
-#include "MyAIController.h"
+#include "FinalBoss.h"
+#include "BossAIController.h"
 #include "Engine.h"
 #include "BehaviorTree/BehaviorTree.h"
 #include "Perception/PawnSensingComponent.h"
@@ -9,21 +9,21 @@
 #include "Bullet.h"
 #include "RODCharacter.h"
 
-
 // Sets default values
-AEnemigo::AEnemigo()
+AFinalBoss::AFinalBoss()
 {
+	
  	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 	PawnSensingComp = CreateDefaultSubobject<UPawnSensingComponent>(TEXT("PawnSensingComp"));
 	//Set the peripheral vision angle to 90 degrees
 	PawnSensingComp->SetPeripheralVisionAngle(30.f);
-	OnActorHit.AddDynamic(this, &AEnemigo::OnHit);
-
-
+	OnActorHit.AddDynamic(this, &AFinalBoss::OnHit);
+	
+	
 }
 
-AEnemigo::~AEnemigo()
+AFinalBoss::~AFinalBoss()
 {
 	if (ManagerPtr.IsValid())
 	{
@@ -32,14 +32,15 @@ AEnemigo::~AEnemigo()
 }
 
 // Called when the game starts or when spawned
-void AEnemigo::BeginPlay()
+void AFinalBoss::BeginPlay()
 {
 	Super::BeginPlay();
+
 	World = GetWorld();
 
 	if (PawnSensingComp)
 	{
-		PawnSensingComp->OnSeePawn.AddDynamic(this, &AEnemigo::OnSeePlayer);
+		PawnSensingComp->OnSeePawn.AddDynamic(this, &AFinalBoss::OnSeePlayer);
 	}
 
 	for (TActorIterator<ARODCharacter>ActorItr(GetWorld()); ActorItr; ++ActorItr)
@@ -50,41 +51,67 @@ void AEnemigo::BeginPlay()
 			PlayerPawn = *ActorItr;
 		}
 	}
+	
+}
+
+void AFinalBoss::OnSeePlayer(APawn * Pawn)
+{
+	ABossAIController* AIController = Cast<ABossAIController>(GetController());
+	//Set the seen target on the blackboard
+	if (AIController)
+	{
+
+		GLog->Log("Oh hello there");
+		AIController->SetSeenTarget(Pawn);
+
+	}
+
+}
+
+
+void AFinalBoss::ShotTimerExpired() {
+	bCanFire = true;
+}
+
+
+
+void AFinalBoss::UpdateLife(float Damage)
+{
+	Health -= Damage;
+
+	if (Health <= 0) {
+
+		Destroy();
+
+	}
 
 }
 
 // Called every frame
-void AEnemigo::Tick(float DeltaTime)
+void AFinalBoss::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-	DeltaSeconds = DeltaTime;
 }
 
 // Called to bind functionality to input
-void AEnemigo::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
+void AFinalBoss::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
 
 }
 
-
-void AEnemigo::OnSeePlayer(APawn* Pawn)
+void AFinalBoss::AddManager(UGameManager * Manager)
 {
-	AMyAIController* AIController = Cast<AMyAIController>(GetController());
-	//Set the seen target on the blackboard
-	if (AIController)
+	if (!ManagerPtr.IsValid())
 	{
-		
-		GLog->Log("Oh hello there");
-		AIController->SetSeenTarget(Pawn);
-		
+		ManagerPtr = Manager;
 	}
 }
 
-void AEnemigo::OnHit(AActor* SelfActor, AActor* OtherActor, FVector NormalImpulse, const FHitResult& Hit)
+void AFinalBoss::OnHit(AActor * SelfActor, AActor * OtherActor, FVector NormalImpulse, const FHitResult & Hit)
 {
-	//GetMesh()->PlayAnimation(HitAnim, false);
-	AMyAIController* AIController = Cast<AMyAIController>(GetController());
+
+	ABossAIController* AIController = Cast<ABossAIController>(GetController());
 	//Set the seen target on the blackboard
 	if (AIController)
 	{
@@ -109,28 +136,10 @@ void AEnemigo::OnHit(AActor* SelfActor, AActor* OtherActor, FVector NormalImpuls
 		}
 
 	}
+
 }
 
-void AEnemigo::UpdateLife(float Damage) {
-	Health -= Damage;
-
-	if (Health <= 0) {
-
-		Destroy();
-
-	}
-}
-
-void AEnemigo::AddManager(UGameManager* Manager)
-{
-
-	if (!ManagerPtr.IsValid())
-	{
-		ManagerPtr = Manager;
-	}
-}
-
-void AEnemigo::Shoot()
+void AFinalBoss::Shoot()
 {
 	if (bCanFire) {
 		bCanFire = false;
@@ -142,35 +151,31 @@ void AEnemigo::Shoot()
 		World->SpawnActor<ABullet>(EnemyLocation, Rotation);
 		//UGameplayStatics::PlaySoundAtLocation(this, FireSound, GetActorLocation());
 
-		World->GetTimerManager().SetTimer(TimerHandle_ShotTimerExpired, this, &AEnemigo::ShotTimerExpired, 0.4f);
+		World->GetTimerManager().SetTimer(TimerHandle_ShotTimerExpired, this, &AFinalBoss::ShotTimerExpired, 0.4f);
 	}
 }
 
-void AEnemigo::ShotTimerExpired(){
-	bCanFire = true;
-}
 
-
-void AEnemigo::MoveToPlayer() {
+void AFinalBoss::MoveToPlayer() {
 	//float Distance = DistanceToPlayer();
 	//if (Distance > 500.0f) {
-		FVector ActualLocation = GetActorLocation();
-		FVector DirectionVector = PlayerPawn->GetActorLocation() - ActualLocation;
+	FVector ActualLocation = GetActorLocation();
+	FVector DirectionVector = PlayerPawn->GetActorLocation() - ActualLocation;
 
-		FVector Movement = (DirectionVector.GetSafeNormal()*(DeltaSeconds*MoveSpeed));
-		const FRotator NewRotation(0, 0, 0);
-		FHitResult Hit(1.f);
-		RootComponent->MoveComponent(Movement, NewRotation, true);
+	FVector Movement = (DirectionVector.GetSafeNormal()*(DeltaSeconds*MoveSpeed));
+	const FRotator NewRotation(0, 0, 0);
+	FHitResult Hit(1.f);
+	RootComponent->MoveComponent(Movement, NewRotation, true);
 
-		if (Hit.IsValidBlockingHit())
-		{
-			const FVector Normal2D = Hit.Normal.GetSafeNormal2D();
-			const FVector Deflection = FVector::VectorPlaneProject(Movement, Normal2D) * (1.f - Hit.Time);
-			RootComponent->MoveComponent(Deflection, NewRotation, true);
-		}
+	if (Hit.IsValidBlockingHit())
+	{
+		const FVector Normal2D = Hit.Normal.GetSafeNormal2D();
+		const FVector Deflection = FVector::VectorPlaneProject(Movement, Normal2D) * (1.f - Hit.Time);
+		RootComponent->MoveComponent(Deflection, NewRotation, true);
+	}
 	//}
 }
-float AEnemigo::DistanceToPlayer()
+float AFinalBoss::DistanceToPlayer()
 {
 	FVector PlayerPoint = PlayerPawn->GetActorLocation();
 	FVector EnemyPoint = GetActorLocation();

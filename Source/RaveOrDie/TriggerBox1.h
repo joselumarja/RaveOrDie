@@ -31,4 +31,6 @@ public:
 	TSubclassOf<class AEnemigo> MyItemBlueprint;
 
 	TSubclassOf<class AEnemigo> MyRangedBlueprint;
+
+	TSubclassOf<class AFinalBoss> MyBossBlueprint;
 };
