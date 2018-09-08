@@ -7,6 +7,7 @@
 #include "RODPlayerController.generated.h"
 
 class UGameManager;
+class ARODCharacter;
 
 UCLASS()
 class RAVEORDIE_API ARODPlayerController : public APlayerController
@@ -19,10 +20,15 @@ public:
 
 	void BeginPlay() override;
 
+	UFUNCTION()
+	FORCEINLINE float CalcRotation() const { return a*1.5; }
+
 	const FName MoveYBinding=FName("MoveY");
 	const FName MoveXBinding=FName("MoveX");
 	const FName AttackBinding = FName("Attack");
 	const FName SwapWeaponBinding = FName("SwapWeapon");
+	const FName RotationXBinding = FName("RotationX");
+	const FName RotationYBinding = FName("RotationY");
 
 protected:
 
@@ -33,8 +39,14 @@ protected:
 
 	void MoveRight(float Value);
 
+	void RotationX(float Value);
+
 	void Attack();
 
 	void SwapWeapon();
+
+	float a;
+
+	ARODCharacter* MyPawn;
 
 };

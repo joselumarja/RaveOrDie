@@ -27,8 +27,6 @@ public:
 	UFUNCTION(BlueprintCallable)
 	FORCEINLINE bool IsInMeleeAttack() const { return bIsInMeleeAttack; }
 
-	FORCEINLINE bool GetCanAttack() const { return bCanMeleeAttack; }
-
 	UFUNCTION(BlueprintCallable)
 	FORCEINLINE	bool GetIsDead() const { return bDead; }
 
@@ -84,14 +82,12 @@ private:
 	TWeakObjectPtr<UGameManager> Manager;
 
 	UFUNCTION()
-		void OnHit(AActor* SelfActor, AActor* OtherActor, FVector NormalImpulse, const FHitResult& Hit);
+	void OnHit(AActor* SelfActor, AActor* OtherActor, FVector NormalImpulse, const FHitResult& Hit);
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Stats", meta = (AllowPrivateAccess = "true"))
 	bool bReloading;
 	
 	bool bInvulnerability = false;
-
-	bool bCanMeleeAttack=true;
 
 	void MeleeAttack();
 
@@ -100,10 +96,7 @@ private:
 	void InitializeHUDValues();
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Stats", meta = (AllowPrivateAccess = "true"))
-	bool CanMeleeAttack;
-
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Stats", meta = (AllowPrivateAccess = "true"))
-	bool bCanAttack;
+	bool bCanDistanceAttack;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Stats", meta = (AllowPrivateAccess = "true"))
 	bool bIsInMeleeAttack;
@@ -142,6 +135,10 @@ private:
 	FTimerHandle ClockTimer;
 
 	FTimerHandle InactivityTimer;
+
+	FTimerHandle PunchingTimer;
+
+	FTimerHandle ShotingTimer;
 
 	UWorld* World;
 

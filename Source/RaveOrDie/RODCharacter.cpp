@@ -51,13 +51,12 @@ ARODCharacter::ARODCharacter()
 	PrimaryActorTick.bCanEverTick = true;
 	PrimaryActorTick.bStartWithTickEnabled = true;
 
-	bCanMeleeAttack = true;
 	bIsInMeleeAttack = false;
 	GunEquipped = false;
 	bInactivity = false;
 	bReloading = false;
 	bDead = false;
-	bCanAttack = true;
+	bCanDistanceAttack = true;
 
 	Seconds = 0;
 	Minutes = 0;
@@ -83,7 +82,23 @@ void ARODCharacter::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
-	if (GetVelocity().SizeSquared() != 0.f) UpdateInactivity();
+	if (GetVelocity().SizeSquared() != 0.f)
+	{
+		UpdateInactivity();
+	}
+	else
+	{
+	
+		const ARODPlayerController* Controller = Cast<ARODPlayerController>(GetController());
+		float rotation = Controller->CalcRotation();
+
+		if (rotation != 0)
+		{
+			SetActorRotation(FQuat(FRotator(0.f, rotation, 0.f)+GetActorRotation()));
+			UpdateInactivity();
+		}
+		
+	}
 
 }
 
@@ -147,20 +162,16 @@ void ARODCharacter::Clock()
 
 void ARODCharacter::Attack()
 {
-	if (bCanAttack)
-	{
-		UpdateInactivity();
+	UpdateInactivity();
 
-		if (GunEquipped)
-		{
-			DistanceAttack();
-		}
-		else
-		{
-			MeleeAttack();
-		}
+	if (GunEquipped)
+	{
+		if(bCanDistanceAttack) DistanceAttack();
 	}
-	
+	else
+	{
+		if(!bIsInMeleeAttack) MeleeAttack();
+	}	
 }
 
 void ARODCharacter::SwapWeapon()
@@ -185,15 +196,14 @@ float ARODCharacter::GetMeleeDamage() const
 
 void ARODCharacter::MeleeAttack()
 {
-	CanMeleeAttack = false;
 	bIsInMeleeAttack = true;
 	GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Purple, TEXT("atacando"));
-	//World->GetTimerManager().SetTimer(TimerHandle_InvulnerabilityHitExpired, this, &ARODCharacter::AnimationExpired, 2.167f);
+	World->GetTimerManager().SetTimer(PunchingTimer, this, &ARODCharacter::FinishMeleeAttack, 1.f);
 }
 
 void ARODCharacter::DistanceAttack()
 {
-	//World->GetTimerManager().SetTimer(TimerHandle_InvulnerabilityHitExpired, this, &ARODCharacter::AnimationExpired, 1.167f)
+	World->GetTimerManager().SetTimer(ShotingTimer, this, &ARODCharacter::FinishDistanceAttack, 0.5f);
 	Manager->IncrementShots();
 
 }
@@ -206,14 +216,13 @@ void ARODCharacter::DistanceAttack()
 
 void ARODCharacter::FinishMeleeAttack()
 {
-	CanMeleeAttack = true;
 	bIsInMeleeAttack = false;
 	GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, TEXT("He dejado de atacar"));
 }
 
 void ARODCharacter::FinishDistanceAttack()
 {
-	bCanMeleeAttack = true;
+	bCanDistanceAttack = true;
 }
 
 void ARODCharacter::InvulnerabilityTimerExpired()
