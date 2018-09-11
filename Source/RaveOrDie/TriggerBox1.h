@@ -6,6 +6,8 @@
 #include "Engine/TriggerBox.h"
 #include "TriggerBox1.generated.h"
 
+class ASongManager;
+
 /**
  * 
  */
@@ -17,6 +19,8 @@ class RAVEORDIE_API ATriggerBox1 : public ATriggerBox
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
+
+	ASongManager* SongManagerPtr;
 
 public:
 

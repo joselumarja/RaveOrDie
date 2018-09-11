@@ -24,6 +24,8 @@ public:
 
 	FORCEINLINE void IncrementShotsOnTarget() { ShotsOnTarget++; }
 
+	TArray<FString> GetAllSongs();
+
 private:
 
 	UGameManager();
@@ -47,5 +49,7 @@ private:
 	uint32 ShotsOnTarget;
 
 	float Accuracy;
+
+	
 	
 };
