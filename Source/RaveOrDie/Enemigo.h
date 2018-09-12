@@ -8,7 +8,7 @@
 
 class UGameManager;
 
-UCLASS()
+UCLASS(Abstract)
 class RAVEORDIE_API AEnemigo : public ACharacter
 {
 	GENERATED_BODY()
@@ -34,25 +34,17 @@ protected:
 
 	float MoveSpeed;
 
-protected:
-	UFUNCTION()
-		void OnSeePlayer(APawn* Pawn);
-
-	void UpdateLife(float Damage);
+	virtual void UpdateLife(float Damage);
 
 	UWorld* World;
 
 	bool bCanFire =true;
 
-public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
-
-	UPROPERTY(EditAnywhere, Category = "AI")
-		class UBehaviorTree* BehaviorTree;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Stats")
 		float Health = 100.f;
@@ -60,21 +52,30 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Stats")
 		float Damage = 100.f;
 
-	/*The Component which is used for the "seeing" sense of the AI*/
-	UPROPERTY(VisibleAnywhere, Category = "AI")
-		class UPawnSensingComponent* PawnSensingComp;
-
 	UFUNCTION()
-		void OnHit(AActor* SelfActor, AActor* OtherActor, FVector NormalImpulse, const FHitResult& Hit);
+		virtual void OnHit(AActor* SelfActor, AActor* OtherActor, FVector NormalImpulse, const FHitResult& Hit);
 	
-	UFUNCTION()
-	void AddManager(UGameManager* Manager);
+	virtual void Shoot() PURE_VIRTUAL(AEnemigo::Shoot, );
 
-	void Shoot();
-
-	void ShotTimerExpired();
 
 	void MoveToPlayer();
 
 	float DistanceToPlayer();
+
+public:
+
+	/*The Component which is used for the "seeing" sense of the AI*/
+	UPROPERTY(VisibleAnywhere, Category = "AI")
+		class UPawnSensingComponent* PawnSensingComp;
+
+	void ShotTimerExpired();
+
+	UPROPERTY(EditAnywhere, Category = "AI")
+		class UBehaviorTree* BehaviorTree;
+
+	UFUNCTION()
+		void AddManager(UGameManager* Manager);
+
+	UFUNCTION()
+		virtual void OnSeePlayer(APawn* Pawn);
 };

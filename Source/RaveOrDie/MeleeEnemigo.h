@@ -4,34 +4,28 @@
 
 #include "CoreMinimal.h"
 #include "Enemigo.h"
-#include "Boss.generated.h"
+#include "MeleeEnemigo.generated.h"
 
 /**
  * 
  */
 UCLASS()
-class RAVEORDIE_API ABoss : public AEnemigo
+class RAVEORDIE_API AMeleeEnemigo : public AEnemigo
 {
 	GENERATED_BODY()
-	
-	
+
+
 public:
+		AMeleeEnemigo();
+	
+		~AMeleeEnemigo();
 
-	ABoss();
-
-	~ABoss();
-
-	virtual void Tick(float DeltaTime) override;
-
-	bool bCanFire = true;
+		virtual void Tick(float DeltaTime) override;
 
 protected:
 
 	virtual void BeginPlay() override;
 
 	UWorld* World;
-
-	void Shoot() override;
-
 	
 };

@@ -1,6 +1,6 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
-#include "Boss.h"
+#include "RangedEnemigo.h"
 #include "MyAIController.h"
 #include "Engine.h"
 #include "BehaviorTree/BehaviorTree.h"
@@ -9,15 +9,15 @@
 #include "Bullet.h"
 #include "RODCharacter.h"
 
-ABoss::ABoss() :Super() {
+ARangedEnemigo::ARangedEnemigo() :Super() {
 	PrimaryActorTick.bCanEverTick = true;
 	/*PawnSensingComp = CreateDefaultSubobject<UPawnSensingComponent>(TEXT("PawnSensingComp"));
 	//Set the peripheral vision angle to 90 degrees
 	PawnSensingComp->SetPeripheralVisionAngle(30.f);
-	OnActorHit.AddDynamic(this, &ABoss::OnHit);*/
+	OnActorHit.AddDynamic(this, &ARangedEnemigo::OnHit);*/
 }
 
-ABoss::~ABoss() {
+ARangedEnemigo::~ARangedEnemigo() {
 	if (ManagerPtr.IsValid())
 	{
 		ManagerPtr.Get()->EnemyKilled();
@@ -25,7 +25,7 @@ ABoss::~ABoss() {
 }
 
 
-void ABoss::BeginPlay()
+void ARangedEnemigo::BeginPlay()
 {
 	Super::BeginPlay();
 	World = GetWorld();
@@ -47,12 +47,12 @@ void ABoss::BeginPlay()
 }
 
 
-void ABoss::Tick(float DeltaTime)
+void ARangedEnemigo::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 }
 
-void ABoss::Shoot() {
+void ARangedEnemigo::Shoot() {
 	if (bCanFire) {
 		bCanFire = false;
 		FVector EnemyLocation = GetActorLocation();

@@ -130,21 +130,6 @@ void AEnemigo::AddManager(UGameManager* Manager)
 	}
 }
 
-void AEnemigo::Shoot()
-{
-	if (bCanFire) {
-		bCanFire = false;
-		FVector EnemyLocation = GetActorLocation();
-		FVector PlayerLocation = PlayerPawn->GetActorLocation();
-		FVector DirectionVector = FVector(PlayerLocation.X - EnemyLocation.X, PlayerLocation.Y - EnemyLocation.Y, .0f).GetSafeNormal();
-		FRotator Rotation = DirectionVector.Rotation();
-		EnemyLocation = EnemyLocation + (DirectionVector * 100);
-		World->SpawnActor<ABullet>(EnemyLocation, Rotation);
-		//UGameplayStatics::PlaySoundAtLocation(this, FireSound, GetActorLocation());
-
-		World->GetTimerManager().SetTimer(TimerHandle_ShotTimerExpired, this, &AEnemigo::ShotTimerExpired, 0.4f);
-	}
-}
 
 void AEnemigo::ShotTimerExpired(){
 	bCanFire = true;

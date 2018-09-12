@@ -2,9 +2,10 @@
 
 #include "BTMoveToPlayer.h"
 #include "RODCharacter.h"
-#include "FinalBoss.h"
-#include "BossAIController.h"
 #include "MyAIController.h"
+#include "RangedEnemigo.h"
+#include "Boss.h"
+#include "MeleeEnemigo.h"
 #include "BehaviorTree/BlackboardComponent.h"
 #include "Enemigo.h"
 
@@ -12,12 +13,12 @@
 
 EBTNodeResult::Type UBTMoveToPlayer::ExecuteTask(UBehaviorTreeComponent & OwnerComp, uint8 * NodeMemory)
 {
-	
+	/*
 	if (OwnerComp.GetAIOwner()->GetPawn()->IsA(AEnemigo::StaticClass())) {
 		AMyAIController* AICon = Cast<AMyAIController>(OwnerComp.GetAIOwner());
 		/*If the Controller is valid:
 		1)Get the Blackboard Component and the Current Point of the bot
-		2)Search for the next point, which will be different from the Current Point*/
+		2)Search for the next point, which will be different from the Current Point
 		if (AICon)
 		{
 
@@ -37,7 +38,7 @@ EBTNodeResult::Type UBTMoveToPlayer::ExecuteTask(UBehaviorTreeComponent & OwnerC
 		ABossAIController* BossAICon = Cast<ABossAIController>(OwnerComp.GetAIOwner());
 		/*If the Controller is valid:
 		1)Get the Blackboard Component and the Current Point of the bot
-		2)Search for the next point, which will be different from the Current Point*/
+		2)Search for the next point, which will be different from the Current Point
 		if (BossAICon)
 		{
 			UBlackboardComponent* BlackboardComp = BossAICon->GetBlackboardComp();
@@ -51,7 +52,7 @@ EBTNodeResult::Type UBTMoveToPlayer::ExecuteTask(UBehaviorTreeComponent & OwnerC
 		}
 
 	}
-	
+	*/
 	return EBTNodeResult::Failed;
 	
 }

@@ -2,7 +2,9 @@
 
 #include "TriggerBox1.h"
 #include "Enemigo.h"
-#include "FinalBoss.h"
+#include "RangedEnemigo.h"
+#include "Boss.h"
+#include "MeleeEnemigo.h"
 #include "MyAIController.h"
 #include "SongManager.h"
 #include "Engine.h"
@@ -26,7 +28,7 @@ ATriggerBox1::ATriggerBox1() {
 
 	OnActorEndOverlap.AddDynamic(this, &ATriggerBox1::OnOverlapEnd);
 
-
+/*
 	static ConstructorHelpers::FObjectFinder<UBlueprint> ItemBlueprint(TEXT("/Game/AI/Enemigo/BP_Enemigo.BP_Enemigo"));
 	if (ItemBlueprint.Object) {
 		MyItemBlueprint = (UClass*)ItemBlueprint.Object->GeneratedClass;
@@ -42,6 +44,7 @@ ATriggerBox1::ATriggerBox1() {
 	if (BossItemBlueprint.Object) {
 		MyBossBlueprint = (UClass*)BossItemBlueprint.Object->GeneratedClass;
 	}
+	*/
 }
 
 

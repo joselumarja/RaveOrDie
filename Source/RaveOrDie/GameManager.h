@@ -24,8 +24,6 @@ public:
 
 	FORCEINLINE void IncrementShotsOnTarget() { ShotsOnTarget++; }
 
-	TArray<FString> GetAllSongs();
-
 private:
 
 	UGameManager();

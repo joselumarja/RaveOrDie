@@ -4,22 +4,21 @@
 
 #include "CoreMinimal.h"
 #include "Enemigo.h"
-#include "Boss.generated.h"
+#include "RangedEnemigo.generated.h"
 
 /**
  * 
  */
 UCLASS()
-class RAVEORDIE_API ABoss : public AEnemigo
+class RAVEORDIE_API ARangedEnemigo : public AEnemigo
 {
 	GENERATED_BODY()
 	
-	
+
 public:
+	ARangedEnemigo();
 
-	ABoss();
-
-	~ABoss();
+	~ARangedEnemigo();
 
 	virtual void Tick(float DeltaTime) override;
 
@@ -32,6 +31,5 @@ protected:
 	UWorld* World;
 
 	void Shoot() override;
-
 	
 };

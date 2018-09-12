@@ -1,6 +1,6 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
-#include "Boss.h"
+#include "MeleeEnemigo.h"
 #include "MyAIController.h"
 #include "Engine.h"
 #include "BehaviorTree/BehaviorTree.h"
@@ -9,15 +9,15 @@
 #include "Bullet.h"
 #include "RODCharacter.h"
 
-ABoss::ABoss() :Super() {
+AMeleeEnemigo::AMeleeEnemigo() :Super() {
 	PrimaryActorTick.bCanEverTick = true;
 	/*PawnSensingComp = CreateDefaultSubobject<UPawnSensingComponent>(TEXT("PawnSensingComp"));
 	//Set the peripheral vision angle to 90 degrees
-	PawnSensingComp->SetPeripheralVisionAngle(30.f);
-	OnActorHit.AddDynamic(this, &ABoss::OnHit);*/
+	/*PawnSensingComp->SetPeripheralVisionAngle(30.f);
+	OnActorHit.AddDynamic(this, &AMeleeEnemigo::OnHit);*/
 }
 
-ABoss::~ABoss() {
+AMeleeEnemigo::~AMeleeEnemigo() {
 	if (ManagerPtr.IsValid())
 	{
 		ManagerPtr.Get()->EnemyKilled();
@@ -25,7 +25,7 @@ ABoss::~ABoss() {
 }
 
 
-void ABoss::BeginPlay()
+void AMeleeEnemigo::BeginPlay()
 {
 	Super::BeginPlay();
 	World = GetWorld();
@@ -47,22 +47,7 @@ void ABoss::BeginPlay()
 }
 
 
-void ABoss::Tick(float DeltaTime)
+void AMeleeEnemigo::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-}
-
-void ABoss::Shoot() {
-	if (bCanFire) {
-		bCanFire = false;
-		FVector EnemyLocation = GetActorLocation();
-		FVector PlayerLocation = PlayerPawn->GetActorLocation();
-		FVector DirectionVector = FVector(PlayerLocation.X - EnemyLocation.X, PlayerLocation.Y - EnemyLocation.Y, .0f).GetSafeNormal();
-		FRotator Rotation = DirectionVector.Rotation();
-		EnemyLocation = EnemyLocation + (DirectionVector * 100);
-		World->SpawnActor<ABullet>(EnemyLocation, Rotation);
-		//UGameplayStatics::PlaySoundAtLocation(this, FireSound, GetActorLocation());
-
-		World->GetTimerManager().SetTimer(TimerHandle_ShotTimerExpired, this, &AEnemigo::ShotTimerExpired, 0.4f);
-	}
 }
