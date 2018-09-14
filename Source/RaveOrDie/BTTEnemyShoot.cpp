@@ -19,8 +19,8 @@ EBTNodeResult::Type UBTTEnemyShoot::ExecuteTask(UBehaviorTreeComponent & OwnerCo
 		{
 
 			UBlackboardComponent* BlackboardComp = AICon->GetBlackboardComp();
-			ACharacter* Enemigo = Cast<ACharacter>(BlackboardComp->GetValueAsObject("SelfActor"));
-			//Enemigo->Shoot();
+			AEnemigo* Enemigo = Cast<AEnemigo>(BlackboardComp->GetValueAsObject("SelfActor"));
+			Enemigo->Shoot();
 			//At this point, the task has been successfully completed
 			return EBTNodeResult::Succeeded;
 		}

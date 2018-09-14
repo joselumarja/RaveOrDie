@@ -24,6 +24,12 @@ public:
 
 	FORCEINLINE void IncrementShotsOnTarget() { ShotsOnTarget++; }
 
+	TSubclassOf<class AMeleeEnemigo> MyMeleeBlueprint;
+
+	TSubclassOf<class ARangedEnemigo> MyRangedBlueprint;
+
+	TSubclassOf<class ABoss> MyBossBlueprint;
+
 private:
 
 	UGameManager();

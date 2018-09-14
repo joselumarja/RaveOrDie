@@ -20,7 +20,6 @@ protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
-	ASongManager* SongManagerPtr;
 
 public:
 
@@ -32,9 +31,5 @@ public:
 	UFUNCTION()
 		void OnOverlapEnd(AActor* OverlappedActor, AActor* OtherActor);
 	
-	TSubclassOf<class AEnemigo> MyItemBlueprint;
-
-	TSubclassOf<class AEnemigo> MyRangedBlueprint;
-
-	TSubclassOf<class AFinalBoss> MyBossBlueprint;
+	
 };

@@ -3,7 +3,6 @@
 #include "BTMoveToPlayer.h"
 #include "RODCharacter.h"
 #include "MyAIController.h"
-
 #include "RangedEnemigo.h"
 #include "Boss.h"
 #include "MeleeEnemigo.h"
@@ -15,7 +14,7 @@
 EBTNodeResult::Type UBTMoveToPlayer::ExecuteTask(UBehaviorTreeComponent & OwnerComp, uint8 * NodeMemory)
 {
 	
-	if (OwnerComp.GetAIOwner()->GetPawn()->IsA(ARangedEnemigo::StaticClass())) {
+	
 		AMyAIController* AICon = Cast<AMyAIController>(OwnerComp.GetAIOwner());
 		
 		if (AICon)
@@ -31,22 +30,7 @@ EBTNodeResult::Type UBTMoveToPlayer::ExecuteTask(UBehaviorTreeComponent & OwnerC
 			//At this point, the task has been successfully completed
 		
 		}
-	}
 
-	else if (OwnerComp.GetAIOwner()->GetPawn()->IsA(ABoss::StaticClass())) {
-		if (BossAICon)
-		{
-			UBlackboardComponent* BlackboardComp = BossAICon->GetBlackboardComp();
-			AFinalBoss* EnemigoBoss = Cast<AFinalBoss>(BlackboardComp->GetValueAsObject("SelfActor"));
-
-			float Distance = EnemigoBoss->DistanceToPlayer();
-			if (Distance < 800.0f) {
-				return EBTNodeResult::Succeeded;
-			}
-
-		}
-
-	}
 	
 	return EBTNodeResult::Failed;
 	

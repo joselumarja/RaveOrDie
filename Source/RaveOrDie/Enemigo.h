@@ -55,12 +55,10 @@ protected:
 	UFUNCTION()
 		virtual void OnHit(AActor* SelfActor, AActor* OtherActor, FVector NormalImpulse, const FHitResult& Hit);
 	
-	virtual void Shoot() PURE_VIRTUAL(AEnemigo::Shoot, );
 
 
-	void MoveToPlayer();
 
-	float DistanceToPlayer();
+	
 
 public:
 
@@ -78,4 +76,10 @@ public:
 
 	UFUNCTION()
 		virtual void OnSeePlayer(APawn* Pawn);
+
+	void MoveToPlayer();
+
+	float DistanceToPlayer();
+
+	virtual void Shoot() PURE_VIRTUAL(AEnemigo::Shoot, );
 };
