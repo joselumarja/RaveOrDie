@@ -6,6 +6,7 @@
 #include "UObject/NoExportTypes.h"
 #include "GameManager.generated.h"
 
+class AEnemigo;
 
 UCLASS()
 class RAVEORDIE_API UGameManager : public UObject
@@ -47,7 +48,20 @@ private:
 	uint32 ShotsOnTarget;
 
 	float Accuracy;
+	
+	uint8 EnemiesAlived;
 
-	
-	
+	uint8 EnemiesKilledPerRound;
+
+	TArray<TSubclassOf<AEnemigo>> EnemyClasses;
+
+	FVector GetRandomLocation() const;
+
+	void SpawnEnemies(int Enemies);
+
+	int32 GetRandomEnemyClass() const;
+
+	TWeakObjectPtr<ACharacter> PlayerPawn;
 };
+
+

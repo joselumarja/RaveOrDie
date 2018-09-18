@@ -54,11 +54,7 @@ protected:
 
 	UFUNCTION()
 		virtual void OnHit(AActor* SelfActor, AActor* OtherActor, FVector NormalImpulse, const FHitResult& Hit);
-	
 
-
-
-	
 
 public:
 
