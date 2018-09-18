@@ -14,6 +14,7 @@
 #include "HUDManager.h"
 #include "GameManager.h"
 #include "RODPlayerController.h"
+#include "RODGameStateBase.h"
 
 // Sets default values
 ARODCharacter::ARODCharacter()
@@ -71,8 +72,7 @@ void ARODCharacter::BeginPlay()
 {
 	Super::BeginPlay();
 	
-	Manager = UGameManager::GetManager();
-	Manager->InitializeGameManager();
+	Manager = Cast<ARODGameStateBase>(UGameplayStatics::GetGameState(GetWorld()))->GetGameManager();
 	GetWorld()->GetTimerManager().SetTimer(ClockTimer, this, &ARODCharacter::Clock, 1.0f);
 	HUDManager=GetWorld()->SpawnActor<AHUDManager>();
 	InitializeHUDValues();
