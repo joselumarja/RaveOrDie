@@ -13,8 +13,8 @@ AMeleeEnemigo::AMeleeEnemigo() :Super() {
 	PrimaryActorTick.bCanEverTick = true;
 	/*PawnSensingComp = CreateDefaultSubobject<UPawnSensingComponent>(TEXT("PawnSensingComp"));
 	//Set the peripheral vision angle to 90 degrees
-	/*PawnSensingComp->SetPeripheralVisionAngle(30.f);
-	OnActorHit.AddDynamic(this, &AMeleeEnemigo::OnHit);*/
+	/*PawnSensingComp->SetPeripheralVisionAngle(30.f);*/
+	OnActorHit.AddDynamic(this, &AEnemigo::OnHit);
 }
 
 AMeleeEnemigo::~AMeleeEnemigo() {
@@ -35,14 +35,14 @@ void AMeleeEnemigo::BeginPlay()
 		PawnSensingComp->OnSeePawn.AddDynamic(this, &AEnemigo::OnSeePlayer);
 	}
 
-	for (TActorIterator<ARODCharacter>ActorItr(GetWorld()); ActorItr; ++ActorItr)
+	/*for (TActorIterator<ARODCharacter>ActorItr(GetWorld()); ActorItr; ++ActorItr)
 	{
 		if (FString(TEXT("RODCharacter_C_0")).Equals(ActorItr->GetName()))
 		{
 			//finding pawn
 			PlayerPawn = *ActorItr;
 		}
-	}
+	}*/
 
 }
 

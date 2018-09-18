@@ -52,11 +52,12 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Stats")
 		float Damage = 100.f;
 
-	UFUNCTION()
-		virtual void OnHit(AActor* SelfActor, AActor* OtherActor, FVector NormalImpulse, const FHitResult& Hit);
-
+	
 
 public:
+
+	UFUNCTION()
+		virtual void OnHit(AActor* SelfActor, AActor* OtherActor, FVector NormalImpulse, const FHitResult& Hit);
 
 	/*The Component which is used for the "seeing" sense of the AI*/
 	UPROPERTY(VisibleAnywhere, Category = "AI")

@@ -10,6 +10,7 @@ UGameManager* ARODGameStateBase::GetGameManager()
 	// Why don't we override the HandleBeginPlay()? Because we don't know
 	// when that method will be executed, and we have to make sure the instance
 	// exists before any other BeginPlay event
+	
 	if (!GameManager.IsValid()) {
 		// Notice how UObjects must be instanced with the NewObject factory
 		// method instead of "new".

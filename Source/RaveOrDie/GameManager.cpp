@@ -12,18 +12,18 @@
 UGameManager::UGameManager() 
 {
 	
-	static ConstructorHelpers::FObjectFinder<UBlueprint> ItemBlueprint(TEXT("Game/AI/Enemigo/BP_MeleeEnemigo.BP_MeleeEnemigo"));
+	static ConstructorHelpers::FObjectFinder<UBlueprint> ItemBlueprint(TEXT("Blueprint'/Game/AI/Enemigo/BP_MeleeEnemigo.BP_MeleeEnemigo'"));
 	if (ItemBlueprint.Object) {
 		MyMeleeBlueprint = (UClass*)ItemBlueprint.Object->GeneratedClass;
 	}
 
-	static ConstructorHelpers::FObjectFinder<UBlueprint> RangedItemBlueprint(TEXT("Game/AI/Enemigo/BP_RangedEnemigo.BP_RangedEnemigo"));
+	static ConstructorHelpers::FObjectFinder<UBlueprint> RangedItemBlueprint(TEXT("Blueprint'/Game/AI/Enemigo/BP_RangedEnemigo.BP_RangedEnemigo'"));
 	if (RangedItemBlueprint.Object) {
 		MyRangedBlueprint = (UClass*)RangedItemBlueprint.Object->GeneratedClass;
 	}
 
 
-	static ConstructorHelpers::FObjectFinder<UBlueprint> BossItemBlueprint(TEXT("Game/AI/FinaBoss/BP_Boss.BP_Boss"));
+	static ConstructorHelpers::FObjectFinder<UBlueprint> BossItemBlueprint(TEXT("Blueprint'/Game/AI/FinaBoss/BP_Boss.BP_Boss'"));
 	if (BossItemBlueprint.Object) {
 		MyBossBlueprint = (UClass*)BossItemBlueprint.Object->GeneratedClass;
 	}

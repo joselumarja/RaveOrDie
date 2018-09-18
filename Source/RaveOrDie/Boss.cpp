@@ -13,8 +13,8 @@ ABoss::ABoss() :Super() {
 	PrimaryActorTick.bCanEverTick = true;
 	/*PawnSensingComp = CreateDefaultSubobject<UPawnSensingComponent>(TEXT("PawnSensingComp"));
 	//Set the peripheral vision angle to 90 degrees
-	PawnSensingComp->SetPeripheralVisionAngle(30.f);
-	OnActorHit.AddDynamic(this, &ABoss::OnHit);*/
+	PawnSensingComp->SetPeripheralVisionAngle(30.f);*/
+	OnActorHit.AddDynamic(this, &AEnemigo::OnHit);
 }
 
 ABoss::~ABoss() {
@@ -25,7 +25,7 @@ ABoss::~ABoss() {
 }
 
 
-void ABoss::BeginPlay()
+/*void ABoss::BeginPlay()
 {
 	Super::BeginPlay();
 	World = GetWorld();
@@ -35,7 +35,7 @@ void ABoss::BeginPlay()
 		PawnSensingComp->OnSeePawn.AddDynamic(this, &AEnemigo::OnSeePlayer);
 	}
 
-	for (TActorIterator<ARODCharacter>ActorItr(GetWorld()); ActorItr; ++ActorItr)
+	/*for (TActorIterator<ARODCharacter>ActorItr(GetWorld()); ActorItr; ++ActorItr)
 	{
 		if (FString(TEXT("RODCharacter_C_0")).Equals(ActorItr->GetName()))
 		{
@@ -44,7 +44,7 @@ void ABoss::BeginPlay()
 		}
 	}
 
-}
+}*/
 
 
 void ABoss::Tick(float DeltaTime)
