@@ -15,11 +15,9 @@ class RAVEORDIE_API UGameManager : public UObject
 	
 public:
 
+	UGameManager();
+
 	void EnemyKilled();
-
-	static TWeakObjectPtr<UGameManager> GetManager();
-
-	void InitializeGameManager();
 
 	FORCEINLINE void IncrementShots() { Shots++; }
 
@@ -32,10 +30,6 @@ public:
 	TSubclassOf<class ABoss> MyBossBlueprint;
 
 private:
-
-	UGameManager();
-
-	static TWeakObjectPtr<UGameManager> Manager;
 
 	uint32 EnemiesKilled;
 
