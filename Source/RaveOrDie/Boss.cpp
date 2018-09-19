@@ -21,7 +21,6 @@ ABoss::ABoss() :Super() {
 void ABoss::BeginPlay()
 {
 	Super::BeginPlay();
-	World = GetWorld();
 
 	if (PawnSensingComp)
 	{

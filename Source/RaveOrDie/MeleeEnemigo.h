@@ -14,14 +14,13 @@ class RAVEORDIE_API AMeleeEnemigo : public AEnemigo
 
 
 public:
-		AMeleeEnemigo();
 
-		virtual void Tick(float DeltaTime) override;
+	AMeleeEnemigo();
+
+	virtual void Tick(float DeltaTime) override;
 
 protected:
 
 	virtual void BeginPlay() override;
-
-	UWorld* World;
 	
 };

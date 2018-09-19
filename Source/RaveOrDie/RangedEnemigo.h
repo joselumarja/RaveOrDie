@@ -24,8 +24,6 @@ protected:
 
 	virtual void BeginPlay() override;
 
-	UWorld* World;
-
 	void Shoot() override;
 	
 };

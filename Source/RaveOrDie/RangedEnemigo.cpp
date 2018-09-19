@@ -21,7 +21,6 @@ ARangedEnemigo::ARangedEnemigo() :Super() {
 void ARangedEnemigo::BeginPlay()
 {
 	Super::BeginPlay();
-	World = GetWorld();
 
 	if (PawnSensingComp)
 	{

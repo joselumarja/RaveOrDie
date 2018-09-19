@@ -21,7 +21,6 @@ AMeleeEnemigo::AMeleeEnemigo() :Super() {
 void AMeleeEnemigo::BeginPlay()
 {
 	Super::BeginPlay();
-	World = GetWorld();
 
 	if (PawnSensingComp)
 	{

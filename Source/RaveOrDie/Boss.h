@@ -17,15 +17,13 @@ public:
 
 	ABoss();
 
+	virtual void BeginPlay() override;
+
 	virtual void Tick(float DeltaTime) override;
 
 	bool bCanFire = true;
 
 protected:
-
-	//virtual void BeginPlay() override;
-
-	UWorld* World;
 
 	void Shoot() override;
 
