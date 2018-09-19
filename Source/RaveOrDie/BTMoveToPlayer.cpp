@@ -27,7 +27,6 @@ EBTNodeResult::Type UBTMoveToPlayer::ExecuteTask(UBehaviorTreeComponent & OwnerC
 			if (Distance < 800.0f){
 				return EBTNodeResult::Succeeded;
 			}
-			//At this point, the task has been successfully completed
 		
 		}
 

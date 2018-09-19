@@ -13,8 +13,8 @@ ARangedEnemigo::ARangedEnemigo() :Super() {
 	PrimaryActorTick.bCanEverTick = true;
 	/*PawnSensingComp = CreateDefaultSubobject<UPawnSensingComponent>(TEXT("PawnSensingComp"));
 	//Set the peripheral vision angle to 90 degrees
-	PawnSensingComp->SetPeripheralVisionAngle(30.f);
-	OnActorHit.AddDynamic(this, &ARangedEnemigo::OnHit);*/
+	PawnSensingComp->SetPeripheralVisionAngle(30.f);*/
+	OnActorHit.AddDynamic(this, &AEnemigo::OnHit);
 }
 
 

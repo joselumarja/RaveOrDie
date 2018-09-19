@@ -23,7 +23,7 @@ public:
 
 protected:
 
-	virtual void BeginPlay() override;
+	//virtual void BeginPlay() override;
 
 	UWorld* World;
 
