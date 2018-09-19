@@ -19,6 +19,3 @@ void USubject::Notify(UObject* Entity, EEvent Event)
 		Observer->OnNotify(Entity, Event);
 	}
 }
-
-
-

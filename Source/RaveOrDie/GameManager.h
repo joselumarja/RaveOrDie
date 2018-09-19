@@ -26,6 +26,8 @@ public:
 
 	TSubclassOf<class ABoss> MyBossBlueprint;
 
+	void InitializeEnemies();
+
 private:
 
 	void IncreaseEventCounter(EEvent Event);

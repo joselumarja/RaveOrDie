@@ -6,7 +6,6 @@
 #include "Engine/TriggerBox.h"
 #include "TriggerBox1.generated.h"
 
-class ASongManager;
 
 /**
  * 

@@ -16,21 +16,7 @@ UGameManager::UGameManager()
 	EventsCounter.Add(EEvent::EVENT_SHOT_ON_TARGET, 0);
 	EventsCounter.Add(EEvent::EVENT_KILL, 0);
 
-	static ConstructorHelpers::FObjectFinder<UBlueprint> ItemBlueprint(TEXT("Game/AI/Enemigo/BP_MeleeEnemigo.BP_MeleeEnemigo"));
-	if (ItemBlueprint.Object) {
-		MyMeleeBlueprint = (UClass*)ItemBlueprint.Object->GeneratedClass;
-	}
-
-	static ConstructorHelpers::FObjectFinder<UBlueprint> RangedItemBlueprint(TEXT("Game/AI/Enemigo/BP_RangedEnemigo.BP_RangedEnemigo"));
-	if (RangedItemBlueprint.Object) {
-		MyRangedBlueprint = (UClass*)RangedItemBlueprint.Object->GeneratedClass;
-	}
-
-
-	static ConstructorHelpers::FObjectFinder<UBlueprint> BossItemBlueprint(TEXT("Game/AI/FinaBoss/BP_Boss.BP_Boss"));
-	if (BossItemBlueprint.Object) {
-		MyBossBlueprint = (UClass*)BossItemBlueprint.Object->GeneratedClass;
-	}
+	InitializeEnemies();
 	
 }
 
@@ -109,4 +95,24 @@ FVector UGameManager::GetRandomLocation() const
 	x = FMath::RandRange(2900, 3000);
 	FVector RandomLocation(x, y, z);
 	return RandomLocation;
+}
+
+
+void UGameManager::InitializeEnemies() {
+	static ConstructorHelpers::FObjectFinder<UBlueprint> ItemBlueprint(TEXT("Blueprint'/Game/AI/Enemigo/BP_MeleeEnemigo.BP_MeleeEnemigo'"));
+	if (ItemBlueprint.Object) {
+		MyMeleeBlueprint = (UClass*)ItemBlueprint.Object->GeneratedClass;
+	}
+
+	static ConstructorHelpers::FObjectFinder<UBlueprint> RangedItemBlueprint(TEXT("Blueprint'/Game/AI/Enemigo/BP_RangedEnemigo.BP_RangedEnemigo'"));
+	if (RangedItemBlueprint.Object) {
+		MyRangedBlueprint = (UClass*)RangedItemBlueprint.Object->GeneratedClass;
+	}
+
+
+	static ConstructorHelpers::FObjectFinder<UBlueprint> BossItemBlueprint(TEXT("Blueprint'/Game/AI/FinaBoss/BP_Boss.BP_Boss'"));
+	if (BossItemBlueprint.Object) {
+		MyBossBlueprint = (UClass*)BossItemBlueprint.Object->GeneratedClass;
+	}
+
 }
