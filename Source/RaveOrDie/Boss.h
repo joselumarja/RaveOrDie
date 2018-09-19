@@ -6,9 +6,7 @@
 #include "Enemigo.h"
 #include "Boss.generated.h"
 
-/**
- * 
- */
+
 UCLASS()
 class RAVEORDIE_API ABoss : public AEnemigo
 {
@@ -18,8 +16,6 @@ class RAVEORDIE_API ABoss : public AEnemigo
 public:
 
 	ABoss();
-
-	~ABoss();
 
 	virtual void Tick(float DeltaTime) override;
 

@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
 #include "Runtime/Engine/Classes/Engine/Texture2D.h"
+#include "TimeStruct.h"
 #include "HUDManager.generated.h"
 
 class UUserWidget;
@@ -33,7 +34,7 @@ public:
 
 	void UpdateAmo(const uint32 &Amo);
 
-	void UpdateTime(const uint8 &Hours,const uint8 &Minutes,const uint8 &Seconds);
+	void UpdateTime(const FTimeStruct &Time);
 
 protected:
 	// Called when the game starts or when spawned

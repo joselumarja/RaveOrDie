@@ -17,13 +17,6 @@ ABoss::ABoss() :Super() {
 	OnActorHit.AddDynamic(this, &ABoss::OnHit);*/
 }
 
-ABoss::~ABoss() {
-	if (ManagerPtr.IsValid())
-	{
-		ManagerPtr.Get()->EnemyKilled();
-	}
-}
-
 
 void ABoss::BeginPlay()
 {
@@ -33,15 +26,6 @@ void ABoss::BeginPlay()
 	if (PawnSensingComp)
 	{
 		PawnSensingComp->OnSeePawn.AddDynamic(this, &AEnemigo::OnSeePlayer);
-	}
-
-	for (TActorIterator<ARODCharacter>ActorItr(GetWorld()); ActorItr; ++ActorItr)
-	{
-		if (FString(TEXT("RODCharacter_C_0")).Equals(ActorItr->GetName()))
-		{
-			//finding pawn
-			PlayerPawn = *ActorItr;
-		}
 	}
 
 }

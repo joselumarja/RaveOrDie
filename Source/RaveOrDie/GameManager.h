@@ -4,12 +4,13 @@
 
 #include "CoreMinimal.h"
 #include "UObject/NoExportTypes.h"
+#include "Observer.h"
 #include "GameManager.generated.h"
 
 class AEnemigo;
 
 UCLASS()
-class RAVEORDIE_API UGameManager : public UObject
+class RAVEORDIE_API UGameManager : public UObject, public IObserver
 {
 	GENERATED_BODY()
 	
@@ -17,11 +18,7 @@ public:
 
 	UGameManager();
 
-	void EnemyKilled();
-
-	FORCEINLINE void IncrementShots() { Shots++; }
-
-	FORCEINLINE void IncrementShotsOnTarget() { ShotsOnTarget++; }
+	void OnNotify(UObject* Entity, EEvent Event) override;
 
 	TSubclassOf<class AMeleeEnemigo> MyMeleeBlueprint;
 
@@ -30,6 +27,10 @@ public:
 	TSubclassOf<class ABoss> MyBossBlueprint;
 
 private:
+
+	void IncreaseEventCounter(EEvent Event);
+
+	TMap<EEvent, uint32> EventsCounter;
 
 	uint32 EnemiesKilled;
 

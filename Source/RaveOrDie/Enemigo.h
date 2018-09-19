@@ -6,7 +6,8 @@
 #include "GameFramework/Character.h"
 #include "Enemigo.generated.h"
 
-class UGameManager;
+class ARODCharacter;
+class USubject;
 
 UCLASS(Abstract)
 class RAVEORDIE_API AEnemigo : public ACharacter
@@ -22,11 +23,8 @@ public:
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
-
-	UPROPERTY()
-	TWeakObjectPtr<UGameManager> ManagerPtr;
 	
-	TWeakObjectPtr<ACharacter> PlayerPawn;
+	TWeakObjectPtr<ARODCharacter> PlayerPawn;
 
 	FTimerHandle TimerHandle_ShotTimerExpired; 
 	
@@ -53,25 +51,24 @@ protected:
 		float Damage = 100.f;
 
 	UFUNCTION()
-		virtual void OnHit(AActor* SelfActor, AActor* OtherActor, FVector NormalImpulse, const FHitResult& Hit);
+	virtual void OnHit(AActor* SelfActor, AActor* OtherActor, FVector NormalImpulse, const FHitResult& Hit);
+
+	TWeakObjectPtr<USubject> EnemySubject;
 
 
 public:
 
 	/*The Component which is used for the "seeing" sense of the AI*/
 	UPROPERTY(VisibleAnywhere, Category = "AI")
-		class UPawnSensingComponent* PawnSensingComp;
+	class UPawnSensingComponent* PawnSensingComp;
 
 	void ShotTimerExpired();
 
 	UPROPERTY(EditAnywhere, Category = "AI")
-		class UBehaviorTree* BehaviorTree;
+	class UBehaviorTree* BehaviorTree;
 
 	UFUNCTION()
-		void AddManager(UGameManager* Manager);
-
-	UFUNCTION()
-		virtual void OnSeePlayer(APawn* Pawn);
+	virtual void OnSeePlayer(APawn* Pawn);
 
 	void MoveToPlayer();
 

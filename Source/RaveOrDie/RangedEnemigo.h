@@ -6,9 +6,7 @@
 #include "Enemigo.h"
 #include "RangedEnemigo.generated.h"
 
-/**
- * 
- */
+
 UCLASS()
 class RAVEORDIE_API ARangedEnemigo : public AEnemigo
 {
@@ -17,8 +15,6 @@ class RAVEORDIE_API ARangedEnemigo : public AEnemigo
 
 public:
 	ARangedEnemigo();
-
-	~ARangedEnemigo();
 
 	virtual void Tick(float DeltaTime) override;
 

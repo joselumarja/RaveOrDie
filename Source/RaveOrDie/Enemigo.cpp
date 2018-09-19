@@ -8,6 +8,9 @@
 #include "GameManager.h"
 #include "Bullet.h"
 #include "RODCharacter.h"
+#include "Subject.h"
+#include "RODGameStateBase.h"
+#include "Evento.h"
 
 
 // Sets default values
@@ -25,10 +28,7 @@ AEnemigo::AEnemigo()
 
 AEnemigo::~AEnemigo()
 {
-	if (ManagerPtr.IsValid())
-	{
-		ManagerPtr.Get()->EnemyKilled();
-	}
+	EnemySubject->Notify(this, EEvent::EVENT_KILL);
 }
 
 // Called when the game starts or when spawned
@@ -37,19 +37,9 @@ void AEnemigo::BeginPlay()
 	Super::BeginPlay();
 	World = GetWorld();
 
-	if (PawnSensingComp)
-	{
-		PawnSensingComp->OnSeePawn.AddDynamic(this, &AEnemigo::OnSeePlayer);
-	}
-
-	for (TActorIterator<ARODCharacter>ActorItr(GetWorld()); ActorItr; ++ActorItr)
-	{
-		if (FString(TEXT("RODCharacter_C_0")).Equals(ActorItr->GetName()))
-		{
-			//finding pawn
-			PlayerPawn = *ActorItr;
-		}
-	}
+	EnemySubject = NewObject<USubject>();
+	EnemySubject->AddObserver(Cast<ARODGameStateBase>(UGameplayStatics::GetGameState(GetWorld()))->GetGameManager());
+	PlayerPawn = Cast<ARODCharacter>(UGameplayStatics::GetPlayerCharacter(GetWorld(),0));
 
 }
 
@@ -104,7 +94,7 @@ void AEnemigo::OnHit(AActor* SelfActor, AActor* OtherActor, FVector NormalImpuls
 			ABullet* Bullet = Cast<ABullet>(OtherActor);
 
 			UpdateLife(Bullet->GetDamage());
-			//ManagerPtr.Get()->IncrementShotsOnTarget();
+			EnemySubject->Notify(this, EEvent::EVENT_SHOT_ON_TARGET);
 			Bullet->Destroy();
 		}
 
@@ -120,16 +110,6 @@ void AEnemigo::UpdateLife(float Damage) {
 
 	}
 }
-
-void AEnemigo::AddManager(UGameManager* Manager)
-{
-
-	if (!ManagerPtr.IsValid())
-	{
-		ManagerPtr = Manager;
-	}
-}
-
 
 void AEnemigo::ShotTimerExpired(){
 	bCanFire = true;

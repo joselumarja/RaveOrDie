@@ -3,6 +3,7 @@
 #include "RaveOrDieGameModeBase.h"
 #include "RODPlayerController.h"
 #include "RODCharacter.h"
+#include "RODGameStateBase.h"
 #include "UObject/ConstructorHelpers.h"
 
 ARaveOrDieGameModeBase::ARaveOrDieGameModeBase()
@@ -16,6 +17,8 @@ ARaveOrDieGameModeBase::ARaveOrDieGameModeBase()
 	{
 		DefaultPawnClass = PlayerPawnBPClass.Class;
 	}
+
+	GameStateClass = ARODGameStateBase::StaticClass();
 }
 
 

@@ -8,10 +8,14 @@
 #include "MeleeEnemigo.h"
 #include "Runtime/Core/Public/Containers/Array.h"
 #include "Engine.h"
+#include "TimeStruct.h"
 
 UGameManager::UGameManager() 
 {
-	
+	EventsCounter.Add(EEvent::EVENT_SHOT, 0);
+	EventsCounter.Add(EEvent::EVENT_SHOT_ON_TARGET, 0);
+	EventsCounter.Add(EEvent::EVENT_KILL, 0);
+
 	static ConstructorHelpers::FObjectFinder<UBlueprint> ItemBlueprint(TEXT("Game/AI/Enemigo/BP_MeleeEnemigo.BP_MeleeEnemigo"));
 	if (ItemBlueprint.Object) {
 		MyMeleeBlueprint = (UClass*)ItemBlueprint.Object->GeneratedClass;
@@ -30,11 +34,6 @@ UGameManager::UGameManager()
 	
 }
 
-void UGameManager::EnemyKilled()
-{
-	EnemiesKilled++;
-}
-
 void UGameManager::ResetStatistics()
 {
 
@@ -42,7 +41,8 @@ void UGameManager::ResetStatistics()
 
 void UGameManager::GameOver()
 {
-
+	FTimeStruct PlayTime = Cast<ARODCharacter>(UGameplayStatics::GetPlayerCharacter(GetWorld(), 0))->GetPlayTime();
+	
 }
 
 
@@ -66,7 +66,32 @@ void UGameManager::SpawnEnemies(int Enemies) {
 	
 }
 
+void UGameManager::OnNotify(UObject* Entity, EEvent Event)
+{
+	switch (Event)
+	{
+		case EEvent::EVENT_DEAD:
 
+			break;
+
+		case EEvent::EVENT_FINISH:
+
+			break;
+
+		default:
+			IncreaseEventCounter(Event);
+			break;
+	}
+}
+
+void UGameManager::IncreaseEventCounter(EEvent Event)
+{
+	// We need to keep a counter of the number of events that have arriven,
+	// in order to unlock the appropriate achievements.
+	// But we do not need to increase EVERY event; just the ones related to
+	// the achievements.
+	EventsCounter.Add(Event, ++EventsCounter[Event]);
+}
 
 int32 UGameManager::GetRandomEnemyClass() const
 {

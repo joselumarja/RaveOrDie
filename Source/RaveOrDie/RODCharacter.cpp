@@ -12,9 +12,11 @@
 #include "Engine.h"
 #include "Engine/World.h"
 #include "HUDManager.h"
-#include "GameManager.h"
 #include "RODPlayerController.h"
 #include "RODGameStateBase.h"
+#include "Subject.h"
+#include "GameManager.h"
+#include "Evento.h"
 
 // Sets default values
 ARODCharacter::ARODCharacter()
@@ -59,9 +61,7 @@ ARODCharacter::ARODCharacter()
 	bDead = false;
 	bCanDistanceAttack = true;
 
-	Seconds = 0;
-	Minutes = 0;
-	Hours = 0;
+	Time = FTimeStruct();
 
 	LIFE=MAXLIFE = 100.f;
 
@@ -72,7 +72,9 @@ void ARODCharacter::BeginPlay()
 {
 	Super::BeginPlay();
 	
-	Manager = Cast<ARODGameStateBase>(UGameplayStatics::GetGameState(GetWorld()))->GetGameManager();
+	RODCharacterSubject = NewObject<USubject>();
+	RODCharacterSubject->AddObserver(Cast<ARODGameStateBase>(UGameplayStatics::GetGameState(GetWorld()))->GetGameManager());
+
 	GetWorld()->GetTimerManager().SetTimer(ClockTimer, this, &ARODCharacter::Clock, 1.0f);
 	HUDManager=GetWorld()->SpawnActor<AHUDManager>();
 	InitializeHUDValues();
@@ -104,7 +106,7 @@ void ARODCharacter::Tick(float DeltaTime)
 
 void ARODCharacter::InitializeHUDValues()
 {
-	HUDManager->UpdateTime(Hours, Minutes, Seconds);
+	HUDManager->UpdateTime(Time);
 	HUDManager->FinishBossFight();
 	HUDManager->UpdateLife(MAXLIFE, LIFE);
 	HUDManager->TurnToMelee();
@@ -145,19 +147,24 @@ void ARODCharacter::SetInactivity()
 
 void ARODCharacter::Clock()
 {
-	if (++Seconds >= 60)
+	
+	UpdateTime(&Time);
+	HUDManager->UpdateTime(Time);
+	GetWorld()->GetTimerManager().SetTimer(ClockTimer, this, &ARODCharacter::Clock, 1.0f);
+}
+
+void ARODCharacter::UpdateTime(FTimeStruct* Time)
+{
+	if (++(Time->Seconds) >= 60)
 	{
-		Seconds = 0;
-		
-		if (++Minutes >= 60)
+		Time->Seconds = 0;
+
+		if (++(Time->Minutes) >= 60)
 		{
-			Minutes = 0;
-			Hours++;
+			Time->Minutes = 0;
+			Time->Hours++;
 		}
 	}
-
-	HUDManager->UpdateTime(Hours, Minutes, Seconds);
-	GetWorld()->GetTimerManager().SetTimer(ClockTimer, this, &ARODCharacter::Clock, 1.0f);
 }
 
 void ARODCharacter::Attack()
@@ -189,6 +196,11 @@ void ARODCharacter::SwapWeapon()
 	}
 }
 
+FTimeStruct ARODCharacter::GetPlayTime() const
+{
+	return Time;
+}
+
 float ARODCharacter::GetMeleeDamage() const
 {
 	return 0.f;
@@ -204,7 +216,8 @@ void ARODCharacter::MeleeAttack()
 void ARODCharacter::DistanceAttack()
 {
 	World->GetTimerManager().SetTimer(ShotingTimer, this, &ARODCharacter::FinishDistanceAttack, 0.5f);
-	Manager->IncrementShots();
+	
+	RODCharacterSubject->Notify(this, EEvent::EVENT_SHOT);
 
 }
 

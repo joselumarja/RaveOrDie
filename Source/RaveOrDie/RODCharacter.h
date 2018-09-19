@@ -5,10 +5,11 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
 #include "TimerManager.h"
+#include "TimeStruct.h"
 #include "RODCharacter.generated.h"
 
 class AHUDManager;
-class UGameManager;
+class USubject;
 
 UCLASS(Blueprintable)
 class RAVEORDIE_API ARODCharacter : public ACharacter
@@ -38,6 +39,8 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 	FORCEINLINE bool GetIsGunEquipped() const { return GunEquipped; }
+
+	FTimeStruct GetPlayTime() const;
 
 	float GetMeleeDamage() const;
 
@@ -78,9 +81,6 @@ private:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
 		class USpringArmComponent* CameraBoom;
 
-	UPROPERTY()
-	TWeakObjectPtr<UGameManager> Manager;
-
 	UFUNCTION()
 	void OnHit(AActor* SelfActor, AActor* OtherActor, FVector NormalImpulse, const FHitResult& Hit);
 
@@ -94,6 +94,10 @@ private:
 	void DistanceAttack();
 
 	void InitializeHUDValues();
+
+	void UpdateTime(FTimeStruct* TimeToUpdate);
+
+	TWeakObjectPtr<USubject> RODCharacterSubject;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Stats", meta = (AllowPrivateAccess = "true"))
 	bool bCanDistanceAttack;
@@ -124,11 +128,7 @@ private:
 
 	float LIFE;
 
-	uint8 Seconds;
-
-	uint8 Minutes;
-
-	uint8 Hours;
+	FTimeStruct Time;
 
 	TWeakObjectPtr<AHUDManager> HUDManager;
 

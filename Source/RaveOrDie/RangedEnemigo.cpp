@@ -17,13 +17,6 @@ ARangedEnemigo::ARangedEnemigo() :Super() {
 	OnActorHit.AddDynamic(this, &ARangedEnemigo::OnHit);*/
 }
 
-ARangedEnemigo::~ARangedEnemigo() {
-	if (ManagerPtr.IsValid())
-	{
-		ManagerPtr.Get()->EnemyKilled();
-	}
-}
-
 
 void ARangedEnemigo::BeginPlay()
 {
@@ -33,15 +26,6 @@ void ARangedEnemigo::BeginPlay()
 	if (PawnSensingComp)
 	{
 		PawnSensingComp->OnSeePawn.AddDynamic(this, &AEnemigo::OnSeePlayer);
-	}
-
-	for (TActorIterator<ARODCharacter>ActorItr(GetWorld()); ActorItr; ++ActorItr)
-	{
-		if (FString(TEXT("RODCharacter_C_0")).Equals(ActorItr->GetName()))
-		{
-			//finding pawn
-			PlayerPawn = *ActorItr;
-		}
 	}
 
 }

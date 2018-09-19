@@ -17,13 +17,6 @@ AMeleeEnemigo::AMeleeEnemigo() :Super() {
 	OnActorHit.AddDynamic(this, &AMeleeEnemigo::OnHit);*/
 }
 
-AMeleeEnemigo::~AMeleeEnemigo() {
-	if (ManagerPtr.IsValid())
-	{
-		ManagerPtr.Get()->EnemyKilled();
-	}
-}
-
 
 void AMeleeEnemigo::BeginPlay()
 {
@@ -35,14 +28,6 @@ void AMeleeEnemigo::BeginPlay()
 		PawnSensingComp->OnSeePawn.AddDynamic(this, &AEnemigo::OnSeePlayer);
 	}
 
-	for (TActorIterator<ARODCharacter>ActorItr(GetWorld()); ActorItr; ++ActorItr)
-	{
-		if (FString(TEXT("RODCharacter_C_0")).Equals(ActorItr->GetName()))
-		{
-			//finding pawn
-			PlayerPawn = *ActorItr;
-		}
-	}
 
 }
 
