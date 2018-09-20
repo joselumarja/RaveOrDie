@@ -30,5 +30,5 @@ public:
 	UFUNCTION()
 		void OnOverlapEnd(AActor* OverlappedActor, AActor* OtherActor);
 	
-	
+	UGameManager GameManager;
 };

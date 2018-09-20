@@ -15,6 +15,7 @@ ABoss::ABoss() :Super() {
 	//Set the peripheral vision angle to 90 degrees
 	PawnSensingComp->SetPeripheralVisionAngle(30.f);
 	OnActorHit.AddDynamic(this, &ABoss::OnHit);*/
+	Health = 200.0f;
 }
 
 

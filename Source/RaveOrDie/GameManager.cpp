@@ -33,7 +33,7 @@ void UGameManager::GameOver()
 
 
 
-void UGameManager::SpawnEnemies(int Enemies) {
+void UGameManager::SpawnEnemies(int Enemies, FVector Position) {
 	int32 aux;
 	for (int i = 0; i < Enemies; i++) {
 		FVector EnemySpawnLocation = GetRandomLocation();

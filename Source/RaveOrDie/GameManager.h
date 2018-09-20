@@ -60,7 +60,7 @@ private:
 
 	FVector GetRandomLocation() const;
 
-	void SpawnEnemies(int Enemies);
+	void SpawnEnemies(int Enemies, FVector Position);
 
 	int32 GetRandomEnemyClass() const;
 
