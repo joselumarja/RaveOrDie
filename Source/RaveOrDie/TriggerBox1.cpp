@@ -2,6 +2,7 @@
 
 #include "TriggerBox1.h"
 #include "Engine.h"
+#include "GameManager.h"
 
 void ATriggerBox1::BeginPlay() {
 	Super::BeginPlay();
@@ -15,7 +16,7 @@ ATriggerBox1::ATriggerBox1() {
 
 	OnActorEndOverlap.AddDynamic(this, &ATriggerBox1::OnOverlapEnd);
 
-
+	GameManager.SpawnEnemies();
 }
 
 
@@ -23,11 +24,7 @@ ATriggerBox1::ATriggerBox1() {
 void ATriggerBox1::OnOverlapBegin(AActor* OverlappedActor, AActor* OtherActor) {
 	GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, TEXT("Dentro caja"));
 	
-	/*FVector RandomLocation(1500.f, 1000.f, 108.f);
-	FRotator Rotation(0.0f, 180.0f, 0.0f);
-
-	//AEnemigo* DroppedItem = GetWorld()->SpawnActor<AEnemigo>(MyItemBlueprint, RandomLocation, Rotation);
-	AFinalBoss* DroppedItem = GetWorld()->SpawnActor<AFinalBoss>(MyBossBlueprint, RandomLocation, Rotation);*/
+	
 
 
 	

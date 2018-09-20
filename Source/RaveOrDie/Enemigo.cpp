@@ -20,8 +20,8 @@ AEnemigo::AEnemigo()
 	PrimaryActorTick.bCanEverTick = true;
 	PawnSensingComp = CreateDefaultSubobject<UPawnSensingComponent>(TEXT("PawnSensingComp"));
 	//Set the peripheral vision angle to 90 degrees
-	PawnSensingComp->SetPeripheralVisionAngle(30.f);
-	
+	PawnSensingComp->SetPeripheralVisionAngle(90.f);
+	Health = 100.0f;
 
 }
 

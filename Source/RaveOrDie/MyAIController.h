@@ -35,4 +35,5 @@ public:
 	//Sets the sensed target in the blackboard
 	void SetSeenTarget(APawn* Pawn);
 
+
 };

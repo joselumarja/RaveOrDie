@@ -28,6 +28,7 @@ void AMyAIController::Possess(APawn* Pawn)
 		if (BlackboardComp)
 		{
 			BlackboardComp->SetValueAsObject("SelfActor", Pawn);
+
 		}
 	}
 }
@@ -40,5 +41,7 @@ void AMyAIController::SetSeenTarget(APawn* Pawn)
 		BlackboardComp->SetValueAsObject(BlackboardKey, Pawn);
 	}
 }
+
+
 
 

@@ -43,10 +43,10 @@ protected:
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Stats")
-		float Health = 100.f;
+		float Health;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Stats")
-		float Damage = 100.f;
+	//UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Stats")
+		//float Damage = 100.f;
 
 	TWeakObjectPtr<USubject> EnemySubject;
 
