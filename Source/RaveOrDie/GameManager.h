@@ -28,6 +28,8 @@ public:
 
 	void InitializeEnemies();
 
+	void SpawnEnemies(int Enemies, FVector Position);
+
 private:
 
 	void ObjectiveAccomplished();
@@ -62,7 +64,7 @@ private:
 
 	FVector GetRandomLocation() const;
 
-	void SpawnEnemies(int Enemies, FVector Position);
+	
 
 	int32 GetRandomEnemyClass() const;
 
