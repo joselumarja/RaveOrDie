@@ -88,6 +88,8 @@ void ARODCharacter::BeginPlay()
 	RODCharacterSubject = NewObject<USubject>();
 	RODCharacterSubject->AddObserver(Cast<ARODGameStateBase>(UGameplayStatics::GetGameState(GetWorld()))->GetGameManager());
 
+	FP_Gun->SetVisibility(false);
+
 	GetWorld()->GetTimerManager().SetTimer(ClockTimer, this, &ARODCharacter::Clock, 1.0f);
 	HUDManager=GetWorld()->SpawnActor<AHUDManager>();
 	InitializeHUDValues();
@@ -160,7 +162,6 @@ void ARODCharacter::SetInactivity()
 
 void ARODCharacter::Clock()
 {
-	
 	UpdateTime(&Time);
 	HUDManager->UpdateTime(Time);
 	GetWorld()->GetTimerManager().SetTimer(ClockTimer, this, &ARODCharacter::Clock, 1.0f);
@@ -202,11 +203,12 @@ void ARODCharacter::SwapWeapon()
 	if (GunEquipped)
 	{
 		HUDManager->TurnToGun();
-		
+		FP_Gun->SetVisibility(true);
 	}
 	else
 	{
 		HUDManager->TurnToMelee();
+		FP_Gun->SetVisibility(false);
 	}
 }
 

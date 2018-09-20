@@ -27,8 +27,15 @@ void UGameManager::ResetStatistics()
 
 void UGameManager::GameOver()
 {
-	FTimeStruct PlayTime = Cast<ARODCharacter>(UGameplayStatics::GetPlayerCharacter(GetWorld(), 0))->GetPlayTime();
 	
+	
+}
+
+void UGameManager::ObjectiveAccomplished()
+{
+	FTimeStruct PlayTime = Cast<ARODCharacter>(UGameplayStatics::GetPlayerCharacter(GetWorld(), 0))->GetPlayTime();
+
+	GameOver();
 }
 
 
