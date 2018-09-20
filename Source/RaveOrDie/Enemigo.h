@@ -18,8 +18,6 @@ public:
 	// Sets default values for this character's properties
 	AEnemigo();
 
-	~AEnemigo();
-
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;

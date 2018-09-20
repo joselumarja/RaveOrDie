@@ -25,11 +25,6 @@ AEnemigo::AEnemigo()
 
 }
 
-AEnemigo::~AEnemigo()
-{
-	EnemySubject->Notify(this, EEvent::EVENT_KILL);
-}
-
 // Called when the game starts or when spawned
 void AEnemigo::BeginPlay()
 {
@@ -105,6 +100,7 @@ void AEnemigo::UpdateLife(float Damage) {
 
 	if (Health <= 0) {
 
+		EnemySubject->Notify(this, EEvent::EVENT_KILL);
 		Destroy();
 
 	}
