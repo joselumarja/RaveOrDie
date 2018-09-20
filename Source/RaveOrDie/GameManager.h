@@ -30,6 +30,8 @@ public:
 
 private:
 
+	void ObjectiveAccomplished();
+
 	void IncreaseEventCounter(EEvent Event);
 
 	TMap<EEvent, uint32> EventsCounter;
