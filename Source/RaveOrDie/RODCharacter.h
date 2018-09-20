@@ -81,8 +81,10 @@ private:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
 		class USpringArmComponent* CameraBoom;
 
-	UPROPERTY(VisibleAnywhere, Category = Mesh)
+	UPROPERTY(EditAnywhere,BlueprintReadOnly, Category = Mesh, meta = (AllowPrivateAccess = "true"))
 		class USkeletalMeshComponent* FP_Gun;
+
+	FVector GunOffset;
 
 	UFUNCTION()
 	void OnHit(AActor* SelfActor, AActor* OtherActor, FVector NormalImpulse, const FHitResult& Hit);

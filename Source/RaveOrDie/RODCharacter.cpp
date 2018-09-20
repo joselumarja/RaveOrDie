@@ -45,6 +45,18 @@ ARODCharacter::ARODCharacter()
 	CameraBoom->RelativeRotation = FRotator(-60.f, 0.f, 0.f);
 	CameraBoom->bDoCollisionTest = false; // Don't want to pull camera in when it collides with level
 
+	// Create a gun mesh component
+	FP_Gun = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("FP_Gun"));
+	FP_Gun->SetOnlyOwnerSee(true);			// only the owning player will see this mesh
+	FP_Gun->bCastDynamicShadow = false;
+	FP_Gun->CastShadow = false;
+	FP_Gun->SetupAttachment(RootComponent);
+	FP_Gun->SetRelativeLocation(FVector(40.f, 10.f, 50.f));
+	FP_Gun->SetRelativeRotation(FRotator(0.f, 0.f, -90.f));
+
+	// Default offset from the character location for projectiles to spawn
+	GunOffset = FVector(120.0f, 0.0f, 50.0f);
+
 	OnActorHit.AddDynamic(this, &ARODCharacter::OnHit);
 										  // Create a camera...
 	TopDownCameraComponent = CreateDefaultSubobject<UCameraComponent>(TEXT("TopDownCamera"));
@@ -190,6 +202,7 @@ void ARODCharacter::SwapWeapon()
 	if (GunEquipped)
 	{
 		HUDManager->TurnToGun();
+		
 	}
 	else
 	{

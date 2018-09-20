@@ -6,10 +6,8 @@
 #include "Engine/TriggerBox.h"
 #include "TriggerBox1.generated.h"
 
+class UGameManager;
 
-/**
- * 
- */
 UCLASS()
 class RAVEORDIE_API ATriggerBox1 : public ATriggerBox
 {
@@ -29,6 +27,7 @@ public:
 
 	UFUNCTION()
 		void OnOverlapEnd(AActor* OverlappedActor, AActor* OtherActor);
-	
-	UGameManager GameManager;
+private:
+
+	TWeakObjectPtr<UGameManager> GameManager;
 };

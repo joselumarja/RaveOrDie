@@ -3,9 +3,13 @@
 #include "TriggerBox1.h"
 #include "Engine.h"
 #include "GameManager.h"
+#include "RODGameStateBase.h"
 
-void ATriggerBox1::BeginPlay() {
+void ATriggerBox1::BeginPlay() 
+{
 	Super::BeginPlay();
+
+	GameManager = Cast<ARODGameStateBase>(UGameplayStatics::GetGameState(GetWorld()))->GetGameManager();
 
 	
 }
@@ -16,7 +20,6 @@ ATriggerBox1::ATriggerBox1() {
 
 	OnActorEndOverlap.AddDynamic(this, &ATriggerBox1::OnOverlapEnd);
 
-	GameManager.SpawnEnemies();
 }
 
 
