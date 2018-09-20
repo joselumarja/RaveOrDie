@@ -20,6 +20,7 @@ ATriggerBox1::ATriggerBox1() {
 
 	OnActorEndOverlap.AddDynamic(this, &ATriggerBox1::OnOverlapEnd);
 
+
 }
 
 
@@ -28,10 +29,14 @@ void ATriggerBox1::OnOverlapBegin(AActor* OverlappedActor, AActor* OtherActor) {
 	GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, TEXT("Dentro caja"));
 	
 	
+	int NumberEnemies = FMath::RandRange(1, 10);
 
+	//Spawn enemigos
 
 	
 }
+
+
 void ATriggerBox1::OnOverlapEnd(AActor* OverlappedActor, AActor* OtherActor) {
 	GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Black, TEXT("Fuera caja"));
 
