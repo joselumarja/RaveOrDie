@@ -4,13 +4,15 @@
 #include "Engine.h"
 #include "GameManager.h"
 #include "RODGameStateBase.h"
+#include "Subject.h"
+#include "Evento.h"
 
 void ATriggerBoxMeta::BeginPlay()
 {
 	Super::BeginPlay();
 
-	GameManager = Cast<ARODGameStateBase>(UGameplayStatics::GetGameState(GetWorld()))->GetGameManager();
-
+	MetaTriggerBoxSubject=NewObject<USubject>();
+	MetaTriggerBoxSubject->AddObserver(Cast<ARODGameStateBase>(UGameplayStatics::GetGameState(GetWorld()))->GetGameManager());
 
 }
 
@@ -30,6 +32,7 @@ void ATriggerBoxMeta::OnOverlapBegin(AActor* OverlappedActor, AActor* OtherActor
 	GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, TEXT("Dentro caja"));
 
 
+	MetaTriggerBoxSubject->Notify(this, EEvent::EVENT_FINISH);
 	// FIN DEL JUEGO
 
 
