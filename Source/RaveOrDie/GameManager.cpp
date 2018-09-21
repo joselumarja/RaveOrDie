@@ -9,6 +9,7 @@
 #include "Runtime/Core/Public/Containers/Array.h"
 #include "Engine.h"
 #include "TimeStruct.h"
+#include "MySaveGame.h"
 
 UGameManager::UGameManager() 
 {
@@ -43,7 +44,7 @@ void UGameManager::ObjectiveAccomplished()
 	FText Name = FText::FromString(FDateTime::Now().ToString());
 	SaveGameInstance->UpdateRecords((int32)EnemiesKilled, Name, (int32)Score);
 	UGameplayStatics::SaveGameToSlot(SaveGameInstance, SaveGameInstance->SaveSlotName, SaveGameInstance->UserIndex);
-	UGameplayStatics::OpenLevel(GetWorld(), TEXT("/Game/TwinStickCPP/Maps/GameOverMap.GameOverMap"), TRAVEL_Absolute);
+	//UGameplayStatics::OpenLevel(GetWorld(), TEXT("/Game/TwinStickCPP/Maps/GameOverMap.GameOverMap"), TRAVEL_Absolute);
 	GameOver();
 }
 
