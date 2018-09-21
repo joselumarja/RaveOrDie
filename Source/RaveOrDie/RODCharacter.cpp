@@ -17,6 +17,7 @@
 #include "Subject.h"
 #include "GameManager.h"
 #include "Evento.h"
+#include "Bullet.h"
 
 
 // Sets default values
@@ -55,7 +56,7 @@ ARODCharacter::ARODCharacter()
 	FP_Gun->SetRelativeRotation(FRotator(0.f, 0.f, -90.f));
 
 	// Default offset from the character location for projectiles to spawn
-	GunOffset = FVector(120.0f, 0.0f, 50.0f);
+	GunOffset = FVector(130.0f, 0.0f, 50.0f);
 
 	OnActorHit.AddDynamic(this, &ARODCharacter::OnHit);
 										  // Create a camera...
@@ -219,7 +220,7 @@ FTimeStruct ARODCharacter::GetPlayTime() const
 
 float ARODCharacter::GetMeleeDamage() const
 {
-	return 0.f;
+	return MeleeDamage;
 }
 
 void ARODCharacter::MeleeAttack()
@@ -233,6 +234,9 @@ void ARODCharacter::DistanceAttack()
 {
 	World->GetTimerManager().SetTimer(ShotingTimer, this, &ARODCharacter::FinishDistanceAttack, 0.5f);
 	
+	const FRotator SpawnRotation = GetActorRotation();
+	const FVector SpawnLocation =  GetActorLocation() + SpawnRotation.RotateVector(GunOffset);
+	GetWorld()->SpawnActor<ABullet>(SpawnLocation, SpawnRotation);
 	RODCharacterSubject->Notify(this, EEvent::EVENT_SHOT);
 
 }

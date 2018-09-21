@@ -74,15 +74,14 @@ void AEnemigo::OnHit(AActor* SelfActor, AActor* OtherActor, FVector NormalImpuls
 	{
 
 		ARODCharacter* RODCharacter = Cast<ARODCharacter>(OtherActor);
-
+		
 		if (RODCharacter != NULL && RODCharacter->IsInMeleeAttack())
 		{
 			UpdateLife(RODCharacter->GetMeleeDamage());
 			GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, FString::Printf(TEXT("Enemigo golpeado! %f"), Health));
-
-			return;
+			
 		}
-
+		
 		if (OtherActor->IsA(ABullet::StaticClass()))
 		{
 			ABullet* Bullet = Cast<ABullet>(OtherActor);
@@ -91,7 +90,7 @@ void AEnemigo::OnHit(AActor* SelfActor, AActor* OtherActor, FVector NormalImpuls
 			EnemySubject->Notify(this, EEvent::EVENT_SHOT_ON_TARGET);
 			Bullet->Destroy();
 		}
-
+		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, FString::Printf(TEXT("Enemigo golpeado!")));
 	}
 }
 
@@ -107,7 +106,7 @@ void AEnemigo::UpdateLife(float Damage) {
 }
 
 void AEnemigo::ShotTimerExpired(){
-	bCanFire = true;
+//	bCanFire = true;
 }
 
 

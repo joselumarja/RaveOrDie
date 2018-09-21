@@ -5,12 +5,11 @@
 #include "GameManager.h"
 #include "RODGameStateBase.h"
 
-void ATriggerBox1::BeginPlay() 
+void ATriggerBox1::BeginPlay()
 {
 	Super::BeginPlay();
 
 	GameManager = Cast<ARODGameStateBase>(UGameplayStatics::GetGameState(GetWorld()))->GetGameManager();
-
 	
 }
 
@@ -20,6 +19,7 @@ ATriggerBox1::ATriggerBox1() {
 
 	OnActorEndOverlap.AddDynamic(this, &ATriggerBox1::OnOverlapEnd);
 
+
 }
 
 
@@ -28,10 +28,14 @@ void ATriggerBox1::OnOverlapBegin(AActor* OverlappedActor, AActor* OtherActor) {
 	GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, TEXT("Dentro caja"));
 	
 	
+	int NumberEnemies = FMath::RandRange(1, 10);
 
-
+	//Spawn enemigos
+	//GameManager->SpawnEnemies(NumberEnemies, SpawnPosition);
 	
 }
+
+
 void ATriggerBox1::OnOverlapEnd(AActor* OverlappedActor, AActor* OtherActor) {
 	GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Black, TEXT("Fuera caja"));
 

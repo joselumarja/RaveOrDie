@@ -42,6 +42,7 @@ public:
 
 	FTimeStruct GetPlayTime() const;
 
+	UFUNCTION(BlueprintCallable)
 	float GetMeleeDamage() const;
 
 	void Attack();
@@ -93,6 +94,8 @@ private:
 	bool bReloading;
 	
 	bool bInvulnerability = false;
+
+	float MeleeDamage = 50.f;
 
 	void MeleeAttack();
 

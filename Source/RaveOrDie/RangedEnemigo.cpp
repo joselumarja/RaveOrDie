@@ -11,9 +11,6 @@
 
 ARangedEnemigo::ARangedEnemigo() :Super() {
 	PrimaryActorTick.bCanEverTick = true;
-	/*PawnSensingComp = CreateDefaultSubobject<UPawnSensingComponent>(TEXT("PawnSensingComp"));
-	//Set the peripheral vision angle to 90 degrees
-	PawnSensingComp->SetPeripheralVisionAngle(30.f);*/
 	OnActorHit.AddDynamic(this, &AEnemigo::OnHit);
 }
 
@@ -36,16 +33,12 @@ void ARangedEnemigo::Tick(float DeltaTime)
 }
 
 void ARangedEnemigo::Shoot() {
-	if (bCanFire) {
-		bCanFire = false;
+	
 		FVector EnemyLocation = GetActorLocation();
 		FVector PlayerLocation = PlayerPawn->GetActorLocation();
 		FVector DirectionVector = FVector(PlayerLocation.X - EnemyLocation.X, PlayerLocation.Y - EnemyLocation.Y, .0f).GetSafeNormal();
 		FRotator Rotation = DirectionVector.Rotation();
 		EnemyLocation = EnemyLocation + (DirectionVector * 100);
 		World->SpawnActor<ABullet>(EnemyLocation, Rotation);
-		//UGameplayStatics::PlaySoundAtLocation(this, FireSound, GetActorLocation());
 
-		World->GetTimerManager().SetTimer(TimerHandle_ShotTimerExpired, this, &AEnemigo::ShotTimerExpired, 0.4f);
-	}
 }

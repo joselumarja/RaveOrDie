@@ -9,6 +9,7 @@
 #include "Runtime/Core/Public/Containers/Array.h"
 #include "Engine.h"
 #include "TimeStruct.h"
+#include "MySaveGame.h"
 
 UGameManager::UGameManager() 
 {
@@ -27,7 +28,7 @@ void UGameManager::ResetStatistics()
 
 void UGameManager::GameOver()
 {
-	
+	UGameplayStatics::OpenLevel(GetWorld(), TEXT("/Game/Maps/MainMenu.MainMenu"), TRAVEL_Absolute);
 	
 }
 
@@ -35,6 +36,16 @@ void UGameManager::ObjectiveAccomplished()
 {
 	FTimeStruct PlayTime = Cast<ARODCharacter>(UGameplayStatics::GetPlayerCharacter(GetWorld(), 0))->GetPlayTime();
 
+	UMySaveGame* SaveGameInstance = Cast<UMySaveGame>(UGameplayStatics::CreateSaveGameObject(UMySaveGame::StaticClass()));
+	UMySaveGame* CheckSaveGameInstance = Cast<UMySaveGame>(UGameplayStatics::LoadGameFromSlot(SaveGameInstance->SaveSlotName, SaveGameInstance->UserIndex));
+	if (CheckSaveGameInstance != NULL)
+	{
+		SaveGameInstance = CheckSaveGameInstance;
+	}
+	FText Name = FText::FromString(FDateTime::Now().ToString());
+	float Accuracy = ((float) EventsCounter[EEvent::EVENT_SHOT_ON_TARGET]) / ((float) EventsCounter[EEvent::EVENT_SHOT]);
+	SaveGameInstance->UpdateRecords(Name, EventsCounter[EEvent::EVENT_KILL], Accuracy, PlayTime);
+	UGameplayStatics::SaveGameToSlot(SaveGameInstance, SaveGameInstance->SaveSlotName, SaveGameInstance->UserIndex);
 	GameOver();
 }
 
@@ -53,7 +64,10 @@ void UGameManager::SpawnEnemies(int Enemies, FVector Position) {
 		else if (aux == 1) {
 			ARangedEnemigo* DroppedItem2 = GetWorld()->SpawnActor<ARangedEnemigo>(MyRangedBlueprint, EnemySpawnLocation, Rotation);
 		}
+		else if (aux == 3) {
+			ABoss* DroppedItem3 = GetWorld()->SpawnActor<ABoss>(MyBossBlueprint, EnemySpawnLocation, Rotation);
 
+		}
 		EnemiesAlived++;
 	}
 	
@@ -64,11 +78,11 @@ void UGameManager::OnNotify(UObject* Entity, EEvent Event)
 	switch (Event)
 	{
 		case EEvent::EVENT_DEAD:
-
+			GameOver();
 			break;
 
 		case EEvent::EVENT_FINISH:
-
+			ObjectiveAccomplished();
 			break;
 
 		default:
@@ -88,7 +102,7 @@ void UGameManager::IncreaseEventCounter(EEvent Event)
 
 int32 UGameManager::GetRandomEnemyClass() const
 {
-	return FMath::RandRange(0, 2);
+	return FMath::RandRange(1, 3);
 }
 
 // Gets a random place to spawn an enemy
@@ -106,12 +120,12 @@ FVector UGameManager::GetRandomLocation() const
 
 
 void UGameManager::InitializeEnemies() {
-	static ConstructorHelpers::FObjectFinder<UBlueprint> ItemBlueprint(TEXT("Blueprint'/Game/AI/Enemigo/BP_MeleeEnemigo.BP_MeleeEnemigo'"));
+	static ConstructorHelpers::FObjectFinder<UBlueprint> ItemBlueprint(TEXT("Blueprint'/Game/AI/ZombieBoy/BP_MeleeEnemigo.BP_MeleeEnemigo'"));
 	if (ItemBlueprint.Object) {
 		MyMeleeBlueprint = (UClass*)ItemBlueprint.Object->GeneratedClass;
 	}
 
-	static ConstructorHelpers::FObjectFinder<UBlueprint> RangedItemBlueprint(TEXT("Blueprint'/Game/AI/Enemigo/BP_RangedEnemigo.BP_RangedEnemigo'"));
+	static ConstructorHelpers::FObjectFinder<UBlueprint> RangedItemBlueprint(TEXT("Blueprint'/Game/AI/ZombieGirl/BP_RangedEnemigo.BP_RangedEnemigo'"));
 	if (RangedItemBlueprint.Object) {
 		MyRangedBlueprint = (UClass*)RangedItemBlueprint.Object->GeneratedClass;
 	}
