@@ -6,7 +6,7 @@
 #include "BehaviorTree/BehaviorTree.h"
 #include "Perception/PawnSensingComponent.h"
 #include "GameManager.h"
-#include "Bullet.h"
+#include "EnemyBullet.h"
 #include "RODCharacter.h"
 
 ABoss::ABoss() :Super() {
@@ -40,16 +40,16 @@ void ABoss::Shoot() {
 
 		FRotator Rotation = DirectionVector.Rotation().Add(0.0f, 15.0f, 0.0f);
 		EnemyLocation = EnemyLocation + (DirectionVector * 100);
-		World->SpawnActor<ABullet>(EnemyLocation, Rotation);
+		World->SpawnActor<AEnemyBullet>(EnemyLocation, Rotation);
 
 		Rotation = DirectionVector.Rotation();
 		EnemyLocation = EnemyLocation + (DirectionVector * 100);
-		World->SpawnActor<ABullet>(EnemyLocation, Rotation);
+		World->SpawnActor<AEnemyBullet>(EnemyLocation, Rotation);
 
 		DirectionVector = FVector(PlayerLocation.X - EnemyLocation.X, PlayerLocation.Y - EnemyLocation.Y, .0f).GetSafeNormal();
 		Rotation = DirectionVector.Rotation().Add(0.0f, -15.0f, 0.0f);
 		EnemyLocation = EnemyLocation + (DirectionVector * 100);
-		World->SpawnActor<ABullet>(EnemyLocation, Rotation);
+		World->SpawnActor<AEnemyBullet>(EnemyLocation, Rotation);
 		//UGameplayStatics::PlaySoundAtLocation(this, FireSound, GetActorLocation());
 
 		

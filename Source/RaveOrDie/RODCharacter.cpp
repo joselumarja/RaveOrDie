@@ -18,6 +18,7 @@
 #include "GameManager.h"
 #include "Evento.h"
 #include "Bullet.h"
+#include "PlayerBullet.h"
 
 
 // Sets default values
@@ -236,7 +237,7 @@ void ARODCharacter::DistanceAttack()
 	
 	const FRotator SpawnRotation = GetActorRotation();
 	const FVector SpawnLocation =  GetActorLocation() + SpawnRotation.RotateVector(GunOffset);
-	GetWorld()->SpawnActor<ABullet>(SpawnLocation, SpawnRotation);
+	GetWorld()->SpawnActor<APlayerBullet>(SpawnLocation, SpawnRotation);
 	RODCharacterSubject->Notify(this, EEvent::EVENT_SHOT);
 
 }

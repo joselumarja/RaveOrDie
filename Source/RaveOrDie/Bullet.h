@@ -7,7 +7,7 @@
 #include "Engine.h"
 #include "Bullet.generated.h"
 
-UCLASS()
+UCLASS(Abstract)
 class RAVEORDIE_API ABullet : public AActor
 {
 	GENERATED_BODY()
