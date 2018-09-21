@@ -16,33 +16,54 @@ public:
 		FText PlayerName;
 
 	UPROPERTY()
-		int32 Score;
+		int32 Kills;
 
 	UPROPERTY()
-		int32 KilledEnemies;
+		float Accuracy;
+
+	UPROPERTY()
+		FTimeStruct PlayTime;
 
 	FSaveGameStruct()
 	{
 		this->PlayerName = FText();
-		this->Score = 0;
-		this->KilledEnemies = 0;
+		this->Kills = 0;
+		this->Accuracy = 0.f;
+		this->PlayTime = FTimeStruct();
 	}
 
-	FSaveGameStruct(FText PlayerName, int32 Score, int32 KilledEnemies)
+	FSaveGameStruct(FText &PlayerName, uint32 &Kills, float &Accuracy, FTimeStruct &PlayTime)
 	{
 		this->PlayerName = PlayerName;
-		this->Score = Score;
-		this->KilledEnemies = KilledEnemies;
+		this->Kills = Kills;
+		this->Accuracy = Accuracy;
+		this->PlayTime = PlayTime;
+
 	}
 
 	FORCEINLINE bool operator<(const FSaveGameStruct &Other) const
 	{
-		return Score > Other.Score;
+		if (PlayTime <= Other.PlayTime)
+		{
+			if (PlayTime == Other.PlayTime)
+			{
+				if (Kills > Other.Kills)
+				{
+					return true;
+				}
+
+				return false;
+			}
+
+			return true;
+		}
+
+		return false;
 	}
 
 	FORCEINLINE bool operator==(const FSaveGameStruct &Other) const
 	{
-		return Score == Other.Score;
+		return PlayTime == Other.PlayTime && Kills==Other.Kills;
 	}
 
 };

@@ -28,13 +28,14 @@ void UGameManager::ResetStatistics()
 
 void UGameManager::GameOver()
 {
-	
+	UGameplayStatics::OpenLevel(GetWorld(), TEXT("/Game/Maps/MainMenu.MainMenu"), TRAVEL_Absolute);
 	
 }
 
 void UGameManager::ObjectiveAccomplished()
 {
 	FTimeStruct PlayTime = Cast<ARODCharacter>(UGameplayStatics::GetPlayerCharacter(GetWorld(), 0))->GetPlayTime();
+
 	UMySaveGame* SaveGameInstance = Cast<UMySaveGame>(UGameplayStatics::CreateSaveGameObject(UMySaveGame::StaticClass()));
 	UMySaveGame* CheckSaveGameInstance = Cast<UMySaveGame>(UGameplayStatics::LoadGameFromSlot(SaveGameInstance->SaveSlotName, SaveGameInstance->UserIndex));
 	if (CheckSaveGameInstance != NULL)
@@ -42,9 +43,9 @@ void UGameManager::ObjectiveAccomplished()
 		SaveGameInstance = CheckSaveGameInstance;
 	}
 	FText Name = FText::FromString(FDateTime::Now().ToString());
-	SaveGameInstance->UpdateRecords((int32)EnemiesKilled, Name, (int32)Score);
+	float Accuracy = ((float) EventsCounter[EEvent::EVENT_SHOT_ON_TARGET]) / ((float) EventsCounter[EEvent::EVENT_SHOT]);
+	SaveGameInstance->UpdateRecords(Name, EventsCounter[EEvent::EVENT_KILL], Accuracy, PlayTime);
 	UGameplayStatics::SaveGameToSlot(SaveGameInstance, SaveGameInstance->SaveSlotName, SaveGameInstance->UserIndex);
-	//UGameplayStatics::OpenLevel(GetWorld(), TEXT("/Game/TwinStickCPP/Maps/GameOverMap.GameOverMap"), TRAVEL_Absolute);
 	GameOver();
 }
 
@@ -77,11 +78,11 @@ void UGameManager::OnNotify(UObject* Entity, EEvent Event)
 	switch (Event)
 	{
 		case EEvent::EVENT_DEAD:
-
+			GameOver();
 			break;
 
 		case EEvent::EVENT_FINISH:
-
+			ObjectiveAccomplished();
 			break;
 
 		default:

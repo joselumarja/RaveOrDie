@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "GameFramework/SaveGame.h"
 #include "SaveGameStruct.h"
+#include "TimeStruct.h"
 #include "MySaveGame.generated.h"
 
 UCLASS()
@@ -24,10 +25,13 @@ public:
 		FText GetRecordNames() const;
 
 	UFUNCTION(BlueprintCallable, Category = SaveGame)
-		FText GetRecordScores() const;
+		FText GetRecordKills() const;
 
 	UFUNCTION(BlueprintCallable, Category = SaveGame)
-		FText GetRecordKilledEnemies() const;
+		FText GetRecordAccuracy() const;
+
+	UFUNCTION(BlueprintCallable, Category = SaveGame)
+		FText GetRecordTime() const;
 
 	UPROPERTY(VisibleAnywhere, Category = Basic)
 		TArray<FSaveGameStruct> Records;
@@ -40,7 +44,7 @@ public:
 
 	UMySaveGame();
 
-	void UpdateRecords(int32 KilledEnemies, FText name, int32 Score);
+	void UpdateRecords(FText &name, uint32 &Kills,float &Accuracy,FTimeStruct &PlayTime);
 
 	
 };

@@ -32,32 +32,46 @@ FText UMySaveGame::GetRecordNames()const
 	return String;
 }
 
-FText UMySaveGame::GetRecordScores()const
+FText UMySaveGame::GetRecordAccuracy() const
 {
 	FText String;
 
 	for (int i = 0; i < Records.Num(); i++)
 	{
-		String = FText::Format(LOCTEXT("Scores", "{0}{1}\n"), String, FText::AsNumber(Records[i].Score));
+		String = FText::Format(LOCTEXT("Accuracy", "{0}{1}\n"), String, FText::AsNumber(Records[i].Accuracy));
 	}
 
 	return String;
 }
 
-FText UMySaveGame::GetRecordKilledEnemies()const
+FText UMySaveGame::GetRecordTime() const
 {
 	FText String;
 
 	for (int i = 0; i < Records.Num(); i++)
 	{
-		String = FText::Format(LOCTEXT("KilledEnemies", "{0}{1}\n"), String, FText::AsNumber(Records[i].KilledEnemies));
+		String = FText::Format(LOCTEXT("KilledEnemies", "{0}{1}:{2}:{3}\n"), String, FText::AsNumber(Records[i].PlayTime.Hours), FText::AsNumber(Records[i].PlayTime.Minutes), FText::AsNumber(Records[i].PlayTime.Seconds));
 	}
 
 	return String;
 }
-void UMySaveGame::UpdateRecords(int32 KilledEnemies, FText name, int32 Score)
+
+
+
+FText UMySaveGame::GetRecordKills()const
 {
-	FSaveGameStruct NewSave = FSaveGameStruct(name, Score, KilledEnemies);
+	FText String;
+
+	for (int i = 0; i < Records.Num(); i++)
+	{
+		String = FText::Format(LOCTEXT("Kills", "{0}{1}\n"), String, FText::AsNumber(Records[i].Kills));
+	}
+
+	return String;
+}
+void UMySaveGame::UpdateRecords(FText &name, uint32 &Kills, float &Accuracy, FTimeStruct &PlayTime)
+{
+	FSaveGameStruct NewSave = FSaveGameStruct(name, Kills, Accuracy, PlayTime);
 	Records.Add(NewSave);
 	Records.Sort();
 }

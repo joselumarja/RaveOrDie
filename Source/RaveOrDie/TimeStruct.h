@@ -33,7 +33,27 @@ public:
 		this->Hours = Hours;
 	}
 
+	FORCEINLINE bool operator==(const FTimeStruct &Other) const
+	{
+		return Seconds == Other.Seconds && Minutes == Other.Minutes && Hours == Other.Hours;
+	}
 
+	FORCEINLINE bool operator<=(const FTimeStruct &Other) const
+	{
+		if (Hours > Other.Hours)
+		{
+			return false;
+		}
+		else if (Minutes > Other.Minutes)
+		{
+			return false;
+		}
+		else if (Seconds > Other.Seconds)
+		{
+			return false;
+		}
+			return true;
+	}
 	
 	
 };
