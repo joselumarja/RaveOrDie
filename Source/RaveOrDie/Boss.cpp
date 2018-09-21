@@ -11,11 +11,7 @@
 
 ABoss::ABoss() :Super() {
 	PrimaryActorTick.bCanEverTick = true;
-	/*PawnSensingComp = CreateDefaultSubobject<UPawnSensingComponent>(TEXT("PawnSensingComp"));
-	//Set the peripheral vision angle to 90 degrees
-	PawnSensingComp->SetPeripheralVisionAngle(30.f);
-	OnActorHit.AddDynamic(this, &ABoss::OnHit);*/
-	Health = 200.0f;
+	Health = 300.0f;
 }
 
 
@@ -37,16 +33,24 @@ void ABoss::Tick(float DeltaTime)
 }
 
 void ABoss::Shoot() {
-	if (bCanFire) {
-		bCanFire = false;
+	
 		FVector EnemyLocation = GetActorLocation();
 		FVector PlayerLocation = PlayerPawn->GetActorLocation();
 		FVector DirectionVector = FVector(PlayerLocation.X - EnemyLocation.X, PlayerLocation.Y - EnemyLocation.Y, .0f).GetSafeNormal();
-		FRotator Rotation = DirectionVector.Rotation();
+
+		FRotator Rotation = DirectionVector.Rotation().Add(0.0f, 15.0f, 0.0f);
+		EnemyLocation = EnemyLocation + (DirectionVector * 100);
+		World->SpawnActor<ABullet>(EnemyLocation, Rotation);
+
+		Rotation = DirectionVector.Rotation();
+		EnemyLocation = EnemyLocation + (DirectionVector * 100);
+		World->SpawnActor<ABullet>(EnemyLocation, Rotation);
+
+		DirectionVector = FVector(PlayerLocation.X - EnemyLocation.X, PlayerLocation.Y - EnemyLocation.Y, .0f).GetSafeNormal();
+		Rotation = DirectionVector.Rotation().Add(0.0f, -15.0f, 0.0f);
 		EnemyLocation = EnemyLocation + (DirectionVector * 100);
 		World->SpawnActor<ABullet>(EnemyLocation, Rotation);
 		//UGameplayStatics::PlaySoundAtLocation(this, FireSound, GetActorLocation());
 
-		World->GetTimerManager().SetTimer(TimerHandle_ShotTimerExpired, this, &AEnemigo::ShotTimerExpired, 0.4f);
-	}
+		
 }

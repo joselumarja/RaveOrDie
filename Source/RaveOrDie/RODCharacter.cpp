@@ -220,7 +220,7 @@ FTimeStruct ARODCharacter::GetPlayTime() const
 
 float ARODCharacter::GetMeleeDamage() const
 {
-	return 0.f;
+	return MeleeDamage;
 }
 
 void ARODCharacter::MeleeAttack()
