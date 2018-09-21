@@ -30,11 +30,11 @@ protected:
 
 	float MoveSpeed;
 
+	UFUNCTION(BlueprintCallable, Category = "Hit")
 	virtual void UpdateLife(float Damage);
 
 	UWorld* World;
 
-	bool bCanFire =true;
 
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
@@ -44,9 +44,6 @@ protected:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Stats")
 		float Health;
-
-	//UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Stats")
-		//float Damage = 100.f;
 
 	TWeakObjectPtr<USubject> EnemySubject;
 
