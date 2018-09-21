@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "TimeStruct.h"
 #include "SaveGameStruct.generated.h"
 
 USTRUCT()

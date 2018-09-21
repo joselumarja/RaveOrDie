@@ -34,7 +34,16 @@ void UGameManager::GameOver()
 void UGameManager::ObjectiveAccomplished()
 {
 	FTimeStruct PlayTime = Cast<ARODCharacter>(UGameplayStatics::GetPlayerCharacter(GetWorld(), 0))->GetPlayTime();
-
+	UMySaveGame* SaveGameInstance = Cast<UMySaveGame>(UGameplayStatics::CreateSaveGameObject(UMySaveGame::StaticClass()));
+	UMySaveGame* CheckSaveGameInstance = Cast<UMySaveGame>(UGameplayStatics::LoadGameFromSlot(SaveGameInstance->SaveSlotName, SaveGameInstance->UserIndex));
+	if (CheckSaveGameInstance != NULL)
+	{
+		SaveGameInstance = CheckSaveGameInstance;
+	}
+	FText Name = FText::FromString(FDateTime::Now().ToString());
+	SaveGameInstance->UpdateRecords((int32)EnemiesKilled, Name, (int32)Score);
+	UGameplayStatics::SaveGameToSlot(SaveGameInstance, SaveGameInstance->SaveSlotName, SaveGameInstance->UserIndex);
+	UGameplayStatics::OpenLevel(GetWorld(), TEXT("/Game/TwinStickCPP/Maps/GameOverMap.GameOverMap"), TRAVEL_Absolute);
 	GameOver();
 }
 

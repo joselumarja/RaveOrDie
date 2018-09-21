@@ -9,8 +9,6 @@ ABullet::ABullet()
 	static ConstructorHelpers::FObjectFinder<UStaticMesh> ProjectileMeshAsset(TEXT("/Game/FPWeapon/Mesh/Crucifix.Crucifix"));
 	ProjectileMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Bullet"));
 	ProjectileMesh->SetStaticMesh(ProjectileMeshAsset.Object);
-	//ProjectileMesh->SetWorldScale3D(FVector(0.18f,0.108f,0.108f));
-	//ProjectileMesh->SetWorldRotation(FRotator(0.f, 0.f, 90.f));
 
 	ProjectileMesh->SetupAttachment(RootComponent);
 	ProjectileMesh->BodyInstance.SetCollisionProfileName("Bullet");
