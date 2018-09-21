@@ -27,6 +27,16 @@ public:
 
 	UFUNCTION()
 		void OnOverlapEnd(AActor* OverlappedActor, AActor* OtherActor);
+
+	UPROPERTY(Category = EnemiesSpawn, EditAnywhere, BlueprintReadWrite)
+		int32 NumberOfEnemies;
+
+	UPROPERTY(Category = EnemiesSpawn, EditAnywhere, BlueprintReadWrite)
+		FVector SpawnLocation;
+
+	UPROPERTY(Category = EnemiesSpawn, EditAnywhere, BlueprintReadWrite)
+		FRotator EnemiesRotation;
+
 private:
 
 	TWeakObjectPtr<UGameManager> GameManager;

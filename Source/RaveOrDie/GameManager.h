@@ -36,7 +36,7 @@ public:
 
 	void InitializeEnemies();
 
-	void SpawnEnemies(int Enemies, FVector Position);
+	void SpawnEnemies(int32 Enemies, FVector Position, FRotator EnemiesRotation);
 
 private:
 
@@ -72,7 +72,7 @@ private:
 
 	FVector GetRandomLocation(FVector &Location, float &SafeRange) const;
 
-	void SpawnEnemy(FVector Location);
+	void SpawnEnemy(FVector &Location, FRotator Rotation);
 
 	EEnemigo GetRandomEnemyClass() const;
 

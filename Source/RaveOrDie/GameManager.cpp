@@ -55,7 +55,7 @@ void UGameManager::ObjectiveAccomplished()
 
 
 
-void UGameManager::SpawnEnemies(int Enemies, FVector Position) {
+void UGameManager::SpawnEnemies(int32 Enemies, FVector Position, FRotator EnemiesRotation) {
 
 	int NX = Enemies / 2;
 	int NY = Enemies / 2 + Enemies % 2;
@@ -67,17 +67,18 @@ void UGameManager::SpawnEnemies(int Enemies, FVector Position) {
 	{
 		for (int j = 0; Enemies > SpawnedEnemies++ && j < NY; j++)
 		{
-			SpawnEnemy(StartSpawnLocation + (FVector(i, j, 0.f)*DistanceBetweenAreas));
+			FVector NewSpawnLocation = StartSpawnLocation + (FVector(i, j, 0.f)*DistanceBetweenAreas);
+			SpawnEnemy(NewSpawnLocation,EnemiesRotation);
 		}
 	}
 	
 }
 
-void UGameManager::SpawnEnemy(FVector Location)
+void UGameManager::SpawnEnemy(FVector &Location,FRotator Rotation)
 {
 	EEnemigo EnemyToSpawn = GetRandomEnemyClass();
-	float RandomYRotation = FMath::FRandRange(0.f, 360.f);
-	FRotator Rotation(0.0f, RandomYRotation, 0.0f);
+	float RandomYRotation = FMath::FRandRange(-45.f, 45.f);
+	Rotation.Yaw += RandomYRotation;
 	FVector EnemySpawnLocation = GetRandomLocation(Location, SafeSpawnRange);
 
 	switch (EnemyToSpawn)
