@@ -5,12 +5,11 @@
 #include "GameManager.h"
 #include "RODGameStateBase.h"
 
-void ATriggerBox1::BeginPlay() 
+void ATriggerBox1::BeginPlay()
 {
 	Super::BeginPlay();
 
 	GameManager = Cast<ARODGameStateBase>(UGameplayStatics::GetGameState(GetWorld()))->GetGameManager();
-
 	
 }
 
@@ -32,7 +31,7 @@ void ATriggerBox1::OnOverlapBegin(AActor* OverlappedActor, AActor* OtherActor) {
 	int NumberEnemies = FMath::RandRange(1, 10);
 
 	//Spawn enemigos
-
+	//GameManager->SpawnEnemies(NumberEnemies, SpawnPosition);
 	
 }
 
