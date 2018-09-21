@@ -18,6 +18,10 @@ UGameManager::UGameManager()
 	EventsCounter.Add(EEvent::EVENT_KILL, 0);
 
 	InitializeEnemies();
+
+	SafeSpawnRange = 250.f;
+
+	DistanceBetweenAreas = 500.f;
 	
 }
 
@@ -52,25 +56,43 @@ void UGameManager::ObjectiveAccomplished()
 
 
 void UGameManager::SpawnEnemies(int Enemies, FVector Position) {
-	int32 aux;
-	for (int i = 0; i < Enemies; i++) {
-		FVector EnemySpawnLocation = GetRandomLocation();
-		FRotator Rotation(0.0f, 180.0f, 0.0f);
-		aux = GetRandomEnemyClass();
-		if (aux == 0){
-			AMeleeEnemigo* DroppedItem = GetWorld()->SpawnActor<AMeleeEnemigo>(MyMeleeBlueprint, EnemySpawnLocation, Rotation);
-			
-		}
-		else if (aux == 1) {
-			ARangedEnemigo* DroppedItem2 = GetWorld()->SpawnActor<ARangedEnemigo>(MyRangedBlueprint, EnemySpawnLocation, Rotation);
-		}
-		else if (aux == 3) {
-			ABoss* DroppedItem3 = GetWorld()->SpawnActor<ABoss>(MyBossBlueprint, EnemySpawnLocation, Rotation);
 
+	int NX = Enemies / 2;
+	int NY = Enemies / 2 + Enemies % 2;
+	int SpawnedEnemies = 0;
+
+	FVector StartSpawnLocation = FVector(Position.X - (NX*DistanceBetweenAreas / 2), Position.Y - (NY*DistanceBetweenAreas / 2),Position.Z);
+
+	for (int i = 0; i < NX; i++)
+	{
+		for (int j = 0; Enemies > SpawnedEnemies++ && j < NY; j++)
+		{
+			SpawnEnemy(StartSpawnLocation + (FVector(i, j, 0.f)*DistanceBetweenAreas));
 		}
-		EnemiesAlived++;
 	}
 	
+}
+
+void UGameManager::SpawnEnemy(FVector Location)
+{
+	EEnemigo EnemyToSpawn = GetRandomEnemyClass();
+	float RandomYRotation = FMath::FRandRange(0.f, 360.f);
+	FRotator Rotation(0.0f, RandomYRotation, 0.0f);
+	FVector EnemySpawnLocation = GetRandomLocation(Location, SafeSpawnRange);
+
+	switch (EnemyToSpawn)
+	{
+	case EEnemigo::MELEE:
+		GetWorld()->SpawnActor<AMeleeEnemigo>(MyMeleeBlueprint, EnemySpawnLocation, Rotation);
+		break;
+	case EEnemigo::RANGED:
+		GetWorld()->SpawnActor<ARangedEnemigo>(MyRangedBlueprint, EnemySpawnLocation, Rotation);
+		break;
+	case EEnemigo::BOSS:
+		GetWorld()->SpawnActor<ABoss>(MyBossBlueprint, EnemySpawnLocation, Rotation);
+		break;
+
+	}
 }
 
 void UGameManager::OnNotify(UObject* Entity, EEvent Event)
@@ -100,22 +122,35 @@ void UGameManager::IncreaseEventCounter(EEvent Event)
 	EventsCounter.Add(Event, ++EventsCounter[Event]);
 }
 
-int32 UGameManager::GetRandomEnemyClass() const
+EEnemigo UGameManager::GetRandomEnemyClass() const
 {
-	return FMath::RandRange(1, 3);
+	uint8 Random = FMath::RandRange(1, 6);
+
+	if (Random < 3)
+	{
+		return EEnemigo::MELEE;
+	}
+
+	if (Random < 5)
+	{
+		return EEnemigo::RANGED;
+	}
+
+	return EEnemigo::BOSS;
+
 }
 
 // Gets a random place to spawn an enemy
-FVector UGameManager::GetRandomLocation() const
+FVector UGameManager::GetRandomLocation(FVector &Location, float &SafeRange) const
 {
-	float x;
-	float y;
-	float z = PlayerPawn->GetActorLocation().Z;
+	float x, y;
+	float HalfSafeRange = SafeRange / 2;
 
-	y = FMath::RandRange(-1950, 1950);
-	x = FMath::RandRange(2900, 3000);
-	FVector RandomLocation(x, y, z);
-	return RandomLocation;
+	y = FMath::RandRange(Location.X-HalfSafeRange, Location.X+HalfSafeRange);
+	x = FMath::RandRange(Location.Y-HalfSafeRange, Location.Y+HalfSafeRange);
+
+	return FVector(x, y, Location.Z);
+
 }
 
 

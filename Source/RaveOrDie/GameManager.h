@@ -7,6 +7,14 @@
 #include "Observer.h"
 #include "GameManager.generated.h"
 
+UENUM()
+enum class EEnemigo : uint8
+{
+	MELEE,
+	RANGED,
+	BOSS
+};
+
 class AEnemigo;
 
 UCLASS()
@@ -62,13 +70,17 @@ private:
 
 	TArray<TSubclassOf<AEnemigo>> EnemyClasses;
 
-	FVector GetRandomLocation() const;
+	FVector GetRandomLocation(FVector &Location, float &SafeRange) const;
 
-	
+	void SpawnEnemy(FVector Location);
 
-	int32 GetRandomEnemyClass() const;
+	EEnemigo GetRandomEnemyClass() const;
 
 	TWeakObjectPtr<ACharacter> PlayerPawn;
+
+	float SafeSpawnRange;
+
+	float DistanceBetweenAreas;
 };
 
 
