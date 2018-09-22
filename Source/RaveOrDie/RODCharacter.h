@@ -69,9 +69,6 @@ public:
 
 	void FinishMeleeAttack();
 
-	UFUNCTION(BlueprintCallable)
-	void UpdateLife(float Damage);
-
 	void FinishReloading();
 
 
