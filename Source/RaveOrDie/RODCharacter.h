@@ -69,9 +69,6 @@ public:
 
 	void FinishMeleeAttack();
 
-
-	void UpdateLife(float Damage);
-
 	void FinishReloading();
 
 

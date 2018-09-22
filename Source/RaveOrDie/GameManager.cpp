@@ -12,9 +12,9 @@
 #include "MySaveGame.h"
 #include "Blueprint/UserWidget.h"
 #include "TextWidgetTypes.h"
-#include "Runtime/UMG/Public/Components/EditableText.h"
-#include "Runtime/SlateCore/Public/Styling/SlateTypes.h"
-#include "Runtime/SlateCore/Public/Fonts/SlateFontInfo.h"
+#include "Runtime/UMG/Public/Components/TextBlock.h"
+/*#include "Runtime/SlateCore/Public/Styling/SlateTypes.h"
+#include "Runtime/SlateCore/Public/Fonts/SlateFontInfo.h"*/
 
 UGameManager::UGameManager() 
 {
@@ -37,24 +37,17 @@ UGameManager::UGameManager()
 	
 }
 
-void UGameManager::ResetStatistics()
-{
-
-}
-
 void UGameManager::GameOver()
 {
 	InitializeFinishWidget();
-	pFinishText->SetText(FText::FromString("GAME OVER"));
-	pFinishText->WidgetStyle.ColorAndOpacity = FSlateColor(FLinearColor(FColor::Red));
+	pFailText->SetVisibility(ESlateVisibility::Visible);
 }
 
 void UGameManager::InitializeFinishWidget()
 {
 	if (FinishWidget)
 	{
-		// Create the widget and store it.
-		pFinishWidget = CreateWidget<UUserWidget>(UGameplayStatics::GetGameInstance(GetWorld()), FinishWidget);
+		pFinishWidget = CreateWidget<UUserWidget>(World->GetGameInstance(), FinishWidget);
 
 		// now you can use the widget directly since you have a reference for it.
 		// Extra check to  make sure the pointer holds the widget.
@@ -63,10 +56,11 @@ void UGameManager::InitializeFinishWidget()
 
 			pFinishWidget->AddToViewport();
 
-			pFinishText = (UEditableText*)pFinishWidget->GetWidgetFromName("FinishText");
+			pWinText = (UTextBlock*)pFinishWidget->GetWidgetFromName("WinText");
+			pFailText = (UTextBlock*)pFinishWidget->GetWidgetFromName("FailText");
 
-			pFinishText->SetIsReadOnly(true);
-			pFinishText->WidgetStyle.Font= FSlateFontInfo("Engine/EngineFonts/Roboto", 81);
+			pWinText->SetVisibility(ESlateVisibility::Hidden);
+			pFailText->SetVisibility(ESlateVisibility::Hidden);
 
 		}
 	}
@@ -88,8 +82,7 @@ void UGameManager::ObjectiveAccomplished()
 	UGameplayStatics::SaveGameToSlot(SaveGameInstance, SaveGameInstance->SaveSlotName, SaveGameInstance->UserIndex);
 
 	InitializeFinishWidget();
-	pFinishText->SetText(FText::FromString("WELL DONE"));
-	pFinishText->WidgetStyle.ColorAndOpacity = FSlateColor(FLinearColor(FColor::Green));
+	pWinText->SetVisibility(ESlateVisibility::Visible);
 	
 }
 
@@ -134,6 +127,11 @@ void UGameManager::SpawnEnemy(FVector &Location,FRotator Rotation)
 		break;
 
 	}
+}
+
+void UGameManager::SetWorld(UWorld *World)
+{
+	this->World = World;
 }
 
 void UGameManager::OnNotify(UObject* Entity, EEvent Event)

@@ -8,7 +8,7 @@
 #include "GameManager.generated.h"
 
 class UUserWidget;
-class UEditableText;
+class UTextBlock;
 
 UENUM()
 enum class EEnemigo : uint8
@@ -29,6 +29,8 @@ public:
 
 	UGameManager();
 
+	void SetWorld(UWorld *World);
+
 	void OnNotify(UObject* Entity, EEvent Event) override;
 
 	TSubclassOf<class AMeleeEnemigo> MyMeleeBlueprint;
@@ -47,7 +49,9 @@ private:
 
 	TWeakObjectPtr<UUserWidget> pFinishWidget;
 
-	TWeakObjectPtr<UEditableText> pFinishText;
+	TWeakObjectPtr<UTextBlock> pWinText;
+
+	TWeakObjectPtr<UTextBlock> pFailText;
 
 	void InitializeFinishWidget();
 
@@ -60,8 +64,6 @@ private:
 	uint32 EnemiesKilled;
 
 	bool bIsGameSesionInProgress;
-
-	void ResetStatistics();
 
 	void GameOver();
 
@@ -90,6 +92,8 @@ private:
 	float SafeSpawnRange;
 
 	float DistanceBetweenAreas;
+
+	UWorld *World;
 };
 
 

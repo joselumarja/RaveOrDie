@@ -15,6 +15,7 @@ UGameManager* ARODGameStateBase::GetGameManager()
 		// Notice how UObjects must be instanced with the NewObject factory
 		// method instead of "new".
 		GameManager = NewObject<UGameManager>();
+		GameManager->SetWorld(GetWorld());
 	}
 
 	return GameManager.Get();

@@ -330,14 +330,3 @@ void ARODCharacter::SetInvulnerability()
 	//UGameplayStatics::PlaySoundAtLocation(this, InvulnerabilitySound, GetActorLocation());
 	//World->GetTimerManager().SetTimer(TimerHandle_InvulnerabilityExpired, this, &ARODCharacter::InvulnerabilityTimerExpired, InvulnerabilityTime);
 }
-
-void ARODCharacter::UpdateLife(float Damage) {
-	LIFE -= Damage;
-
-	HUDManager->UpdateLife(MAXLIFE, LIFE);
-	if (LIFE <= 0) {
-		
-		//FIN DEL JUEGO
-
-	}
-}
