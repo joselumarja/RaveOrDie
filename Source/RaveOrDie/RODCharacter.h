@@ -69,7 +69,7 @@ public:
 
 	void FinishMeleeAttack();
 
-
+	UFUNCTION(BlueprintCallable)
 	void UpdateLife(float Damage);
 
 	void FinishReloading();
@@ -81,7 +81,7 @@ protected:
 
 	virtual void Tick(float DeltaTime) override;
 
-	void UpdateLife(float Damage);
+	
 
 private:
 	/** Top down camera */
