@@ -14,8 +14,8 @@ AMeleeEnemigo::AMeleeEnemigo() :Super() {
 	MeleeDamage = 25.0f;
 	/*PawnSensingComp = CreateDefaultSubobject<UPawnSensingComponent>(TEXT("PawnSensingComp"));
 	//Set the peripheral vision angle to 90 degrees
-	/*PawnSensingComp->SetPeripheralVisionAngle(30.f);
-	OnActorHit.AddDynamic(this, &AMeleeEnemigo::OnHit);*/
+	/*PawnSensingComp->SetPeripheralVisionAngle(30.f);*/
+	OnActorHit.AddDynamic(this, &AEnemigo::OnHit);
 }
 
 
