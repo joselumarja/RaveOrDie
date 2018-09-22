@@ -42,7 +42,7 @@ void AHUDManager::BeginPlay()
 {
 	Super::BeginPlay();
 	
-	if (HUDWidget) // Check if the Asset is assigned in the blueprint.
+	if (HUDWidget) // Check if the Asset is assigned
 	{
 		// Create the widget and store it.
 		pHUDWidget = CreateWidget<UUserWidget>(GetGameInstance(), HUDWidget);

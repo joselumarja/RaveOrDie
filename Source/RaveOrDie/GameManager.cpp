@@ -10,6 +10,11 @@
 #include "Engine.h"
 #include "TimeStruct.h"
 #include "MySaveGame.h"
+#include "Blueprint/UserWidget.h"
+#include "TextWidgetTypes.h"
+#include "Runtime/UMG/Public/Components/EditableText.h"
+#include "Runtime/SlateCore/Public/Styling/SlateTypes.h"
+#include "Runtime/SlateCore/Public/Fonts/SlateFontInfo.h"
 
 UGameManager::UGameManager() 
 {
@@ -22,6 +27,13 @@ UGameManager::UGameManager()
 	SafeSpawnRange = 250.f;
 
 	DistanceBetweenAreas = 500.f;
+
+	auto FFinishWidget = ConstructorHelpers::FClassFinder<UUserWidget>(TEXT("'/Game/Blueprints/Menus/BP_FinishScreen'"));
+
+	if (FFinishWidget.Succeeded())
+	{
+		FinishWidget = FFinishWidget.Class;
+	}
 	
 }
 
@@ -32,8 +44,32 @@ void UGameManager::ResetStatistics()
 
 void UGameManager::GameOver()
 {
-	UGameplayStatics::OpenLevel(GetWorld(), TEXT("/Game/Maps/MainMenu.MainMenu"), TRAVEL_Absolute);
-	
+	InitializeFinishWidget();
+	pFinishText->SetText(FText::FromString("GAME OVER"));
+	pFinishText->WidgetStyle.ColorAndOpacity = FSlateColor(FLinearColor(FColor::Red));
+}
+
+void UGameManager::InitializeFinishWidget()
+{
+	if (FinishWidget)
+	{
+		// Create the widget and store it.
+		pFinishWidget = CreateWidget<UUserWidget>(UGameplayStatics::GetGameInstance(GetWorld()), FinishWidget);
+
+		// now you can use the widget directly since you have a reference for it.
+		// Extra check to  make sure the pointer holds the widget.
+		if (pFinishWidget.IsValid())
+		{
+
+			pFinishWidget->AddToViewport();
+
+			pFinishText = (UEditableText*)pFinishWidget->GetWidgetFromName("FinishText");
+
+			pFinishText->SetIsReadOnly(true);
+			pFinishText->WidgetStyle.Font= FSlateFontInfo("Engine/EngineFonts/Roboto", 81);
+
+		}
+	}
 }
 
 void UGameManager::ObjectiveAccomplished()
@@ -50,7 +86,11 @@ void UGameManager::ObjectiveAccomplished()
 	float Accuracy = ((float) EventsCounter[EEvent::EVENT_SHOT_ON_TARGET]) / ((float) EventsCounter[EEvent::EVENT_SHOT]);
 	SaveGameInstance->UpdateRecords(Name, EventsCounter[EEvent::EVENT_KILL], Accuracy, PlayTime);
 	UGameplayStatics::SaveGameToSlot(SaveGameInstance, SaveGameInstance->SaveSlotName, SaveGameInstance->UserIndex);
-	GameOver();
+
+	InitializeFinishWidget();
+	pFinishText->SetText(FText::FromString("WELL DONE"));
+	pFinishText->WidgetStyle.ColorAndOpacity = FSlateColor(FLinearColor(FColor::Green));
+	
 }
 
 

@@ -7,6 +7,9 @@
 #include "Observer.h"
 #include "GameManager.generated.h"
 
+class UUserWidget;
+class UEditableText;
+
 UENUM()
 enum class EEnemigo : uint8
 {
@@ -39,6 +42,14 @@ public:
 	void SpawnEnemies(int32 Enemies, FVector Position, FRotator EnemiesRotation);
 
 private:
+
+	TSubclassOf<UUserWidget> FinishWidget;
+
+	TWeakObjectPtr<UUserWidget> pFinishWidget;
+
+	TWeakObjectPtr<UEditableText> pFinishText;
+
+	void InitializeFinishWidget();
 
 	void ObjectiveAccomplished();
 
@@ -75,8 +86,6 @@ private:
 	void SpawnEnemy(FVector &Location, FRotator Rotation);
 
 	EEnemigo GetRandomEnemyClass() const;
-
-	TWeakObjectPtr<ACharacter> PlayerPawn;
 
 	float SafeSpawnRange;
 
