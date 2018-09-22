@@ -117,6 +117,7 @@ private:
 
 	void UpdateTime(FTimeStruct* TimeToUpdate);
 
+	UPROPERTY()
 	TWeakObjectPtr<USubject> RODCharacterSubject;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Stats", meta = (AllowPrivateAccess = "true"))
