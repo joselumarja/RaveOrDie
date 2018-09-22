@@ -71,6 +71,8 @@ public:
 
 	void FinishReloading();
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Stats")
+		bool CanBeDamaged = true;
 
 protected:
 	// Called when the game starts or when spawned
@@ -94,7 +96,7 @@ private:
 
 	FVector GunOffset;
 
-	UFUNCTION(BlueprintCallable,Category=Life)
+	UFUNCTION(BlueprintCallable, Category=Life)
 	void UpdateLife(float Damage);
 
 	UFUNCTION()

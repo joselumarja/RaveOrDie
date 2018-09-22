@@ -8,6 +8,7 @@
 #include "GameFramework/CharacterMovementComponent.h"
 #include "GameFramework/PlayerController.h"
 #include "GameFramework/SpringArmComponent.h"
+#include "Enemigo.h"
 #include "Materials/Material.h"
 #include "Engine.h"
 #include "Engine/World.h"
@@ -150,7 +151,7 @@ void ARODCharacter::InitializeHUDValues()
 
 void ARODCharacter::OnHit(AActor* SelfActor, AActor* OtherActor, FVector NormalImpulse, const FHitResult& Hit) {
 	
-	GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, TEXT("Me ha golpeado el enemigo"));
+	
 	
 	if (OtherActor->IsA(AEnemyBullet::StaticClass())) {
 		AEnemyBullet* Bullet = Cast<AEnemyBullet>(OtherActor);
@@ -158,6 +159,11 @@ void ARODCharacter::OnHit(AActor* SelfActor, AActor* OtherActor, FVector NormalI
 
 	}
 	
+
+	
+	
+
+
 	if (!bInvulnerability)
 	{
 
