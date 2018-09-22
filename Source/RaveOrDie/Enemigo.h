@@ -35,7 +35,6 @@ protected:
 
 	UWorld* World;
 
-
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
