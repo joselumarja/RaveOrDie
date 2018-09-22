@@ -53,20 +53,6 @@ public:
 
 	void Reload();
 
-	UPROPERTY(Category = Gameplay, EditAnywhere, BlueprintReadWrite)
-		float InvulnerabilityTime;
-
-	UPROPERTY(Category = Gameplay, EditAnywhere, BlueprintReadWrite)
-		float HitInvulnerabilityTime;
-
-	void InvulnerabilityTimerExpired();
-
-	void HitInvulnerabilityExpired();
-
-	void SetHitInvulnerability();
-
-	void SetInvulnerability();
-
 	void FinishMeleeAttack();
 
 	void FinishReloading();
@@ -105,7 +91,7 @@ private:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Stats", meta = (AllowPrivateAccess = "true"))
 	bool bReloading;
 	
-	bool bInvulnerability = false;
+	
 
 	float MeleeDamage = 100.f;
 
@@ -140,10 +126,6 @@ private:
 	void UpdateInactivity();
 
 	void SetInactivity();
-
-	FTimerHandle TimerHandle_InvulnerabilityHitExpired;
-
-	FTimerHandle TimerHandle_InvulnerabilityExpired;
 
 	float MAXLIFE;
 

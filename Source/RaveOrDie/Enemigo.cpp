@@ -59,18 +59,13 @@ void AEnemigo::OnSeePlayer(APawn* Pawn)
 	//Set the seen target on the blackboard
 	if (AIController)
 	{
-		
-		GLog->Log("Oh hello there");
 		AIController->SetSeenTarget(Pawn);
-		
 	}
 }
 
 void AEnemigo::OnHit(AActor* SelfActor, AActor* OtherActor, FVector NormalImpulse, const FHitResult& Hit)
 {
-	//GetMesh()->PlayAnimation(HitAnim, false);
 	AMyAIController* AIController = Cast<AMyAIController>(GetController());
-	//Set the seen target on the blackboard
 	if (AIController)
 	{
 
@@ -82,7 +77,6 @@ void AEnemigo::OnHit(AActor* SelfActor, AActor* OtherActor, FVector NormalImpuls
 			EnemySubject->Notify(this, EEvent::EVENT_SHOT_ON_TARGET);
 			Bullet->Destroy();
 		}
-		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, FString::Printf(TEXT("Enemigo golpeado!")));
 	}
 }
 
@@ -95,10 +89,6 @@ void AEnemigo::UpdateLife(float Damage) {
 		Destroy();
 
 	}
-}
-
-void AEnemigo::ShotTimerExpired(){
-//	bCanFire = true;
 }
 
 

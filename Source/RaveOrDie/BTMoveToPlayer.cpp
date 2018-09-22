@@ -9,7 +9,7 @@
 #include "BehaviorTree/BlackboardComponent.h"
 #include "RangedEnemigo.h"
 
-/* THIS NODE EVALUATES THE DISTANCE FROM THE ENEMY TO THE PLAYER */
+
 
 EBTNodeResult::Type UBTMoveToPlayer::ExecuteTask(UBehaviorTreeComponent & OwnerComp, uint8 * NodeMemory)
 {
