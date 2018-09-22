@@ -51,6 +51,8 @@ public:
 
 	void Clock();
 
+	void Reload();
+
 	UPROPERTY(Category = Gameplay, EditAnywhere, BlueprintReadWrite)
 		float InvulnerabilityTime;
 
@@ -67,13 +69,19 @@ public:
 
 	void FinishMeleeAttack();
 
+
 	void UpdateLife(float Damage);
+
+	void FinishReloading();
+
 
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
 	virtual void Tick(float DeltaTime) override;
+
+	void UpdateLife(float Damage);
 
 private:
 	/** Top down camera */
@@ -138,6 +146,10 @@ private:
 
 	float LIFE;
 
+	uint8 MAXAMO;
+
+	uint8 AMO;
+
 	FTimeStruct Time;
 
 	TWeakObjectPtr<AHUDManager> HUDManager;
@@ -149,6 +161,8 @@ private:
 	FTimerHandle PunchingTimer;
 
 	FTimerHandle ShotingTimer;
+
+	FTimerHandle ReloadingTimer;
 
 	UWorld* World;
 

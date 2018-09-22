@@ -81,6 +81,8 @@ ARODCharacter::ARODCharacter()
 
 	LIFE=MAXLIFE = 100.f;
 
+	AMO = MAXAMO = 10;
+
 }
 
 // Called when the game starts or when spawned
@@ -122,13 +124,28 @@ void ARODCharacter::Tick(float DeltaTime)
 
 }
 
+void ARODCharacter::UpdateLife(float Damage)
+{
+	LIFE -= Damage;
+	
+	if (LIFE <= 0)
+	{
+		HUDManager->UpdateLife(MAXLIFE, 0);
+		RODCharacterSubject->Notify(this, EEvent::EVENT_DEAD);
+	}
+	else
+	{
+		HUDManager->UpdateLife(MAXLIFE, LIFE);
+	}
+}
+
 void ARODCharacter::InitializeHUDValues()
 {
 	HUDManager->UpdateTime(Time);
 	HUDManager->FinishBossFight();
 	HUDManager->UpdateLife(MAXLIFE, LIFE);
 	HUDManager->TurnToMelee();
-	//HUDManager->UpdateAmo();
+	HUDManager->UpdateAmo(AMO);
 }
 
 void ARODCharacter::OnHit(AActor* SelfActor, AActor* OtherActor, FVector NormalImpulse, const FHitResult& Hit) {
@@ -175,6 +192,16 @@ void ARODCharacter::Clock()
 	UpdateTime(&Time);
 	HUDManager->UpdateTime(Time);
 	GetWorld()->GetTimerManager().SetTimer(ClockTimer, this, &ARODCharacter::Clock, 1.0f);
+}
+
+void ARODCharacter::Reload()
+{
+	if (GunEquipped && !bReloading && AMO<MAXAMO)
+	{
+		bReloading = true;
+		GetWorld()->GetTimerManager().SetTimer(ClockTimer, this, &ARODCharacter::FinishReloading, 3.4f);
+	}
+
 }
 
 void ARODCharacter::UpdateTime(FTimeStruct* Time)
@@ -241,25 +268,28 @@ void ARODCharacter::MeleeAttack()
 
 void ARODCharacter::DistanceAttack()
 {
-	World->GetTimerManager().SetTimer(ShotingTimer, this, &ARODCharacter::FinishDistanceAttack, 0.5f);
-	
-	const FRotator SpawnRotation = GetActorRotation();
-	const FVector SpawnLocation =  GetActorLocation() + SpawnRotation.RotateVector(GunOffset);
-	GetWorld()->SpawnActor<APlayerBullet>(SpawnLocation, SpawnRotation);
-	RODCharacterSubject->Notify(this, EEvent::EVENT_SHOT);
-
+	if (!bReloading && AMO-- > 0)
+	{
+		HUDManager->UpdateAmo(AMO);
+		World->GetTimerManager().SetTimer(ShotingTimer, this, &ARODCharacter::FinishDistanceAttack, 0.5f);
+		const FRotator SpawnRotation = GetActorRotation();
+		const FVector SpawnLocation =  GetActorLocation() + SpawnRotation.RotateVector(GunOffset);
+		GetWorld()->SpawnActor<APlayerBullet>(SpawnLocation, SpawnRotation);
+		RODCharacterSubject->Notify(this, EEvent::EVENT_SHOT);
+	}
 }
-
-/*************************************************************
-	CAMBIAR CONDICIONES DE ATAQUE AL PLAYER CONTROLLER
-	AQUI SOLO TENER LAS LLAMADAS
-	
--*************************************************************/
 
 void ARODCharacter::FinishMeleeAttack()
 {
 	bIsInMeleeAttack = false;
 	GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, TEXT("He dejado de atacar"));
+}
+
+void ARODCharacter::FinishReloading()
+{
+	AMO = MAXAMO;
+	HUDManager->UpdateAmo(AMO);
+	bReloading = false;
 }
 
 void ARODCharacter::FinishDistanceAttack()
