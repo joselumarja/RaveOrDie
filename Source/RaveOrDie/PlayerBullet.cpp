@@ -12,11 +12,15 @@ APlayerBullet::APlayerBullet() : Super()
 
 	ProjectileMesh->SetupAttachment(RootComponent);
 	ProjectileMesh->BodyInstance.SetCollisionProfileName("Bullet");
-
+	ProjectileMovement->UpdatedComponent = ProjectileMesh;
 	ProjectileMesh->OnComponentHit.AddDynamic(this, &ABullet::OnHit);		// set up a notification for when this component hits something
 	RootComponent = ProjectileMesh;
-
+	ProjectileMovement->ProjectileGravityScale = 0.f; // No gravity
 	ProjectileMesh->bForceNavigationObstacle = true;
+	ProjectileMovement->bRotationFollowsVelocity = false;
+	ProjectileMovement->bShouldBounce = false;
+
+	InitialLifeSpan = 3.0f;
 
 	Damage = 50;
 
