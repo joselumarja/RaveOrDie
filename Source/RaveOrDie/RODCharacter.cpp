@@ -110,7 +110,6 @@ void ARODCharacter::Tick(float DeltaTime)
 	}
 	else
 	{
-	
 		const ARODPlayerController* Controller = Cast<ARODPlayerController>(GetController());
 		float rotation = Controller->CalcRotation();
 
@@ -119,9 +118,7 @@ void ARODCharacter::Tick(float DeltaTime)
 			SetActorRotation(FQuat(FRotator(0.f, rotation, 0.f)+GetActorRotation()));
 			UpdateInactivity();
 		}
-		
 	}
-
 }
 
 void ARODCharacter::UpdateLife(float Damage)
@@ -142,7 +139,6 @@ void ARODCharacter::UpdateLife(float Damage)
 void ARODCharacter::InitializeHUDValues()
 {
 	HUDManager->UpdateTime(Time);
-	HUDManager->FinishBossFight();
 	HUDManager->UpdateLife(MAXLIFE, LIFE);
 	HUDManager->TurnToMelee();
 	HUDManager->UpdateAmo(AMO);
@@ -150,33 +146,10 @@ void ARODCharacter::InitializeHUDValues()
 
 void ARODCharacter::OnHit(AActor* SelfActor, AActor* OtherActor, FVector NormalImpulse, const FHitResult& Hit) {
 	
-	
-	
 	if (OtherActor->IsA(AEnemyBullet::StaticClass())) {
 		AEnemyBullet* Bullet = Cast<AEnemyBullet>(OtherActor);
 		UpdateLife(Bullet->GetDamage());
 
-	}
-	
-
-	
-	
-
-
-	if (!bInvulnerability)
-	{
-
-		//if ((OtherActor != NULL) && (OtherActor->IsA(ALuchadoresAereosProjectile::StaticClass())) || (OtherActor->IsA(AEnemy::StaticClass())))
-		//{
-
-				//Manager->UpdateLives();
-				//SetNormalShotState();
-				//SetHitInvulnerability();
-				//UGameplayStatics::PlaySoundAtLocation(this, HitSound, GetActorLocation());
-			//UGameplayStatics::SpawnEmitterAtLocation(GetWorld(), ExplosionParticleSystem.Get(), GetActorLocation());
-		//}
-		//OtherActor->Destroy();
-		bInvulnerability = true;
 	}
 
 }
@@ -301,37 +274,4 @@ void ARODCharacter::FinishReloading()
 void ARODCharacter::FinishDistanceAttack()
 {
 	bCanDistanceAttack = true;
-}
-
-void ARODCharacter::InvulnerabilityTimerExpired()
-{
-	bInvulnerability = false;
-}
-
-void ARODCharacter::SetHitInvulnerability()
-{
-	bInvulnerability = true;
-	HitInvulnerabilityTime++;
-	if (HitInvulnerabilityTime == 4.0) {
-		bInvulnerability = false;
-		HitInvulnerabilityTime = 0.0f;
-		
-	}
-	else {
-		
-		//World->GetTimerManager().SetTimer(TimerHandle_InvulnerabilityHitExpired, this, &ARODCharacter::HitInvulnerabilityExpired, 0.5f);
-	}
-}
-
-void ARODCharacter::HitInvulnerabilityExpired()
-{
-	//World->GetTimerManager().SetTimer(TimerHandle_InvulnerabilityHitExpired, this, &ARODCharacter::SetHitInvulnerability, 0.5f);
-}
-
-void ARODCharacter::SetInvulnerability()
-{
-	bInvulnerability = true;
-	
-	//UGameplayStatics::PlaySoundAtLocation(this, InvulnerabilitySound, GetActorLocation());
-	//World->GetTimerManager().SetTimer(TimerHandle_InvulnerabilityExpired, this, &ARODCharacter::InvulnerabilityTimerExpired, InvulnerabilityTime);
 }

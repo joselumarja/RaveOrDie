@@ -26,10 +26,6 @@ public:
 
 	void TurnToGun();
 
-	void StartBossFight(const float &MAXLIFE,const float &LIFE,const FString &Name);
-
-	void FinishBossFight();
-
 	void UpdateLife(const float &MAXLIFE,const float &LIFE);
 
 	void UpdateAmo(const uint32 &Amo);
@@ -48,11 +44,7 @@ protected:
 
 	TWeakObjectPtr<UTextBlock> pAmo;
 
-	TWeakObjectPtr<UTextBlock> pBoss;
-
 	TWeakObjectPtr<UProgressBar> pLife;
-
-	TWeakObjectPtr<UProgressBar> pBossLife;
 
 	TWeakObjectPtr<UImage> pWeapon;
 

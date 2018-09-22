@@ -52,8 +52,8 @@ protected:
 	UPROPERTY()
 		TWeakObjectPtr<UAnimSequence> ThrowAnimation;
 
-public:
 
+public:
 	UFUNCTION()
 	virtual void OnHit(AActor* SelfActor, AActor* OtherActor, FVector NormalImpulse, const FHitResult& Hit);
 
@@ -61,7 +61,7 @@ public:
 	UPROPERTY(VisibleAnywhere, Category = "AI")
 	class UPawnSensingComponent* PawnSensingComp;
 
-	void ShotTimerExpired();
+
 
 	UPROPERTY(EditAnywhere, Category = "AI")
 	class UBehaviorTree* BehaviorTree;

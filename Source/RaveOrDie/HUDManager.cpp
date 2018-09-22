@@ -56,11 +56,11 @@ void AHUDManager::BeginPlay()
 
 			pAmo = (UTextBlock*)pHUDWidget->GetWidgetFromName("Amo");
 
-			pBoss = (UTextBlock*)pHUDWidget->GetWidgetFromName("BossEnemy");
+		
 
 			pTime = (UTextBlock*)pHUDWidget->GetWidgetFromName("RunTime");
 
-			pBossLife = (UProgressBar*)pHUDWidget->GetWidgetFromName("BossFightLife");
+			
 
 			pLife = (UProgressBar*)pHUDWidget->GetWidgetFromName("Life");
 
@@ -80,19 +80,7 @@ void AHUDManager::TurnToGun()
 	pWeapon->SetBrushFromTexture(Gun,false);
 }
 
-void AHUDManager::StartBossFight(const float & MAXLIFE, const float & LIFE, const FString & Name)
-{
-	pBossLife->SetPercent(LIFE / MAXLIFE);
-	pBoss->SetText(FText::Format(LOCTEXT("BossName", "{0}"), FText::FromString(Name)));
-	pBossLife->SetVisibility(ESlateVisibility::Visible);
-	pBoss->SetVisibility(ESlateVisibility::Visible);
-}
 
-void AHUDManager::FinishBossFight()
-{
-	pBoss->SetVisibility(ESlateVisibility::Hidden);
-	pBossLife->SetVisibility(ESlateVisibility::Hidden);
-}
 
 void AHUDManager::UpdateLife(const float & MAXLIFE, const float & LIFE)
 {

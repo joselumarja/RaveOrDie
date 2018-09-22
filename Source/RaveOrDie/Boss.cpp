@@ -50,7 +50,5 @@ void ABoss::Shoot() {
 		Rotation = DirectionVector.Rotation().Add(0.0f, -15.0f, 0.0f);
 		EnemyLocation = EnemyLocation + (DirectionVector * 100);
 		World->SpawnActor<AEnemyBullet>(EnemyLocation, Rotation);
-		//UGameplayStatics::PlaySoundAtLocation(this, FireSound, GetActorLocation());
 
-		
 }
