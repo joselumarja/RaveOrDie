@@ -77,7 +77,7 @@ protected:
 
 	virtual void Tick(float DeltaTime) override;
 
-	void UpdateLife(float Damage);
+	
 
 private:
 	/** Top down camera */
@@ -92,6 +92,9 @@ private:
 		class USkeletalMeshComponent* FP_Gun;
 
 	FVector GunOffset;
+
+	UFUNCTION(BlueprintCallable,Category=Life)
+	void UpdateLife(float Damage);
 
 	UFUNCTION()
 	void OnHit(AActor* SelfActor, AActor* OtherActor, FVector NormalImpulse, const FHitResult& Hit);
