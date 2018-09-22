@@ -87,7 +87,7 @@ private:
 
 	void SpawnEnemy(FVector &Location, FRotator Rotation);
 
-	EEnemigo GetRandomEnemyClass() const;
+	EEnemigo GetRandomEnemyClass();
 
 	float SafeSpawnRange;
 
