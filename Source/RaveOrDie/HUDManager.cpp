@@ -15,21 +15,21 @@
 // Sets default values
 AHUDManager::AHUDManager()
 {
-	auto FHUDWidget = ConstructorHelpers::FClassFinder<UUserWidget>(TEXT("'/Game/Blueprints/HUD'"));
+	auto FHUDWidget = ConstructorHelpers::FClassFinder<UUserWidget>(TEXT("'/Game/Blueprints/Menus/HUD'"));
 
 	if (FHUDWidget.Succeeded())
 	{
 		HUDWidget = FHUDWidget.Class;
 	}
 
-	auto FKnife = ConstructorHelpers::FObjectFinder<UTexture2D>(TEXT("'/Game/Blueprints/Knife.Knife'"));
+	auto FKnife = ConstructorHelpers::FObjectFinder<UTexture2D>(TEXT("'/Game/Blueprints/Menus/Knife.Knife'"));
 
 	if (FKnife.Succeeded())
 	{
 		Knife = FKnife.Object;
 	}
 
-	auto FGun = ConstructorHelpers::FObjectFinder<UTexture2D>(TEXT("'/Game/Blueprints/Gun.Gun'"));
+	auto FGun = ConstructorHelpers::FObjectFinder<UTexture2D>(TEXT("'/Game/Blueprints/Menus/Gun.Gun'"));
 
 	if (FGun.Succeeded())
 	{
