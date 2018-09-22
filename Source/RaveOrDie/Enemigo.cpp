@@ -107,8 +107,8 @@ void AEnemigo::MoveToPlayer() {
 		FVector ActualLocation = GetActorLocation();
 		FVector DirectionVector = PlayerPawn->GetActorLocation() - ActualLocation;
 
-		FVector Movement = (DirectionVector.GetSafeNormal()*(DeltaSeconds*MoveSpeed));
-		const FRotator NewRotation(0, 0, 0);
+		FVector Movement = (DirectionVector.GetSafeNormal()*(DeltaSeconds * 150));
+		const FRotator NewRotation = FRotationMatrix::MakeFromX(DirectionVector).Rotator();
 		FHitResult Hit(1.f);
 		RootComponent->MoveComponent(Movement, NewRotation, true);
 
@@ -118,6 +118,7 @@ void AEnemigo::MoveToPlayer() {
 			const FVector Deflection = FVector::VectorPlaneProject(Movement, Normal2D) * (1.f - Hit.Time);
 			RootComponent->MoveComponent(Deflection, NewRotation, true);
 		}
+
 }
 float AEnemigo::DistanceToPlayer()
 {

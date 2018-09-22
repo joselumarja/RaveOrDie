@@ -17,7 +17,6 @@ EBTNodeResult::Type UBTTEnemyShoot::ExecuteTask(UBehaviorTreeComponent & OwnerCo
 		AMyAIController* AICon = Cast<AMyAIController>(OwnerComp.GetAIOwner());
 		if (AICon)
 		{
-
 			UBlackboardComponent* BlackboardComp = AICon->GetBlackboardComp();
 			AEnemigo* Enemigo = Cast<AEnemigo>(BlackboardComp->GetValueAsObject("SelfActor"));
 			Enemigo->Shoot();
