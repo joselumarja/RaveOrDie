@@ -11,6 +11,7 @@
 
 AMeleeEnemigo::AMeleeEnemigo() :Super() {
 	PrimaryActorTick.bCanEverTick = true;
+	MeleeDamage = 25.0f;
 	/*PawnSensingComp = CreateDefaultSubobject<UPawnSensingComponent>(TEXT("PawnSensingComp"));
 	//Set the peripheral vision angle to 90 degrees
 	/*PawnSensingComp->SetPeripheralVisionAngle(30.f);

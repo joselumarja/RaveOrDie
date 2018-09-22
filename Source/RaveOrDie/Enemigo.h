@@ -71,4 +71,9 @@ public:
 	float DistanceToPlayer();
 
 	virtual void Shoot() PURE_VIRTUAL(AEnemigo::Shoot, );
+
+	UFUNCTION(BlueprintCallable)
+	float GetMeleeDamage() const;
+
+	float MeleeDamage;
 };

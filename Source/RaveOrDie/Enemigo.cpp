@@ -23,7 +23,7 @@ AEnemigo::AEnemigo()
 	//Set the peripheral vision angle to 90 degrees
 	PawnSensingComp->SetPeripheralVisionAngle(90.f);
 	Health = 100.0f;
-
+	
 }
 
 // Called when the game starts or when spawned
@@ -134,4 +134,9 @@ float AEnemigo::DistanceToPlayer()
 	z = z * z;
 
 	return FMath::Sqrt(x + y + z);
+}
+
+float AEnemigo::GetMeleeDamage() const
+{
+	return MeleeDamage;
 }
