@@ -268,8 +268,9 @@ void ARODCharacter::MeleeAttack()
 
 void ARODCharacter::DistanceAttack()
 {
-	if (!bReloading && AMO-- > 0)
+	if (!bReloading && AMO > 0)
 	{
+		AMO--;
 		HUDManager->UpdateAmo(AMO);
 		World->GetTimerManager().SetTimer(ShotingTimer, this, &ARODCharacter::FinishDistanceAttack, 0.5f);
 		const FRotator SpawnRotation = GetActorRotation();

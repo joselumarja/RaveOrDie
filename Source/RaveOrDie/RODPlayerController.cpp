@@ -58,8 +58,18 @@ void ARODPlayerController::SetupInputComponent()
 
 	InputComponent->BindAction(AttackBinding, IE_Pressed, this, &ARODPlayerController::Attack);
 	InputComponent->BindAction(SwapWeaponBinding, IE_Pressed, this, &ARODPlayerController::SwapWeapon);
+	InputComponent->BindAction(ReloadBinding, IE_Pressed, this, &ARODPlayerController::Reload);
 
 
+}
+
+void ARODPlayerController::Reload()
+{
+	ARODCharacter* RODCharacter = Cast<ARODCharacter>(GetPawn());
+	if (RODCharacter != NULL)
+	{
+		RODCharacter->Reload();
+	}
 }
 
 void ARODPlayerController::Attack()

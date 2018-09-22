@@ -27,6 +27,7 @@ public:
 	const FName MoveXBinding=FName("MoveX");
 	const FName AttackBinding = FName("Attack");
 	const FName SwapWeaponBinding = FName("SwapWeapon");
+	const FName ReloadBinding = FName("Reload");
 	const FName RotationXBinding = FName("RotationX");
 	const FName RotationYBinding = FName("RotationY");
 
@@ -44,6 +45,8 @@ protected:
 	void Attack();
 
 	void SwapWeapon();
+
+	void Reload();
 
 	float a;
 
