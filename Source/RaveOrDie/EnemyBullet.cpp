@@ -19,6 +19,6 @@ AEnemyBullet::AEnemyBullet() : Super()
 
 	ProjectileMesh->bForceNavigationObstacle = true;
 
-	Damage = 35;
+	Damage = 25;
 
 }
