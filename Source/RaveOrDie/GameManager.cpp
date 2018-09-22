@@ -13,8 +13,6 @@
 #include "Blueprint/UserWidget.h"
 #include "TextWidgetTypes.h"
 #include "Runtime/UMG/Public/Components/TextBlock.h"
-/*#include "Runtime/SlateCore/Public/Styling/SlateTypes.h"
-#include "Runtime/SlateCore/Public/Fonts/SlateFontInfo.h"*/
 
 UGameManager::UGameManager() 
 {
