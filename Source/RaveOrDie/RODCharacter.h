@@ -69,7 +69,11 @@ public:
 
 	void FinishMeleeAttack();
 
+
+	void UpdateLife(float Damage);
+
 	void FinishReloading();
+
 
 protected:
 	// Called when the game starts or when spawned
