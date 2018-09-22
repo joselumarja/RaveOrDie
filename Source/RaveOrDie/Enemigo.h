@@ -49,6 +49,9 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Stats")
 		bool CanBeDamaged = true;
 
+	UPROPERTY()
+		TWeakObjectPtr<UAnimSequence> ThrowAnimation;
+
 public:
 
 	UFUNCTION()

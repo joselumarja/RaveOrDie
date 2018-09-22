@@ -12,6 +12,12 @@
 ARangedEnemigo::ARangedEnemigo() :Super() {
 	PrimaryActorTick.bCanEverTick = true;
 	OnActorHit.AddDynamic(this, &AEnemigo::OnHit);
+
+	/*auto AnimAsset = ConstructorHelpers::FObjectFinder<UAnimSequence>(TEXT(""));
+	if (AnimAsset.Succeeded())
+	{
+		ThrowAnimation = AnimAsset.Object;
+	}*/
 }
 
 
@@ -33,12 +39,14 @@ void ARangedEnemigo::Tick(float DeltaTime)
 }
 
 void ARangedEnemigo::Shoot() {
-	
-		FVector EnemyLocation = GetActorLocation();
-		FVector PlayerLocation = PlayerPawn->GetActorLocation();
-		FVector DirectionVector = FVector(PlayerLocation.X - EnemyLocation.X, PlayerLocation.Y - EnemyLocation.Y, .0f).GetSafeNormal();
-		FRotator Rotation = DirectionVector.Rotation();
-		EnemyLocation = EnemyLocation + (DirectionVector * 100);
-		World->SpawnActor<AEnemyBullet>(EnemyLocation, Rotation);
+	USkeletalMeshComponent * Mesh;
+	Mesh = GetMesh();
+	Mesh->PlayAnimation(ThrowAnimation.Get(), false);
+	FVector EnemyLocation = GetActorLocation();
+	FVector PlayerLocation = PlayerPawn->GetActorLocation();
+	FVector DirectionVector = FVector(PlayerLocation.X - EnemyLocation.X, PlayerLocation.Y - EnemyLocation.Y, .0f).GetSafeNormal();
+	FRotator Rotation = DirectionVector.Rotation();
+	EnemyLocation = EnemyLocation + (DirectionVector * 100);
+	World->SpawnActor<AEnemyBullet>(EnemyLocation, Rotation);
 
 }
