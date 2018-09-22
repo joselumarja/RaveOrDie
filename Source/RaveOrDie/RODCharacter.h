@@ -167,6 +167,4 @@ private:
 
 	FTimerHandle ReloadingTimer;
 
-	UWorld* World;
-
 };

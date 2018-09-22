@@ -26,7 +26,6 @@
 // Sets default values
 ARODCharacter::ARODCharacter()
 {
-	World = GetWorld();
 	// Set size for player capsule
 	GetCapsuleComponent()->InitCapsuleSize(42.f, 96.0f);
 
@@ -269,7 +268,7 @@ void ARODCharacter::MeleeAttack()
 {
 	bIsInMeleeAttack = true;
 	GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Purple, TEXT("atacando"));
-	World->GetTimerManager().SetTimer(PunchingTimer, this, &ARODCharacter::FinishMeleeAttack, 1.f);
+	GetWorld()->GetTimerManager().SetTimer(PunchingTimer, this, &ARODCharacter::FinishMeleeAttack, 1.f);
 }
 
 void ARODCharacter::DistanceAttack()
@@ -278,7 +277,7 @@ void ARODCharacter::DistanceAttack()
 	{
 		AMO--;
 		HUDManager->UpdateAmo(AMO);
-		World->GetTimerManager().SetTimer(ShotingTimer, this, &ARODCharacter::FinishDistanceAttack, 0.5f);
+		GetWorld()->GetTimerManager().SetTimer(ShotingTimer, this, &ARODCharacter::FinishDistanceAttack, 0.5f);
 		const FRotator SpawnRotation = GetActorRotation();
 		const FVector SpawnLocation =  GetActorLocation() + SpawnRotation.RotateVector(GunOffset);
 		GetWorld()->SpawnActor<APlayerBullet>(SpawnLocation, SpawnRotation);
