@@ -24,5 +24,5 @@ APlayerBullet::APlayerBullet() : Super()
 	ProjectileMovement->bShouldBounce = false;
 	ProjectileMovement->ProjectileGravityScale = 0.f; // No gravity
 
-
+	Damage = 35.0f;
 }

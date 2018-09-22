@@ -26,5 +26,5 @@ AEnemyBullet::AEnemyBullet() : Super()
 	ProjectileMovement->bShouldBounce = false;
 	ProjectileMovement->ProjectileGravityScale = 0.f; // No gravity
 
-
+	Damage = 25.0f;
 }
