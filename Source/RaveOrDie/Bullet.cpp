@@ -6,8 +6,12 @@
 // Sets default values
 ABullet::ABullet()
 {
-	
-	Damage = 50;
+	ProjectileMovement = CreateDefaultSubobject<UProjectileMovementComponent>(TEXT("BulletMovement"));
+	ProjectileMovement->UpdatedComponent = ProjectileMesh;
+	ProjectileMovement->InitialSpeed = 1200.f;
+	ProjectileMovement->MaxSpeed = 1200.f;
+	ProjectileMovement->bShouldBounce = false;
+	ProjectileMovement->ProjectileGravityScale = 0.f; // No gravity
 }
 
 void ABullet::OnHit(UPrimitiveComponent* HitComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit)
@@ -15,10 +19,9 @@ void ABullet::OnHit(UPrimitiveComponent* HitComp, AActor* OtherActor, UPrimitive
 
 	if ((OtherActor != NULL) && !OtherActor->IsA(AEnemigo::StaticClass()))
 	{
-		
+		Destroy();
 	}
 
-	Destroy();
 }
 
 

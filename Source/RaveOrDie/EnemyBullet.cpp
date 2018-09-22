@@ -19,12 +19,6 @@ AEnemyBullet::AEnemyBullet() : Super()
 
 	ProjectileMesh->bForceNavigationObstacle = true;
 
-	ProjectileMovement = CreateDefaultSubobject<UProjectileMovementComponent>(TEXT("BulletMovement"));
-	ProjectileMovement->UpdatedComponent = ProjectileMesh;
-	ProjectileMovement->InitialSpeed = 1200.f;
-	ProjectileMovement->MaxSpeed = 1200.f;
-	ProjectileMovement->bShouldBounce = false;
-	ProjectileMovement->ProjectileGravityScale = 0.f; // No gravity
-
+	Damage = 35;
 
 }

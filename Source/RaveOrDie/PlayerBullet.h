@@ -6,9 +6,7 @@
 #include "Bullet.h"
 #include "PlayerBullet.generated.h"
 
-/**
- * 
- */
+
 UCLASS()
 class RAVEORDIE_API APlayerBullet : public ABullet
 {

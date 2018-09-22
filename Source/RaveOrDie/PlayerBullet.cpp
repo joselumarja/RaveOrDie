@@ -1,6 +1,7 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "PlayerBullet.h"
+#include "Enemigo.h"
 
 
 APlayerBullet::APlayerBullet() : Super()
@@ -17,12 +18,8 @@ APlayerBullet::APlayerBullet() : Super()
 
 	ProjectileMesh->bForceNavigationObstacle = true;
 
-	ProjectileMovement = CreateDefaultSubobject<UProjectileMovementComponent>(TEXT("BulletMovement"));
-	ProjectileMovement->UpdatedComponent = ProjectileMesh;
-	ProjectileMovement->InitialSpeed = 1200.f;
-	ProjectileMovement->MaxSpeed = 1200.f;
-	ProjectileMovement->bShouldBounce = false;
-	ProjectileMovement->ProjectileGravityScale = 0.f; // No gravity
+	Damage = 50;
 
 
 }
+

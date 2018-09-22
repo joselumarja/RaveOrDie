@@ -6,9 +6,7 @@
 #include "Bullet.h"
 #include "EnemyBullet.generated.h"
 
-/**
- * 
- */
+
 UCLASS()
 class RAVEORDIE_API AEnemyBullet : public ABullet
 {
