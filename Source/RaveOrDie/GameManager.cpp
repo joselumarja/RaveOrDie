@@ -115,13 +115,16 @@ void UGameManager::SpawnEnemy(FVector &Location,FRotator Rotation)
 	switch (EnemyToSpawn)
 	{
 	case EEnemigo::MELEE:
-		GetWorld()->SpawnActor<AMeleeEnemigo>(MyMeleeBlueprint, EnemySpawnLocation, Rotation);
+		World->SpawnActor<AMeleeEnemigo>(MyMeleeBlueprint, EnemySpawnLocation, Rotation);
+
 		break;
 	case EEnemigo::RANGED:
-		GetWorld()->SpawnActor<ARangedEnemigo>(MyRangedBlueprint, EnemySpawnLocation, Rotation);
+		World->SpawnActor<ARangedEnemigo>(MyRangedBlueprint, EnemySpawnLocation, Rotation);
+
 		break;
 	case EEnemigo::BOSS:
-		GetWorld()->SpawnActor<ABoss>(MyBossBlueprint, EnemySpawnLocation, Rotation);
+		World->SpawnActor<ABoss>(MyBossBlueprint, EnemySpawnLocation, Rotation);
+
 		break;
 
 	}
@@ -159,9 +162,10 @@ void UGameManager::IncreaseEventCounter(EEvent Event)
 	EventsCounter.Add(Event, ++EventsCounter[Event]);
 }
 
-EEnemigo UGameManager::GetRandomEnemyClass() const
+EEnemigo UGameManager::GetRandomEnemyClass()
 {
-	uint8 Random = FMath::RandRange(1, 6);
+	
+	float Random = FMath::FRand()*6;
 
 	if (Random < 3)
 	{
