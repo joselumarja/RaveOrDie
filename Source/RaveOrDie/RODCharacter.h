@@ -107,7 +107,7 @@ private:
 	
 	bool bInvulnerability = false;
 
-	float MeleeDamage = 50.f;
+	float MeleeDamage = 100.f;
 
 	void MeleeAttack();
 
