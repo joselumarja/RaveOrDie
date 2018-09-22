@@ -11,6 +11,7 @@
 #include "Subject.h"
 #include "RODGameStateBase.h"
 #include "Evento.h"
+#include "PlayerBullet.h"
 
 
 // Sets default values
@@ -73,18 +74,9 @@ void AEnemigo::OnHit(AActor* SelfActor, AActor* OtherActor, FVector NormalImpuls
 	if (AIController)
 	{
 
-		ARODCharacter* RODCharacter = Cast<ARODCharacter>(OtherActor);
-		
-		if (RODCharacter != NULL && RODCharacter->IsInMeleeAttack())
+		if (OtherActor->IsA(APlayerBullet::StaticClass()))
 		{
-			UpdateLife(RODCharacter->GetMeleeDamage());
-			GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, FString::Printf(TEXT("Enemigo golpeado! %f"), Health));
-			
-		}
-		
-		if (OtherActor->IsA(ABullet::StaticClass()))
-		{
-			ABullet* Bullet = Cast<ABullet>(OtherActor);
+			APlayerBullet* Bullet = Cast<APlayerBullet>(OtherActor);
 
 			UpdateLife(Bullet->GetDamage());
 			EnemySubject->Notify(this, EEvent::EVENT_SHOT_ON_TARGET);

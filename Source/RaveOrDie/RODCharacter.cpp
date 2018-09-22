@@ -19,6 +19,7 @@
 #include "Evento.h"
 #include "Bullet.h"
 #include "PlayerBullet.h"
+#include "EnemyBullet.h"
 
 
 // Sets default values
@@ -133,6 +134,13 @@ void ARODCharacter::InitializeHUDValues()
 void ARODCharacter::OnHit(AActor* SelfActor, AActor* OtherActor, FVector NormalImpulse, const FHitResult& Hit) {
 	
 	GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, TEXT("Me ha golpeado el enemigo"));
+	
+	if (OtherActor->IsA(AEnemyBullet::StaticClass())) {
+		AEnemyBullet* Bullet = Cast<AEnemyBullet>(OtherActor);
+		UpdateLife(Bullet->GetDamage());
+
+	}
+	
 	if (!bInvulnerability)
 	{
 
@@ -292,3 +300,13 @@ void ARODCharacter::SetInvulnerability()
 	//World->GetTimerManager().SetTimer(TimerHandle_InvulnerabilityExpired, this, &ARODCharacter::InvulnerabilityTimerExpired, InvulnerabilityTime);
 }
 
+void ARODCharacter::UpdateLife(float Damage) {
+	LIFE -= Damage;
+
+	HUDManager->UpdateLife(MAXLIFE, LIFE);
+	if (LIFE <= 0) {
+		
+		//FIN DEL JUEGO
+
+	}
+}
