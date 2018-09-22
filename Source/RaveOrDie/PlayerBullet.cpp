@@ -24,6 +24,5 @@ APlayerBullet::APlayerBullet() : Super()
 
 	Damage = 50;
 
-
 }
 
