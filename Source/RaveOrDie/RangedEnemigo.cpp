@@ -38,11 +38,12 @@ void ARangedEnemigo::Tick(float DeltaTime)
 	Super::Tick(DeltaTime);
 }
 
-void ARangedEnemigo::Shoot() {
+void ARangedEnemigo::PlayAnim()
+{
+	GetMesh()->PlayAnimation(ThrowAnimation.Get(), false);
+}
 
-	USkeletalMeshComponent * Mesh;
-	Mesh = GetMesh();
-	Mesh->PlayAnimation(ThrowAnimation.Get(), false);
+void ARangedEnemigo::Shoot() {
 
 	FVector EnemyLocation = GetActorLocation();
 	FVector PlayerLocation = PlayerPawn->GetActorLocation();

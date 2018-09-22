@@ -7,13 +7,12 @@
 #include "Boss.h"
 #include "MeleeEnemigo.h"
 #include "BehaviorTree/BlackboardComponent.h"
-#include "Enemigo.h"
+#include "RangedEnemigo.h"
 
 /* THIS NODE EVALUATES THE DISTANCE FROM THE ENEMY TO THE PLAYER */
 
 EBTNodeResult::Type UBTMoveToPlayer::ExecuteTask(UBehaviorTreeComponent & OwnerComp, uint8 * NodeMemory)
 {
-	
 	
 		AMyAIController* AICon = Cast<AMyAIController>(OwnerComp.GetAIOwner());
 		
@@ -21,16 +20,15 @@ EBTNodeResult::Type UBTMoveToPlayer::ExecuteTask(UBehaviorTreeComponent & OwnerC
 		{
 
 			UBlackboardComponent* BlackboardComp = AICon->GetBlackboardComp();
-			AEnemigo* Enemigo = Cast<AEnemigo>(BlackboardComp->GetValueAsObject("SelfActor"));
 
-			float Distance=Enemigo->DistanceToPlayer();
-			if (Distance < 800.0f){
-				return EBTNodeResult::Succeeded;
-			}
-		
+			ARangedEnemigo* Enemigo = Cast<ARangedEnemigo>(BlackboardComp->GetValueAsObject("SelfActor"));
+
+			float Distance = Enemigo->DistanceToPlayer();
+			BlackboardComp->SetValueAsFloat("Distancia", Distance);
+			Enemigo->MoveToPlayer();
 		}
 
 	
-	return EBTNodeResult::Failed;
+	return EBTNodeResult::Succeeded;
 	
 }

@@ -20,10 +20,14 @@ public:
 
 	bool bCanFire = true;
 
+	void PlayAnim();
+
+	void Shoot() override;
+
 protected:
 
 	virtual void BeginPlay() override;
 
-	void Shoot() override;
+	
 	
 };
