@@ -6,7 +6,7 @@
 #include "BehaviorTree/BehaviorTree.h"
 #include "Perception/PawnSensingComponent.h"
 #include "GameManager.h"
-#include "Bullet.h"
+#include "EnemyBullet.h"
 #include "RODCharacter.h"
 
 ARangedEnemigo::ARangedEnemigo() :Super() {
@@ -39,6 +39,6 @@ void ARangedEnemigo::Shoot() {
 		FVector DirectionVector = FVector(PlayerLocation.X - EnemyLocation.X, PlayerLocation.Y - EnemyLocation.Y, .0f).GetSafeNormal();
 		FRotator Rotation = DirectionVector.Rotation();
 		EnemyLocation = EnemyLocation + (DirectionVector * 100);
-		World->SpawnActor<ABullet>(EnemyLocation, Rotation);
+		World->SpawnActor<AEnemyBullet>(EnemyLocation, Rotation);
 
 }

@@ -6,7 +6,7 @@
 #include "BehaviorTree/BehaviorTree.h"
 #include "Perception/PawnSensingComponent.h"
 #include "GameManager.h"
-#include "Bullet.h"
+#include "EnemyBullet.h"
 #include "RODCharacter.h"
 #include "Subject.h"
 #include "RODGameStateBase.h"
