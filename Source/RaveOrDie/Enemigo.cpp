@@ -6,11 +6,12 @@
 #include "BehaviorTree/BehaviorTree.h"
 #include "Perception/PawnSensingComponent.h"
 #include "GameManager.h"
-#include "Bullet.h"
+#include "EnemyBullet.h"
 #include "RODCharacter.h"
 #include "Subject.h"
 #include "RODGameStateBase.h"
 #include "Evento.h"
+#include "PlayerBullet.h"
 
 
 // Sets default values
@@ -22,7 +23,7 @@ AEnemigo::AEnemigo()
 	//Set the peripheral vision angle to 90 degrees
 	PawnSensingComp->SetPeripheralVisionAngle(90.f);
 	Health = 100.0f;
-
+	
 }
 
 // Called when the game starts or when spawned
@@ -73,18 +74,9 @@ void AEnemigo::OnHit(AActor* SelfActor, AActor* OtherActor, FVector NormalImpuls
 	if (AIController)
 	{
 
-		ARODCharacter* RODCharacter = Cast<ARODCharacter>(OtherActor);
-		
-		if (RODCharacter != NULL && RODCharacter->IsInMeleeAttack())
+		if (OtherActor->IsA(APlayerBullet::StaticClass()))
 		{
-			UpdateLife(RODCharacter->GetMeleeDamage());
-			GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, FString::Printf(TEXT("Enemigo golpeado! %f"), Health));
-			
-		}
-		
-		if (OtherActor->IsA(ABullet::StaticClass()))
-		{
-			ABullet* Bullet = Cast<ABullet>(OtherActor);
+			APlayerBullet* Bullet = Cast<APlayerBullet>(OtherActor);
 
 			UpdateLife(Bullet->GetDamage());
 			EnemySubject->Notify(this, EEvent::EVENT_SHOT_ON_TARGET);
@@ -142,4 +134,9 @@ float AEnemigo::DistanceToPlayer()
 	z = z * z;
 
 	return FMath::Sqrt(x + y + z);
+}
+
+float AEnemigo::GetMeleeDamage() const
+{
+	return MeleeDamage;
 }

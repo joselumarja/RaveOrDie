@@ -10,6 +10,9 @@
 #include "Engine.h"
 #include "TimeStruct.h"
 #include "MySaveGame.h"
+#include "Blueprint/UserWidget.h"
+#include "TextWidgetTypes.h"
+#include "Runtime/UMG/Public/Components/TextBlock.h"
 
 UGameManager::UGameManager() 
 {
@@ -18,18 +21,47 @@ UGameManager::UGameManager()
 	EventsCounter.Add(EEvent::EVENT_KILL, 0);
 
 	InitializeEnemies();
+
+	SafeSpawnRange = 250.f;
+
+	DistanceBetweenAreas = 500.f;
+
+	auto FFinishWidget = ConstructorHelpers::FClassFinder<UUserWidget>(TEXT("'/Game/Blueprints/Menus/BP_FinishScreen'"));
+
+	if (FFinishWidget.Succeeded())
+	{
+		FinishWidget = FFinishWidget.Class;
+	}
 	
-}
-
-void UGameManager::ResetStatistics()
-{
-
 }
 
 void UGameManager::GameOver()
 {
-	UGameplayStatics::OpenLevel(GetWorld(), TEXT("/Game/Maps/MainMenu.MainMenu"), TRAVEL_Absolute);
-	
+	InitializeFinishWidget();
+	pFailText->SetVisibility(ESlateVisibility::Visible);
+}
+
+void UGameManager::InitializeFinishWidget()
+{
+	if (FinishWidget)
+	{
+		pFinishWidget = CreateWidget<UUserWidget>(World->GetGameInstance(), FinishWidget);
+
+		// now you can use the widget directly since you have a reference for it.
+		// Extra check to  make sure the pointer holds the widget.
+		if (pFinishWidget.IsValid())
+		{
+
+			pFinishWidget->AddToViewport();
+
+			pWinText = (UTextBlock*)pFinishWidget->GetWidgetFromName("WinText");
+			pFailText = (UTextBlock*)pFinishWidget->GetWidgetFromName("FailText");
+
+			pWinText->SetVisibility(ESlateVisibility::Hidden);
+			pFailText->SetVisibility(ESlateVisibility::Hidden);
+
+		}
+	}
 }
 
 void UGameManager::ObjectiveAccomplished()
@@ -46,31 +78,58 @@ void UGameManager::ObjectiveAccomplished()
 	float Accuracy = ((float) EventsCounter[EEvent::EVENT_SHOT_ON_TARGET]) / ((float) EventsCounter[EEvent::EVENT_SHOT]);
 	SaveGameInstance->UpdateRecords(Name, EventsCounter[EEvent::EVENT_KILL], Accuracy, PlayTime);
 	UGameplayStatics::SaveGameToSlot(SaveGameInstance, SaveGameInstance->SaveSlotName, SaveGameInstance->UserIndex);
-	GameOver();
+
+	InitializeFinishWidget();
+	pWinText->SetVisibility(ESlateVisibility::Visible);
+	
 }
 
 
 
-void UGameManager::SpawnEnemies(int Enemies, FVector Position) {
-	int32 aux;
-	for (int i = 0; i < Enemies; i++) {
-		FVector EnemySpawnLocation = GetRandomLocation();
-		FRotator Rotation(0.0f, 180.0f, 0.0f);
-		aux = GetRandomEnemyClass();
-		if (aux == 0){
-			AMeleeEnemigo* DroppedItem = GetWorld()->SpawnActor<AMeleeEnemigo>(MyMeleeBlueprint, EnemySpawnLocation, Rotation);
-			
-		}
-		else if (aux == 1) {
-			ARangedEnemigo* DroppedItem2 = GetWorld()->SpawnActor<ARangedEnemigo>(MyRangedBlueprint, EnemySpawnLocation, Rotation);
-		}
-		else if (aux == 3) {
-			ABoss* DroppedItem3 = GetWorld()->SpawnActor<ABoss>(MyBossBlueprint, EnemySpawnLocation, Rotation);
+void UGameManager::SpawnEnemies(int32 Enemies, FVector Position, FRotator EnemiesRotation) {
 
+	int NX = Enemies / 2;
+	int NY = Enemies / 2 + Enemies % 2;
+	int SpawnedEnemies = 0;
+
+	FVector StartSpawnLocation = FVector(Position.X - (NX*DistanceBetweenAreas / 2), Position.Y - (NY*DistanceBetweenAreas / 2),Position.Z);
+
+	for (int i = 0; i < NX; i++)
+	{
+		for (int j = 0; Enemies > SpawnedEnemies++ && j < NY; j++)
+		{
+			FVector NewSpawnLocation = StartSpawnLocation + (FVector(i, j, 0.f)*DistanceBetweenAreas);
+			SpawnEnemy(NewSpawnLocation,EnemiesRotation);
 		}
-		EnemiesAlived++;
 	}
 	
+}
+
+void UGameManager::SpawnEnemy(FVector &Location,FRotator Rotation)
+{
+	EEnemigo EnemyToSpawn = GetRandomEnemyClass();
+	float RandomYRotation = FMath::FRandRange(-45.f, 45.f);
+	Rotation.Yaw += RandomYRotation;
+	FVector EnemySpawnLocation = GetRandomLocation(Location, SafeSpawnRange);
+
+	switch (EnemyToSpawn)
+	{
+	case EEnemigo::MELEE:
+		GetWorld()->SpawnActor<AMeleeEnemigo>(MyMeleeBlueprint, EnemySpawnLocation, Rotation);
+		break;
+	case EEnemigo::RANGED:
+		GetWorld()->SpawnActor<ARangedEnemigo>(MyRangedBlueprint, EnemySpawnLocation, Rotation);
+		break;
+	case EEnemigo::BOSS:
+		GetWorld()->SpawnActor<ABoss>(MyBossBlueprint, EnemySpawnLocation, Rotation);
+		break;
+
+	}
+}
+
+void UGameManager::SetWorld(UWorld *World)
+{
+	this->World = World;
 }
 
 void UGameManager::OnNotify(UObject* Entity, EEvent Event)
@@ -100,22 +159,35 @@ void UGameManager::IncreaseEventCounter(EEvent Event)
 	EventsCounter.Add(Event, ++EventsCounter[Event]);
 }
 
-int32 UGameManager::GetRandomEnemyClass() const
+EEnemigo UGameManager::GetRandomEnemyClass() const
 {
-	return FMath::RandRange(1, 3);
+	uint8 Random = FMath::RandRange(1, 6);
+
+	if (Random < 3)
+	{
+		return EEnemigo::MELEE;
+	}
+
+	if (Random < 5)
+	{
+		return EEnemigo::RANGED;
+	}
+
+	return EEnemigo::BOSS;
+
 }
 
 // Gets a random place to spawn an enemy
-FVector UGameManager::GetRandomLocation() const
+FVector UGameManager::GetRandomLocation(FVector &Location, float &SafeRange) const
 {
-	float x;
-	float y;
-	float z = PlayerPawn->GetActorLocation().Z;
+	float x, y;
+	float HalfSafeRange = SafeRange / 2;
 
-	y = FMath::RandRange(-1950, 1950);
-	x = FMath::RandRange(2900, 3000);
-	FVector RandomLocation(x, y, z);
-	return RandomLocation;
+	y = FMath::RandRange(Location.X-HalfSafeRange, Location.X+HalfSafeRange);
+	x = FMath::RandRange(Location.Y-HalfSafeRange, Location.Y+HalfSafeRange);
+
+	return FVector(x, y, Location.Z);
+
 }
 
 

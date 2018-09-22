@@ -42,7 +42,7 @@ void AHUDManager::BeginPlay()
 {
 	Super::BeginPlay();
 	
-	if (HUDWidget) // Check if the Asset is assigned in the blueprint.
+	if (HUDWidget) // Check if the Asset is assigned
 	{
 		// Create the widget and store it.
 		pHUDWidget = CreateWidget<UUserWidget>(GetGameInstance(), HUDWidget);
@@ -99,9 +99,16 @@ void AHUDManager::UpdateLife(const float & MAXLIFE, const float & LIFE)
 	pLife->SetPercent(LIFE/MAXLIFE);
 }
 
-void AHUDManager::UpdateAmo(const uint32 & Amo)
+void AHUDManager::UpdateAmo(const uint32 &Amo)
 {
-	pAmo->SetText(FText::Format(LOCTEXT("AMO", "{0}"), FText::AsNumber(Amo)));
+	if (Amo > 0)
+	{
+		pAmo->SetText(FText::Format(LOCTEXT("AMO", "{0}"), FText::AsNumber(Amo)));
+	}
+	else
+	{
+		pAmo->SetText(FText::Format(LOCTEXT("AMO", "{0}"), FText::FromString("RECARGA!!")));
+	}
 }
 
 void AHUDManager::UpdateTime(const FTimeStruct &Time)

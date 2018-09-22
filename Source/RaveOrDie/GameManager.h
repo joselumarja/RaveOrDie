@@ -7,6 +7,17 @@
 #include "Observer.h"
 #include "GameManager.generated.h"
 
+class UUserWidget;
+class UTextBlock;
+
+UENUM()
+enum class EEnemigo : uint8
+{
+	MELEE,
+	RANGED,
+	BOSS
+};
+
 class AEnemigo;
 
 UCLASS()
@@ -18,6 +29,8 @@ public:
 
 	UGameManager();
 
+	void SetWorld(UWorld *World);
+
 	void OnNotify(UObject* Entity, EEvent Event) override;
 
 	TSubclassOf<class AMeleeEnemigo> MyMeleeBlueprint;
@@ -28,9 +41,19 @@ public:
 
 	void InitializeEnemies();
 
-	void SpawnEnemies(int Enemies, FVector Position);
+	void SpawnEnemies(int32 Enemies, FVector Position, FRotator EnemiesRotation);
 
 private:
+
+	TSubclassOf<UUserWidget> FinishWidget;
+
+	TWeakObjectPtr<UUserWidget> pFinishWidget;
+
+	TWeakObjectPtr<UTextBlock> pWinText;
+
+	TWeakObjectPtr<UTextBlock> pFailText;
+
+	void InitializeFinishWidget();
 
 	void ObjectiveAccomplished();
 
@@ -41,8 +64,6 @@ private:
 	uint32 EnemiesKilled;
 
 	bool bIsGameSesionInProgress;
-
-	void ResetStatistics();
 
 	void GameOver();
 
@@ -62,13 +83,17 @@ private:
 
 	TArray<TSubclassOf<AEnemigo>> EnemyClasses;
 
-	FVector GetRandomLocation() const;
+	FVector GetRandomLocation(FVector &Location, float &SafeRange) const;
 
-	
+	void SpawnEnemy(FVector &Location, FRotator Rotation);
 
-	int32 GetRandomEnemyClass() const;
+	EEnemigo GetRandomEnemyClass() const;
 
-	TWeakObjectPtr<ACharacter> PlayerPawn;
+	float SafeSpawnRange;
+
+	float DistanceBetweenAreas;
+
+	UWorld *World;
 };
 
 

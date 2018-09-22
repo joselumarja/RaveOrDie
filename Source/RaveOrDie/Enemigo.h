@@ -35,7 +35,6 @@ protected:
 
 	UWorld* World;
 
-
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
@@ -72,4 +71,9 @@ public:
 	float DistanceToPlayer();
 
 	virtual void Shoot() PURE_VIRTUAL(AEnemigo::Shoot, );
+
+	UFUNCTION(BlueprintCallable)
+	float GetMeleeDamage() const;
+
+	float MeleeDamage;
 };

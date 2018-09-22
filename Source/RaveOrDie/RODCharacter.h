@@ -51,6 +51,8 @@ public:
 
 	void Clock();
 
+	void Reload();
+
 	UPROPERTY(Category = Gameplay, EditAnywhere, BlueprintReadWrite)
 		float InvulnerabilityTime;
 
@@ -67,11 +69,18 @@ public:
 
 	void FinishMeleeAttack();
 
+	void FinishReloading();
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Stats")
+		bool CanBeDamaged = true;
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
 	virtual void Tick(float DeltaTime) override;
+
+	
 
 private:
 	/** Top down camera */
@@ -86,6 +95,9 @@ private:
 		class USkeletalMeshComponent* FP_Gun;
 
 	FVector GunOffset;
+
+	UFUNCTION(BlueprintCallable, Category=Life)
+	void UpdateLife(float Damage);
 
 	UFUNCTION()
 	void OnHit(AActor* SelfActor, AActor* OtherActor, FVector NormalImpulse, const FHitResult& Hit);
@@ -136,6 +148,10 @@ private:
 
 	float LIFE;
 
+	uint8 MAXAMO;
+
+	uint8 AMO;
+
 	FTimeStruct Time;
 
 	TWeakObjectPtr<AHUDManager> HUDManager;
@@ -147,6 +163,8 @@ private:
 	FTimerHandle PunchingTimer;
 
 	FTimerHandle ShotingTimer;
+
+	FTimerHandle ReloadingTimer;
 
 	UWorld* World;
 
