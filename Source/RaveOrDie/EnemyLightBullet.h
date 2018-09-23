@@ -4,16 +4,17 @@
 
 #include "CoreMinimal.h"
 #include "EnemyBullet.h"
-#include "VeryBigBullet.generated.h"
+#include "EnemyLightBullet.generated.h"
+
 
 UCLASS()
-class RAVEORDIE_API AVeryBigBullet : public AEnemyBullet
+class RAVEORDIE_API AEnemyLightBullet : public AEnemyBullet
 {
 	GENERATED_BODY()
 	
 public:
 
-	AVeryBigBullet();
+	AEnemyLightBullet();
 	
 	
 };

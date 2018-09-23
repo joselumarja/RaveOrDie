@@ -7,14 +7,10 @@
 #include "EnemyBullet.generated.h"
 
 
-UCLASS()
+UCLASS(Abstract)
 class RAVEORDIE_API AEnemyBullet : public ABullet
 {
 	GENERATED_BODY()
-
-public:
-
-	AEnemyBullet();
 	
-	
+
 };
