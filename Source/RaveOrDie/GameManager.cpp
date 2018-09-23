@@ -88,15 +88,15 @@ void UGameManager::ObjectiveAccomplished()
 
 void UGameManager::SpawnEnemies(int32 Enemies, FVector Position, FRotator EnemiesRotation) {
 
-	int NX = Enemies / 2;
-	int NY = Enemies / 2 + Enemies % 2;
+	int NX = Enemies / 2 + Enemies % 2;
+	int NY = Enemies / 2;
 	int SpawnedEnemies = 0;
 
 	FVector StartSpawnLocation = FVector(Position.X - (NX*DistanceBetweenAreas / 2), Position.Y - (NY*DistanceBetweenAreas / 2),Position.Z);
 
 	for (int i = 0; i < NX; i++)
 	{
-		for (int j = 0; Enemies > SpawnedEnemies && j < NY; j++, SpawnedEnemies++)
+		for (int j = 0; Enemies > SpawnedEnemies && j <= NY; j++, SpawnedEnemies++)
 		{
 			FVector NewSpawnLocation = StartSpawnLocation + (FVector(i, j, 0.f)*DistanceBetweenAreas);
 			SpawnEnemy(NewSpawnLocation,EnemiesRotation);
