@@ -18,7 +18,9 @@ public:
 	UGameManager* GetGameManager();
 
 private:
-	TWeakObjectPtr<UGameManager> GameManager;
+
+	UPROPERTY()
+	UGameManager* GameManager;
 	
 	
 };

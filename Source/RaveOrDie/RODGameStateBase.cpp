@@ -11,14 +11,14 @@ UGameManager* ARODGameStateBase::GetGameManager()
 	// when that method will be executed, and we have to make sure the instance
 	// exists before any other BeginPlay event
 	
-	if (!GameManager.IsValid()) {
+	if (GameManager==NULL) {
 		// Notice how UObjects must be instanced with the NewObject factory
 		// method instead of "new".
 		GameManager = NewObject<UGameManager>();
 		GameManager->SetWorld(GetWorld());
 	}
 
-	return GameManager.Get();
+	return GameManager;
 }
 
 
