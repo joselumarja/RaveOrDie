@@ -7,6 +7,9 @@
 #include "TimerManager.h"
 #include "Enemigo.generated.h"
 
+class UProgressBar;
+class UUserWidget;
+class UWidgetComponent;
 class ARODCharacter;
 class USubject;
 
@@ -39,17 +42,30 @@ protected:
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Stats")
-		float Health;
+	float Health;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Stats")
+	float MaxHealth;
 
 	UPROPERTY()
 	USubject* EnemySubject;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Stats")
-		bool CanBeDamaged = true;
+	bool CanBeDamaged = true;
 
 	UPROPERTY()
 	TWeakObjectPtr<UAnimSequence> DeadAnimation;
 
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Stats")
+	UWidgetComponent* pLifeBarWidget;
+
+	UPROPERTY()
+	TSubclassOf<UUserWidget> LifeBarWidget;
+
+	UPROPERTY()
+	TWeakObjectPtr <UProgressBar> LifeBar;
+
+	virtual void DeadBehaviour();
 
 public:
 
@@ -61,8 +77,6 @@ public:
 	/*The Component which is used for the "seeing" sense of the AI*/
 	UPROPERTY(VisibleAnywhere, Category = "AI")
 	class UPawnSensingComponent* PawnSensingComp;
-
-
 
 	UPROPERTY(EditAnywhere, Category = "AI")
 	class UBehaviorTree* BehaviorTree;
