@@ -240,7 +240,6 @@ float ARODCharacter::GetMeleeDamage() const
 void ARODCharacter::MeleeAttack()
 {
 	bIsInMeleeAttack = true;
-	GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Purple, TEXT("atacando"));
 	GetWorld()->GetTimerManager().SetTimer(PunchingTimer, this, &ARODCharacter::FinishMeleeAttack, 1.f);
 }
 
@@ -261,7 +260,6 @@ void ARODCharacter::DistanceAttack()
 void ARODCharacter::FinishMeleeAttack()
 {
 	bIsInMeleeAttack = false;
-	GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, TEXT("He dejado de atacar"));
 }
 
 void ARODCharacter::FinishReloading()
