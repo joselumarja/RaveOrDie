@@ -11,6 +11,9 @@
 #include "Subject.h"
 #include "RODGameStateBase.h"
 #include "Evento.h"
+#include "Runtime/UMG/Public/Components/WidgetComponent.h"
+#include "Blueprint/UserWidget.h"
+#include "Runtime/UMG/Public/Components/ProgressBar.h"
 #include "PlayerBullet.h"
 
 
@@ -25,7 +28,20 @@ AEnemigo::AEnemigo()
 
 	OnActorHit.AddDynamic(this, &AEnemigo::OnHit);
 
-	Health = 100.0f;
+	auto FHUDWidget = ConstructorHelpers::FClassFinder<UUserWidget>(TEXT("'/Game/AI/Enemigo/WidgetEstadoEnemigo'"));
+
+	if (FHUDWidget.Succeeded())
+	{
+		LifeBarWidget = FHUDWidget.Class;
+	}
+
+	pLifeBarWidget = CreateDefaultSubobject<UWidgetComponent>(TEXT("LifeBar"));
+	pLifeBarWidget->SetupAttachment(RootComponent);
+	pLifeBarWidget->SetWidgetClass(LifeBarWidget);
+	pLifeBarWidget->SetWorldScale3D(FVector(1.f, 0.75f, 1.f));
+	pLifeBarWidget->SetRelativeLocation(FVector(0.f, 0.f, 50.f));
+
+	MaxHealth = Health = 100.0f;
 	
 }
 
@@ -34,6 +50,10 @@ void AEnemigo::BeginPlay()
 {
 	Super::BeginPlay();
 
+	pLifeBarWidget->InitWidget();
+	LifeBar = (UProgressBar*)pLifeBarWidget->GetUserWidgetObject()->GetWidgetFromName("LifeBar");
+	LifeBar->SetPercent(Health / MaxHealth);
+	
 	EnemySubject = NewObject<USubject>();
 	EnemySubject->AddObserver(Cast<ARODGameStateBase>(UGameplayStatics::GetGameState(GetWorld()))->GetGameManager());
 	PlayerPawn = Cast<ARODCharacter>(UGameplayStatics::GetPlayerCharacter(GetWorld(),0));
@@ -65,6 +85,14 @@ void AEnemigo::OnSeePlayer(APawn* Pawn)
 	}
 }
 
+void AEnemigo::DeadBehaviour()
+{
+	LifeBar->SetVisibility(ESlateVisibility::Hidden);
+	GetWorld()->GetTimerManager().SetTimer(DeadDelay, this, &AEnemigo::FinishDeadDelay, 3.3f);
+	GetMesh()->PlayAnimation(DeadAnimation.Get(), false);
+	GetController()->Destroy();
+}
+
 void AEnemigo::OnHit(AActor* SelfActor, AActor* OtherActor, FVector NormalImpulse, const FHitResult& Hit)
 {
 	AMyAIController* AIController = Cast<AMyAIController>(GetController());
@@ -81,16 +109,17 @@ void AEnemigo::OnHit(AActor* SelfActor, AActor* OtherActor, FVector NormalImpuls
 	}
 }
 
-void AEnemigo::UpdateLife(float Damage) {
+void AEnemigo::UpdateLife(float Damage) 
+{
 	Health -= Damage;
 
 	if (Health <= 0) 
 	{
-
-		GetWorld()->GetTimerManager().SetTimer(DeadDelay, this, &AEnemigo::FinishDeadDelay, 3.3f);
-		GetController()->Destroy();
-		GetMesh()->PlayAnimation(DeadAnimation.Get(), false);
-
+		DeadBehaviour();
+	}
+	else
+	{
+		LifeBar->SetPercent(Health / MaxHealth);
 	}
 }
 
@@ -101,7 +130,8 @@ void AEnemigo::FinishDeadDelay()
 }
 
 
-void AEnemigo::MoveToPlayer() {
+void AEnemigo::MoveToPlayer() 
+{
 	
 		FVector ActualLocation = GetActorLocation();
 		FVector DirectionVector = PlayerPawn->GetActorLocation() - ActualLocation;

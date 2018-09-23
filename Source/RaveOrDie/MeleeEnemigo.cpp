@@ -8,9 +8,9 @@
 #include "GameManager.h"
 #include "Bullet.h"
 #include "RODCharacter.h"
+#include "Runtime/Engine/Classes/Components/SphereComponent.h"
 
 AMeleeEnemigo::AMeleeEnemigo() :Super() {
-	PrimaryActorTick.bCanEverTick = true;
 
 	auto AnimAsset = ConstructorHelpers::FObjectFinder<UAnimSequence>(TEXT("AnimSequence'/Game/AI/ZombieBoy/Animations/Dying.Dying'"));
 	if (AnimAsset.Succeeded())

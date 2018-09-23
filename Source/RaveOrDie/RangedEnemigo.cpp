@@ -10,7 +10,6 @@
 #include "RODCharacter.h"
 
 ARangedEnemigo::ARangedEnemigo() :Super() {
-	PrimaryActorTick.bCanEverTick = true;
 
 	auto AnimAsset = ConstructorHelpers::FObjectFinder<UAnimSequence>(TEXT("AnimSequence'/Game/AI/ZombieGirl/Animations/Dying.Dying'"));
 	if (AnimAsset.Succeeded())
@@ -37,7 +36,8 @@ void ARangedEnemigo::Tick(float DeltaTime)
 	Super::Tick(DeltaTime);
 }
 
-void ARangedEnemigo::Shoot() {
+void ARangedEnemigo::Shoot() 
+{
 
 	FVector EnemyLocation = GetActorLocation();
 	FVector PlayerLocation = PlayerPawn->GetActorLocation();

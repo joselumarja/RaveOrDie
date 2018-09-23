@@ -18,9 +18,9 @@
 #include "Subject.h"
 #include "GameManager.h"
 #include "Evento.h"
-#include "Bullet.h"
 #include "PlayerBullet.h"
 #include "EnemyBullet.h"
+#include "Runtime/Engine/Classes/Components/SphereComponent.h"
 
 
 // Sets default values
@@ -134,6 +134,7 @@ void ARODCharacter::UpdateLife(float Damage)
 		HUDManager->UpdateLife(MAXLIFE, 0);
 		bDead = true;
 		FP_Gun->SetVisibility(false);
+		SphereCollision->ConditionalBeginDestroy();
 		GetWorld()->GetTimerManager().SetTimer(DeadDelay, this, &ARODCharacter::FinishDeadDelay, 3.3f);
 	}
 	else

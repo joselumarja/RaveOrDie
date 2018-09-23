@@ -6,6 +6,7 @@
 #include "Enemigo.h"
 #include "MeleeEnemigo.generated.h"
 
+class USphereComponent;
 
 UCLASS()
 class RAVEORDIE_API AMeleeEnemigo : public AEnemigo
@@ -20,6 +21,9 @@ public:
 	virtual void Tick(float DeltaTime) override;
 
 protected:
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Stats")
+	TWeakObjectPtr<USphereComponent> SphereCollision;
 
 	virtual void BeginPlay() override;
 	
