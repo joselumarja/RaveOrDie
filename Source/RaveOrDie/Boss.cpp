@@ -11,6 +11,13 @@
 
 ABoss::ABoss() :Super() {
 	PrimaryActorTick.bCanEverTick = true;
+
+	auto AnimAsset = ConstructorHelpers::FObjectFinder<UAnimSequence>(TEXT("AnimSequence'/Game/AI/FinaBoss/Animations/Dying.Dying'"));
+	if (AnimAsset.Succeeded())
+	{
+		DeadAnimation = AnimAsset.Object;
+	}
+
 	Health = 300.0f;
 }
 

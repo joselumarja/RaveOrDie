@@ -104,21 +104,25 @@ void ARODCharacter::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
-	if (GetVelocity().SizeSquared() != 0.f)
+	if (!bDead)
 	{
-		UpdateInactivity();
-	}
-	else
-	{
-		const ARODPlayerController* Controller = Cast<ARODPlayerController>(GetController());
-		float rotation = Controller->CalcRotation();
-
-		if (rotation != 0)
+		if (GetVelocity().SizeSquared() != 0.f)
 		{
-			SetActorRotation(FQuat(FRotator(0.f, rotation, 0.f)+GetActorRotation()));
 			UpdateInactivity();
 		}
+		else
+		{
+			const ARODPlayerController* Controller = Cast<ARODPlayerController>(GetController());
+			float rotation = Controller->CalcRotation();
+
+			if (rotation != 0)
+			{
+				SetActorRotation(FQuat(FRotator(0.f, rotation, 0.f)+GetActorRotation()));
+				UpdateInactivity();
+			}
+		}
 	}
+	
 }
 
 void ARODCharacter::UpdateLife(float Damage)
@@ -129,7 +133,8 @@ void ARODCharacter::UpdateLife(float Damage)
 	{
 		HUDManager->UpdateLife(MAXLIFE, 0);
 		bDead = true;
-		GetWorld()->GetTimerManager().SetTimer(DeadDelay, this, &ARODCharacter::FinishDeadDelay, 3.f);
+		FP_Gun->SetVisibility(false);
+		GetWorld()->GetTimerManager().SetTimer(DeadDelay, this, &ARODCharacter::FinishDeadDelay, 3.3f);
 	}
 	else
 	{

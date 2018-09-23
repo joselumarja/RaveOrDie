@@ -11,12 +11,11 @@
 
 ARangedEnemigo::ARangedEnemigo() :Super() {
 	PrimaryActorTick.bCanEverTick = true;
-	OnActorHit.AddDynamic(this, &AEnemigo::OnHit);
 
-	auto AnimAsset = ConstructorHelpers::FObjectFinder<UAnimSequence>(TEXT("AnimSequence'/Game/AI/ZombieGirl/Animations/Throw.Throw'"));
+	auto AnimAsset = ConstructorHelpers::FObjectFinder<UAnimSequence>(TEXT("AnimSequence'/Game/AI/ZombieGirl/Animations/Dying.Dying'"));
 	if (AnimAsset.Succeeded())
 	{
-		ThrowAnimation = AnimAsset.Object;
+		DeadAnimation = AnimAsset.Object;
 	}
 }
 
@@ -36,11 +35,6 @@ void ARangedEnemigo::BeginPlay()
 void ARangedEnemigo::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-}
-
-void ARangedEnemigo::PlayAnim()
-{
-	GetMesh()->PlayAnimation(ThrowAnimation.Get(), false);
 }
 
 void ARangedEnemigo::Shoot() {

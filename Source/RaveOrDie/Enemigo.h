@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
+#include "TimerManager.h"
 #include "Enemigo.generated.h"
 
 class ARODCharacter;
@@ -18,11 +19,11 @@ public:
 	// Sets default values for this character's properties
 	AEnemigo();
 
+	void FinishDeadDelay();
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
-
-	FTimerHandle TimerHandle_ShotTimerExpired; 
 	
 	float DeltaSeconds;
 
@@ -47,7 +48,7 @@ protected:
 		bool CanBeDamaged = true;
 
 	UPROPERTY()
-		TWeakObjectPtr<UAnimSequence> ThrowAnimation;
+	TWeakObjectPtr<UAnimSequence> DeadAnimation;
 
 
 public:
@@ -79,4 +80,6 @@ public:
 	float GetMeleeDamage() const;
 
 	float MeleeDamage;
+
+	FTimerHandle DeadDelay;
 };

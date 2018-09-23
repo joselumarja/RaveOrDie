@@ -11,8 +11,14 @@
 
 AMeleeEnemigo::AMeleeEnemigo() :Super() {
 	PrimaryActorTick.bCanEverTick = true;
+
+	auto AnimAsset = ConstructorHelpers::FObjectFinder<UAnimSequence>(TEXT("AnimSequence'/Game/AI/ZombieBoy/Animations/Dying.Dying'"));
+	if (AnimAsset.Succeeded())
+	{
+		DeadAnimation = AnimAsset.Object;
+	}
+
 	MeleeDamage = 25.0f;
-	OnActorHit.AddDynamic(this, &AEnemigo::OnHit);
 }
 
 

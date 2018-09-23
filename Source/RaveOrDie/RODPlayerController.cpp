@@ -23,7 +23,7 @@ void ARODPlayerController::BeginPlay()
 void ARODPlayerController::MoveFordward(float Value)
 {
 
-	if ((MyPawn != NULL) && (Value != 0.f) && !MyPawn->IsInMeleeAttack())
+	if ((MyPawn != NULL) && !MyPawn->GetIsDead() && (Value != 0.f) && !MyPawn->IsInMeleeAttack())
 	{
 		const FVector Direction = FVector(1.f, 0.f, 0.f);
 		MyPawn->AddMovementInput(Direction, Value);
@@ -32,7 +32,8 @@ void ARODPlayerController::MoveFordward(float Value)
 
 void ARODPlayerController::MoveRight(float Value)
 {
-	if ((MyPawn != NULL) && (Value != 0.f) && !MyPawn->IsInMeleeAttack())
+
+	if ((MyPawn != NULL) && !MyPawn->GetIsDead() && (Value != 0.f) && !MyPawn->IsInMeleeAttack())
 	{
 		const FVector Direction = FVector(0.f, 1.f, 0.f);
 
@@ -65,19 +66,18 @@ void ARODPlayerController::SetupInputComponent()
 
 void ARODPlayerController::Reload()
 {
-	ARODCharacter* RODCharacter = Cast<ARODCharacter>(GetPawn());
-	if (RODCharacter != NULL)
+	if (MyPawn != NULL && !MyPawn->GetIsDead())
 	{
-		RODCharacter->Reload();
+		MyPawn->Reload();
 	}
 }
 
 void ARODPlayerController::Attack()
 {
-	ARODCharacter* RODCharacter = Cast<ARODCharacter>(GetPawn());
-	if (RODCharacter !=NULL)
+
+	if (MyPawn != NULL && !MyPawn->GetIsDead())
 	{
-		RODCharacter->Attack();
+		MyPawn->Attack();
 		
 	}
 }
@@ -86,10 +86,10 @@ void ARODPlayerController::Attack()
 
 void ARODPlayerController::SwapWeapon()
 {
-	ARODCharacter* RODCharacter = Cast<ARODCharacter>(GetPawn());
-	if (RODCharacter != NULL)
+
+	if (MyPawn != NULL && !MyPawn->GetIsDead())
 	{
-		RODCharacter->SwapWeapon();
+		MyPawn->SwapWeapon();
 		
 	}
 }

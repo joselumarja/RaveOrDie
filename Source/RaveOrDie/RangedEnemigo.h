@@ -18,10 +18,6 @@ public:
 
 	virtual void Tick(float DeltaTime) override;
 
-	bool bCanFire = true;
-
-	void PlayAnim();
-
 	void Shoot() override;
 
 protected:

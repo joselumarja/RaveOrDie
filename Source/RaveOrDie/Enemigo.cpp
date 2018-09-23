@@ -22,6 +22,9 @@ AEnemigo::AEnemigo()
 	PawnSensingComp = CreateDefaultSubobject<UPawnSensingComponent>(TEXT("PawnSensingComp"));
 	//Set the peripheral vision angle to 90 degrees
 	PawnSensingComp->SetPeripheralVisionAngle(90.f);
+
+	OnActorHit.AddDynamic(this, &AEnemigo::OnHit);
+
 	Health = 100.0f;
 	
 }
@@ -81,12 +84,20 @@ void AEnemigo::OnHit(AActor* SelfActor, AActor* OtherActor, FVector NormalImpuls
 void AEnemigo::UpdateLife(float Damage) {
 	Health -= Damage;
 
-	if (Health <= 0) {
+	if (Health <= 0) 
+	{
 
-		EnemySubject->Notify(this, EEvent::EVENT_KILL);
-		Destroy();
+		GetWorld()->GetTimerManager().SetTimer(DeadDelay, this, &AEnemigo::FinishDeadDelay, 3.3f);
+		GetController()->Destroy();
+		GetMesh()->PlayAnimation(DeadAnimation.Get(), false);
 
 	}
+}
+
+void AEnemigo::FinishDeadDelay()
+{
+	EnemySubject->Notify(this, EEvent::EVENT_KILL);
+	Destroy();
 }
 
 
