@@ -22,9 +22,9 @@ UGameManager::UGameManager()
 
 	InitializeEnemies();
 
-	SafeSpawnRange = 150.f;
+	SafeSpawnRange = 130.f;
 
-	DistanceBetweenAreas = 200.f;
+	DistanceBetweenAreas = 180.f;
 
 	auto FFinishWidget = ConstructorHelpers::FClassFinder<UUserWidget>(TEXT("'/Game/Blueprints/Menus/BP_FinishScreen'"));
 
@@ -108,8 +108,8 @@ void UGameManager::SpawnEnemies(int32 Enemies, FVector Position, FRotator Enemie
 void UGameManager::SpawnEnemy(FVector &Location,FRotator Rotation)
 {
 	EEnemigo EnemyToSpawn = GetRandomEnemyClass();
-	float RandomYRotation = FMath::FRandRange(-45.f, 45.f);
-	Rotation.Yaw += RandomYRotation;
+	float RandomZRotation = FMath::FRandRange(-45.f, 45.f);
+	Rotation.Yaw += RandomZRotation;
 	FVector EnemySpawnLocation = GetRandomLocation(Location, SafeSpawnRange);
 
 	switch (EnemyToSpawn)

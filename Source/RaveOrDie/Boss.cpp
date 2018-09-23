@@ -32,7 +32,8 @@ void ABoss::Tick(float DeltaTime)
 	Super::Tick(DeltaTime);
 }
 
-void ABoss::Shoot() {
+void ABoss::Shoot() 
+{
 	
 		FVector EnemyLocation = GetActorLocation();
 		EnemyLocation.Z += 30;
