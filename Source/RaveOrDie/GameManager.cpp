@@ -96,7 +96,7 @@ void UGameManager::SpawnEnemies(int32 Enemies, FVector Position, FRotator Enemie
 
 	for (int i = 0; i < NX; i++)
 	{
-		for (int j = 0; Enemies > SpawnedEnemies++ && j < NY; j++)
+		for (int j = 0; Enemies > SpawnedEnemies && j < NY; j++, SpawnedEnemies++)
 		{
 			FVector NewSpawnLocation = StartSpawnLocation + (FVector(i, j, 0.f)*DistanceBetweenAreas);
 			SpawnEnemy(NewSpawnLocation,EnemiesRotation);
