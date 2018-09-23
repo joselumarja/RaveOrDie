@@ -96,7 +96,7 @@ void UGameManager::SpawnEnemies(int32 Enemies, FVector Position, FRotator Enemie
 
 	for (int i = 0; i < NX; i++)
 	{
-		for (int j = 0; Enemies > SpawnedEnemies++ && j < NY; j++)
+		for (int j = 0; Enemies > SpawnedEnemies && j < NY; j++, SpawnedEnemies++)
 		{
 			FVector NewSpawnLocation = StartSpawnLocation + (FVector(i, j, 0.f)*DistanceBetweenAreas);
 			SpawnEnemy(NewSpawnLocation,EnemiesRotation);
@@ -187,8 +187,8 @@ FVector UGameManager::GetRandomLocation(FVector &Location, float &SafeRange) con
 	float x, y;
 	float HalfSafeRange = SafeRange / 2;
 
-	y = FMath::RandRange(Location.X-HalfSafeRange, Location.X+HalfSafeRange);
-	x = FMath::RandRange(Location.Y-HalfSafeRange, Location.Y+HalfSafeRange);
+	x = FMath::RandRange(Location.X-HalfSafeRange, Location.X+HalfSafeRange);
+	y = FMath::RandRange(Location.Y-HalfSafeRange, Location.Y+HalfSafeRange);
 
 	return FVector(x, y, Location.Z);
 

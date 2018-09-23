@@ -93,6 +93,7 @@ private:
 
 	float DistanceBetweenAreas;
 
+	UPROPERTY()
 	UWorld *World;
 };
 
