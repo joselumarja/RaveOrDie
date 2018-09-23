@@ -78,7 +78,7 @@ void ARODPlayerController::Attack()
 	if (RODCharacter !=NULL)
 	{
 		RODCharacter->Attack();
-		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, TEXT("Ataco"));
+		
 	}
 }
 
@@ -90,7 +90,7 @@ void ARODPlayerController::SwapWeapon()
 	if (RODCharacter != NULL)
 	{
 		RODCharacter->SwapWeapon();
-		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, TEXT("Cambio de arma"));
+		
 	}
 }
 
