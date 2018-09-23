@@ -66,8 +66,6 @@ protected:
 
 	virtual void Tick(float DeltaTime) override;
 
-	
-
 private:
 	/** Top down camera */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
@@ -91,7 +89,7 @@ private:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Stats", meta = (AllowPrivateAccess = "true"))
 	bool bReloading;
 	
-	float MeleeDamage = 100.f;
+	float MeleeDamage = 300.f;
 
 	void MeleeAttack();
 
