@@ -88,6 +88,7 @@ void AEnemigo::OnSeePlayer(APawn* Pawn)
 
 void AEnemigo::DeadBehaviour()
 {
+	isDead = true;
 	LifeBar->SetVisibility(ESlateVisibility::Hidden);
 	GetController()->Destroy();
 	GetMesh()->PlayAnimation(DeadAnimation.Get(), false);
@@ -121,7 +122,6 @@ void AEnemigo::UpdateLife(float Damage)
 
 		if (Health <= 0) 
 		{
-			isDead = true;
 			DeadBehaviour();
 		}
 		else
