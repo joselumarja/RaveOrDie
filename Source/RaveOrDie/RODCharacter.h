@@ -57,6 +57,8 @@ public:
 
 	void FinishReloading();
 
+	void FinishDeadDelay();
+
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Stats")
 		bool CanBeDamaged = true;
 
@@ -144,5 +146,7 @@ private:
 	FTimerHandle ShotingTimer;
 
 	FTimerHandle ReloadingTimer;
+
+	FTimerHandle DeadDelay;
 
 };
