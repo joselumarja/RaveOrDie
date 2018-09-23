@@ -50,6 +50,6 @@ void ARangedEnemigo::Shoot() {
 	FVector DirectionVector = FVector(PlayerLocation.X - EnemyLocation.X, PlayerLocation.Y - EnemyLocation.Y, .0f).GetSafeNormal();
 	FRotator Rotation = DirectionVector.Rotation();
 	EnemyLocation = EnemyLocation + (DirectionVector * 100);
-	World->SpawnActor<AEnemyBullet>(EnemyLocation, Rotation);
+	GetWorld()->SpawnActor<AEnemyBullet>(EnemyLocation, Rotation);
 
 }

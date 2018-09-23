@@ -30,7 +30,6 @@ AEnemigo::AEnemigo()
 void AEnemigo::BeginPlay()
 {
 	Super::BeginPlay();
-	World = GetWorld();
 
 	EnemySubject = NewObject<USubject>();
 	EnemySubject->AddObserver(Cast<ARODGameStateBase>(UGameplayStatics::GetGameState(GetWorld()))->GetGameManager());
