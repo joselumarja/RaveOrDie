@@ -27,6 +27,7 @@ public:
 
 private:
 
-	TWeakObjectPtr<USubject> MetaTriggerBoxSubject;
+	UPROPERTY()
+	USubject* MetaTriggerBoxSubject;
 	
 };
