@@ -7,8 +7,7 @@
 ABullet::ABullet()
 {
 	ProjectileMovement = CreateDefaultSubobject<UProjectileMovementComponent>(TEXT("BulletMovement"));
-	ProjectileMovement->InitialSpeed = 800.f;
-	ProjectileMovement->MaxSpeed = 800.f;
+
 	
 }
 

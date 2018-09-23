@@ -12,7 +12,9 @@ class RAVEORDIE_API APlayerBullet : public ABullet
 {
 	GENERATED_BODY()
 
-		APlayerBullet();
+public:
+
+	APlayerBullet();
 	
 	
 };

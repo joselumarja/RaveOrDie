@@ -12,7 +12,9 @@ class RAVEORDIE_API AEnemyBullet : public ABullet
 {
 	GENERATED_BODY()
 
-		AEnemyBullet();
+public:
+
+	AEnemyBullet();
 	
 	
 };

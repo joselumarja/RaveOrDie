@@ -2,9 +2,6 @@
 
 #include "EnemyBullet.h"
 
-
-
-
 AEnemyBullet::AEnemyBullet() : Super()
 {
 	static ConstructorHelpers::FObjectFinder<UStaticMesh> ProjectileMeshAsset(TEXT("/Game/FPWeapon/Mesh/Amo/Cola.Cola"));
@@ -16,6 +13,8 @@ AEnemyBullet::AEnemyBullet() : Super()
 	ProjectileMovement->UpdatedComponent = ProjectileMesh;
 	ProjectileMesh->OnComponentHit.AddDynamic(this, &ABullet::OnHit);		// set up a notification for when this component hits something
 	RootComponent = ProjectileMesh;
+	ProjectileMovement->InitialSpeed = 800.f;
+	ProjectileMovement->MaxSpeed = 800.f;
 	ProjectileMovement->ProjectileGravityScale = 0.8f; 
 	ProjectileMesh->bForceNavigationObstacle = true;
 	ProjectileMovement->bRotationFollowsVelocity = true;
