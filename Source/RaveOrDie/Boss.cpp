@@ -35,6 +35,7 @@ void ABoss::Tick(float DeltaTime)
 void ABoss::Shoot() {
 	
 		FVector EnemyLocation = GetActorLocation();
+		EnemyLocation.Z += 30;
 		FVector PlayerLocation = PlayerPawn->GetActorLocation();
 		FVector DirectionVector = FVector(PlayerLocation.X - EnemyLocation.X, PlayerLocation.Y - EnemyLocation.Y, .0f).GetSafeNormal();
 
