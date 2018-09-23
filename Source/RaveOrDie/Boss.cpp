@@ -40,6 +40,6 @@ void ABoss::Shoot() {
 
 		FRotator Rotation = DirectionVector.Rotation();
 		EnemyLocation = EnemyLocation + (DirectionVector * 100);
-		World->SpawnActor<AVeryBigBullet>(EnemyLocation, Rotation);
+		GetWorld()->SpawnActor<AVeryBigBullet>(EnemyLocation, Rotation);
 
 }

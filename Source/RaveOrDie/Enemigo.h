@@ -33,8 +33,6 @@ protected:
 	UFUNCTION(BlueprintCallable, Category = "Hit")
 	virtual void UpdateLife(float Damage);
 
-	UWorld* World;
-
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
