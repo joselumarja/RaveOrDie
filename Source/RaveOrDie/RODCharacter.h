@@ -8,7 +8,6 @@
 #include "TimeStruct.h"
 #include "RODCharacter.generated.h"
 
-class USphereComponent;
 class AHUDManager;
 class USubject;
 
@@ -68,9 +67,6 @@ protected:
 	virtual void BeginPlay() override;
 
 	virtual void Tick(float DeltaTime) override;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Stats")
-	TWeakObjectPtr<USphereComponent> SphereCollision;
 
 private:
 	/** Top down camera */

@@ -20,7 +20,7 @@
 #include "Evento.h"
 #include "PlayerBullet.h"
 #include "EnemyBullet.h"
-#include "Runtime/Engine/Classes/Components/SphereComponent.h"
+
 
 
 // Sets default values
@@ -129,17 +129,18 @@ void ARODCharacter::UpdateLife(float Damage)
 {
 	LIFE -= Damage;
 	
-	if (LIFE <= 0)
-	{
-		HUDManager->UpdateLife(MAXLIFE, 0);
-		bDead = true;
-		FP_Gun->SetVisibility(false);
-		SphereCollision->ConditionalBeginDestroy();
-		GetWorld()->GetTimerManager().SetTimer(DeadDelay, this, &ARODCharacter::FinishDeadDelay, 3.3f);
-	}
-	else
-	{
-		HUDManager->UpdateLife(MAXLIFE, LIFE);
+	if (!bDead){
+		if (LIFE <= 0)
+		{
+			HUDManager->UpdateLife(MAXLIFE, 0);
+			bDead = true;
+			FP_Gun->SetVisibility(false);
+			GetWorld()->GetTimerManager().SetTimer(DeadDelay, this, &ARODCharacter::FinishDeadDelay, 3.3f);
+		}
+		else
+		{
+			HUDManager->UpdateLife(MAXLIFE, LIFE);
+		}
 	}
 }
 
