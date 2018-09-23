@@ -75,7 +75,6 @@ void AEnemigo::OnHit(AActor* SelfActor, AActor* OtherActor, FVector NormalImpuls
 
 			UpdateLife(Bullet->GetDamage());
 			EnemySubject->Notify(this, EEvent::EVENT_SHOT_ON_TARGET);
-			Bullet->MarkPendingKill();;
 		}
 	}
 }
@@ -86,7 +85,7 @@ void AEnemigo::UpdateLife(float Damage) {
 	if (Health <= 0) {
 
 		EnemySubject->Notify(this, EEvent::EVENT_KILL);
-		MarkPendingKill();
+		Destroy();
 
 	}
 }

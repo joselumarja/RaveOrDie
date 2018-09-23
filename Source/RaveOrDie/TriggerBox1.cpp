@@ -28,7 +28,7 @@ void ATriggerBox1::OnOverlapBegin(AActor* OverlappedActor, AActor* OtherActor) {
 	if (RODCharacter && NumberOfEnemies>0)
 	{
 		GameManager->SpawnEnemies(NumberOfEnemies, SpawnLocation, EnemiesRotation);
-		MarkPendingKill();
+		Destroy();
 	}
 }
 
