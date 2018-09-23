@@ -187,8 +187,8 @@ FVector UGameManager::GetRandomLocation(FVector &Location, float &SafeRange) con
 	float x, y;
 	float HalfSafeRange = SafeRange / 2;
 
-	y = FMath::RandRange(Location.X-HalfSafeRange, Location.X+HalfSafeRange);
-	x = FMath::RandRange(Location.Y-HalfSafeRange, Location.Y+HalfSafeRange);
+	x = FMath::RandRange(Location.X-HalfSafeRange, Location.X+HalfSafeRange);
+	y = FMath::RandRange(Location.Y-HalfSafeRange, Location.Y+HalfSafeRange);
 
 	return FVector(x, y, Location.Z);
 
