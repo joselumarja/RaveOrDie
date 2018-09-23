@@ -149,7 +149,6 @@ void ARODCharacter::OnHit(AActor* SelfActor, AActor* OtherActor, FVector NormalI
 	if (OtherActor->IsA(AEnemyBullet::StaticClass())) {
 		AEnemyBullet* Bullet = Cast<AEnemyBullet>(OtherActor);
 		UpdateLife(Bullet->GetDamage());
-
 	}
 
 }
