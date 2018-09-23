@@ -39,6 +39,8 @@ AEnemigo::AEnemigo()
 	pLifeBarWidget->SetWidgetClass(LifeBarWidget);
 	pLifeBarWidget->SetWorldScale3D(FVector(1.f, 0.75f, 1.f));
 	pLifeBarWidget->SetRelativeLocation(FVector(0.f, 0.f, 50.f));
+	pLifeBarWidget->bAbsoluteRotation = true;
+	pLifeBarWidget->SetWorldRotation(FQuat::MakeFromEuler(FVector(0.f, 0.f, 180.f)));
 
 	MaxHealth = Health = 100.0f;
 	
