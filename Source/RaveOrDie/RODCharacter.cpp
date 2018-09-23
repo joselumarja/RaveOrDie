@@ -58,7 +58,7 @@ ARODCharacter::ARODCharacter()
 	FP_Gun->SetRelativeRotation(FRotator(0.f, 0.f, -90.f));
 
 	// Default offset from the character location for projectiles to spawn
-	GunOffset = FVector(180.0f, 0.0f, 50.0f);
+	GunOffset = FVector(130.0f, 0.0f, 50.0f);
 
 	OnActorHit.AddDynamic(this, &ARODCharacter::OnHit);
 										  // Create a camera...
