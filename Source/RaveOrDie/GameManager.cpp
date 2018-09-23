@@ -22,9 +22,9 @@ UGameManager::UGameManager()
 
 	InitializeEnemies();
 
-	SafeSpawnRange = 250.f;
+	SafeSpawnRange = 150.f;
 
-	DistanceBetweenAreas = 500.f;
+	DistanceBetweenAreas = 200.f;
 
 	auto FFinishWidget = ConstructorHelpers::FClassFinder<UUserWidget>(TEXT("'/Game/Blueprints/Menus/BP_FinishScreen'"));
 
@@ -165,7 +165,7 @@ void UGameManager::IncreaseEventCounter(EEvent Event)
 EEnemigo UGameManager::GetRandomEnemyClass()
 {
 	
-	float Random = FMath::FRand()*6;
+	int32 Random = FMath::FRandRange(0,6);
 
 	if (Random < 3)
 	{
