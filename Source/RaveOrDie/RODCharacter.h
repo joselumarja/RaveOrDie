@@ -91,8 +91,6 @@ private:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Stats", meta = (AllowPrivateAccess = "true"))
 	bool bReloading;
 	
-	
-
 	float MeleeDamage = 100.f;
 
 	void MeleeAttack();
@@ -137,8 +135,7 @@ private:
 
 	FTimeStruct Time;
 
-	UPROPERTY()
-	AHUDManager* HUDManager;
+	TWeakObjectPtr<AHUDManager> HUDManager;
 
 	FTimerHandle ClockTimer;
 

@@ -3,6 +3,7 @@
 #include "TriggerBox1.h"
 #include "Engine.h"
 #include "GameManager.h"
+#include "RODCharacter.h"
 #include "RODGameStateBase.h"
 
 void ATriggerBox1::BeginPlay()
@@ -16,26 +17,22 @@ void ATriggerBox1::BeginPlay()
 ATriggerBox1::ATriggerBox1() 
 {
 	OnActorBeginOverlap.AddDynamic(this, &ATriggerBox1::OnOverlapBegin);
-	OnActorEndOverlap.AddDynamic(this, &ATriggerBox1::OnOverlapEnd);
+
 }
 
 
 
 void ATriggerBox1::OnOverlapBegin(AActor* OverlappedActor, AActor* OtherActor) {
 	
-
-	if (NumberOfEnemies>0)
+	ARODCharacter* RODCharacter = Cast<ARODCharacter>(OtherActor);
+	if (RODCharacter && NumberOfEnemies>0)
 	{
 		GameManager->SpawnEnemies(NumberOfEnemies, SpawnLocation, EnemiesRotation);
+		MarkPendingKill();
 	}
 }
 
 
-void ATriggerBox1::OnOverlapEnd(AActor* OverlappedActor, AActor* OtherActor) {
-	
-
-	Destroy();
-}
 
 
 
