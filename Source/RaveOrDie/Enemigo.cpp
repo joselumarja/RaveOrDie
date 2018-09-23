@@ -29,7 +29,6 @@ AEnemigo::AEnemigo()
 	OnActorHit.AddDynamic(this, &AEnemigo::OnHit);
 
 	auto FHUDWidget = ConstructorHelpers::FClassFinder<UUserWidget>(TEXT("'/Game/AI/Enemigo/WidgetEstadoEnemigo'"));
-
 	if (FHUDWidget.Succeeded())
 	{
 		LifeBarWidget = FHUDWidget.Class;
@@ -88,8 +87,8 @@ void AEnemigo::OnSeePlayer(APawn* Pawn)
 void AEnemigo::DeadBehaviour()
 {
 	LifeBar->SetVisibility(ESlateVisibility::Hidden);
-	GetWorld()->GetTimerManager().SetTimer(DeadDelay, this, &AEnemigo::FinishDeadDelay, 3.3f);
 	GetMesh()->PlayAnimation(DeadAnimation.Get(), false);
+	GetWorld()->GetTimerManager().SetTimer(DeadDelay, this, &AEnemigo::FinishDeadDelay, 3.3f);
 	GetController()->Destroy();
 }
 
