@@ -16,19 +16,23 @@ void ATriggerBoxMeta::BeginPlay()
 
 ATriggerBoxMeta::ATriggerBoxMeta() {
 	OnActorBeginOverlap.AddDynamic(this, &ATriggerBoxMeta::OnOverlapBegin);
-	OnActorEndOverlap.AddDynamic(this, &ATriggerBoxMeta::OnOverlapEnd);
 }
 
 
 
 void ATriggerBoxMeta::OnOverlapBegin(AActor* OverlappedActor, AActor* OtherActor) {
-	MetaTriggerBoxSubject->Notify(this, EEvent::EVENT_FINISH);
+
+	ARODCharacter* RODCharacter = Cast<ARODCharacter>(OtherActor);
+	if (RODCharacter)
+	{
+		MetaTriggerBoxSubject->Notify(this, EEvent::EVENT_FINISH);
+		MarkPendingKill();
+	}
+
 }
 
 
-void ATriggerBoxMeta::OnOverlapEnd(AActor* OverlappedActor, AActor* OtherActor) {
-	Destroy();
-}
+
 
 
 

@@ -37,30 +37,23 @@ AHUDManager::AHUDManager()
 	}
 }
 
-// Called when the game starts or when spawned
 void AHUDManager::BeginPlay()
 {
 	Super::BeginPlay();
 	
-	if (HUDWidget) // Check if the Asset is assigned
+	if (HUDWidget) 
 	{
-		// Create the widget and store it.
+
 		pHUDWidget = CreateWidget<UUserWidget>(GetGameInstance(), HUDWidget);
 
-		// now you can use the widget directly since you have a reference for it.
-		// Extra check to  make sure the pointer holds the widget.
 		if (pHUDWidget.IsValid())
 		{
-			// let add it to the view port
+
 			pHUDWidget->AddToViewport();
 
 			pAmo = (UTextBlock*)pHUDWidget->GetWidgetFromName("Amo");
 
-		
-
 			pTime = (UTextBlock*)pHUDWidget->GetWidgetFromName("RunTime");
-
-			
 
 			pLife = (UProgressBar*)pHUDWidget->GetWidgetFromName("Life");
 
