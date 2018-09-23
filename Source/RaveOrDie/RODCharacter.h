@@ -104,7 +104,7 @@ private:
 	void UpdateTime(FTimeStruct* TimeToUpdate);
 
 	UPROPERTY()
-	TWeakObjectPtr<USubject> RODCharacterSubject;
+	USubject* RODCharacterSubject;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Stats", meta = (AllowPrivateAccess = "true"))
 	bool bCanDistanceAttack;
@@ -137,7 +137,8 @@ private:
 
 	FTimeStruct Time;
 
-	TWeakObjectPtr<AHUDManager> HUDManager;
+	UPROPERTY()
+	AHUDManager* HUDManager;
 
 	FTimerHandle ClockTimer;
 
