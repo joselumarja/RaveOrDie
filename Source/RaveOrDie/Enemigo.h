@@ -67,6 +67,8 @@ protected:
 
 	virtual void DeadBehaviour();
 
+	bool isDead = false;
+
 public:
 
 	TWeakObjectPtr<ARODCharacter> PlayerPawn;

@@ -20,7 +20,7 @@
 #include "Evento.h"
 #include "PlayerBullet.h"
 #include "EnemyBullet.h"
-#include "Runtime/Engine/Classes/Components/SphereComponent.h"
+
 
 
 // Sets default values
@@ -58,7 +58,7 @@ ARODCharacter::ARODCharacter()
 	FP_Gun->SetRelativeRotation(FRotator(0.f, 0.f, -90.f));
 
 	// Default offset from the character location for projectiles to spawn
-	GunOffset = FVector(180.0f, 0.0f, 50.0f);
+	GunOffset = FVector(130.0f, 0.0f, 50.0f);
 
 	OnActorHit.AddDynamic(this, &ARODCharacter::OnHit);
 										  // Create a camera...
@@ -129,17 +129,18 @@ void ARODCharacter::UpdateLife(float Damage)
 {
 	LIFE -= Damage;
 	
-	if (LIFE <= 0)
-	{
-		HUDManager->UpdateLife(MAXLIFE, 0);
-		bDead = true;
-		FP_Gun->SetVisibility(false);
-		SphereCollision->ConditionalBeginDestroy();
-		GetWorld()->GetTimerManager().SetTimer(DeadDelay, this, &ARODCharacter::FinishDeadDelay, 3.3f);
-	}
-	else
-	{
-		HUDManager->UpdateLife(MAXLIFE, LIFE);
+	if (!bDead){
+		if (LIFE <= 0)
+		{
+			HUDManager->UpdateLife(MAXLIFE, 0);
+			bDead = true;
+			FP_Gun->SetVisibility(false);
+			GetWorld()->GetTimerManager().SetTimer(DeadDelay, this, &ARODCharacter::FinishDeadDelay, 3.3f);
+		}
+		else
+		{
+			HUDManager->UpdateLife(MAXLIFE, LIFE);
+		}
 	}
 }
 
