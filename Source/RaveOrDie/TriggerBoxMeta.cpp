@@ -5,6 +5,7 @@
 #include "GameManager.h"
 #include "RODGameStateBase.h"
 #include "Subject.h"
+#include "RODCharacter.h"
 #include "Evento.h"
 
 void ATriggerBoxMeta::BeginPlay()
