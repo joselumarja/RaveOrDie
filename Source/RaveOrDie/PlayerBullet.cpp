@@ -19,6 +19,9 @@ APlayerBullet::APlayerBullet() : Super()
 	ProjectileMesh->bForceNavigationObstacle = true;
 	ProjectileMovement->bRotationFollowsVelocity = false;
 	ProjectileMovement->bShouldBounce = false;
+	ProjectileMovement->InitialSpeed = 1200.f;
+	ProjectileMovement->MaxSpeed = 1200.f;
+
 
 	InitialLifeSpan = 3.0f;
 
