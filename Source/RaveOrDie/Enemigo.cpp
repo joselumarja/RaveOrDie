@@ -109,6 +109,7 @@ void AEnemigo::MoveToPlayer() {
 		}
 
 }
+
 float AEnemigo::DistanceToPlayer()
 {
 	FVector PlayerPoint = PlayerPawn->GetActorLocation();

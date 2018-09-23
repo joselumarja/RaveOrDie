@@ -4,6 +4,7 @@
 #include "RODCharacter.h"
 #include "MyAIController.h"
 #include "RangedEnemigo.h"
+#include "Enemigo.h"
 #include "Boss.h"
 #include "MeleeEnemigo.h"
 #include "BehaviorTree/BlackboardComponent.h"
@@ -21,7 +22,7 @@ EBTNodeResult::Type UBTMoveToPlayer::ExecuteTask(UBehaviorTreeComponent & OwnerC
 
 			UBlackboardComponent* BlackboardComp = AICon->GetBlackboardComp();
 
-			ARangedEnemigo* Enemigo = Cast<ARangedEnemigo>(BlackboardComp->GetValueAsObject("SelfActor"));
+			AEnemigo* Enemigo = Cast<AEnemigo>(BlackboardComp->GetValueAsObject("SelfActor"));
 
 			float Distance = Enemigo->DistanceToPlayer();
 			BlackboardComp->SetValueAsFloat("Distancia", Distance);
