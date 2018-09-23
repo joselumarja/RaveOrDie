@@ -22,7 +22,7 @@ protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 	
-	TWeakObjectPtr<ARODCharacter> PlayerPawn;
+	
 
 	FTimerHandle TimerHandle_ShotTimerExpired; 
 	
@@ -54,6 +54,9 @@ protected:
 
 
 public:
+
+	TWeakObjectPtr<ARODCharacter> PlayerPawn;
+
 	UFUNCTION()
 	virtual void OnHit(AActor* SelfActor, AActor* OtherActor, FVector NormalImpulse, const FHitResult& Hit);
 
