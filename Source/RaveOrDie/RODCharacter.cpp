@@ -128,7 +128,8 @@ void ARODCharacter::UpdateLife(float Damage)
 	if (LIFE <= 0)
 	{
 		HUDManager->UpdateLife(MAXLIFE, 0);
-		RODCharacterSubject->Notify(this, EEvent::EVENT_DEAD);
+		bDead = true;
+		GetWorld()->GetTimerManager().SetTimer(DeadDelay, this, &ARODCharacter::FinishDeadDelay, 3.f);
 	}
 	else
 	{
@@ -266,6 +267,11 @@ void ARODCharacter::FinishReloading()
 	AMO = MAXAMO;
 	HUDManager->UpdateAmo(AMO);
 	bReloading = false;
+}
+
+void ARODCharacter::FinishDeadDelay()
+{
+	RODCharacterSubject->Notify(this, EEvent::EVENT_DEAD);
 }
 
 void ARODCharacter::FinishDistanceAttack()
