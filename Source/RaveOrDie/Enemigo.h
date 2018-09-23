@@ -42,7 +42,8 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Stats")
 		float Health;
 
-	TWeakObjectPtr<USubject> EnemySubject;
+	UPROPERTY()
+	USubject* EnemySubject;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Stats")
 		bool CanBeDamaged = true;
