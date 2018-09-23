@@ -87,9 +87,10 @@ void AEnemigo::OnSeePlayer(APawn* Pawn)
 void AEnemigo::DeadBehaviour()
 {
 	LifeBar->SetVisibility(ESlateVisibility::Hidden);
+	GetController()->Destroy();
 	GetMesh()->PlayAnimation(DeadAnimation.Get(), false);
 	GetWorld()->GetTimerManager().SetTimer(DeadDelay, this, &AEnemigo::FinishDeadDelay, 3.3f);
-	GetController()->Destroy();
+
 }
 
 void AEnemigo::OnHit(AActor* SelfActor, AActor* OtherActor, FVector NormalImpulse, const FHitResult& Hit)
