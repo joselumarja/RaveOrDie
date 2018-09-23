@@ -113,8 +113,12 @@ void AEnemigo::OnHit(AActor* SelfActor, AActor* OtherActor, FVector NormalImpuls
 
 void AEnemigo::UpdateLife(float Damage) 
 {
-	Health -= Damage;
-	if (!isDead){
+	
+	if (!isDead)
+	{
+
+		Health -= Damage;
+
 		if (Health <= 0) 
 		{
 			isDead = true;

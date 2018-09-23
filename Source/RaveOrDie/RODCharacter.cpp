@@ -127,9 +127,13 @@ void ARODCharacter::Tick(float DeltaTime)
 
 void ARODCharacter::UpdateLife(float Damage)
 {
-	LIFE -= Damage;
 	
-	if (!bDead){
+	
+	if (!bDead)
+	{
+
+		LIFE -= Damage;
+
 		if (LIFE <= 0)
 		{
 			HUDManager->UpdateLife(MAXLIFE, 0);
