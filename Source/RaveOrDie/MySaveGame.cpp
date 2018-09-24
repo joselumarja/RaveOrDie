@@ -36,9 +36,15 @@ FText UMySaveGame::GetRecordAccuracy() const
 {
 	FText String;
 
+	FNumberFormattingOptions Format = FNumberFormattingOptions();
+	Format.MaximumIntegralDigits = 1;
+	Format.MinimumIntegralDigits = 1;
+	Format.MaximumFractionalDigits = 2;
+	Format.MinimumFractionalDigits = 2;
+
 	for (int i = 0; i < Records.Num(); i++)
 	{
-		String = FText::Format(LOCTEXT("Accuracy", "{0}{1}\n"), String, FText::AsNumber(Records[i].Accuracy));
+		String = FText::Format(LOCTEXT("Accuracy", "{0}{1}\n"), String, FText::AsNumber(Records[i].Accuracy,&Format));
 	}
 
 	return String;
