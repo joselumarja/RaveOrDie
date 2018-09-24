@@ -50,7 +50,7 @@ FText UMySaveGame::GetRecordTime() const
 
 	for (int i = 0; i < Records.Num(); i++)
 	{
-		String = FText::Format(LOCTEXT("KilledEnemies", "{0}{1}:{2}:{3}\n"), String, FText::AsNumber(Records[i].PlayTime.Hours), FText::AsNumber(Records[i].PlayTime.Minutes), FText::AsNumber(Records[i].PlayTime.Seconds));
+		String = FText::Format(LOCTEXT("KilledEnemies", "{0}{1}:{2}:{3}\n"), String, FText::AsNumber(Records[i].PlayTime.Minutes), FText::AsNumber(Records[i].PlayTime.Seconds), FText::AsNumber(Records[i].PlayTime.Tenths));
 	}
 
 	return String;

@@ -19,36 +19,36 @@ public:
 	uint8 Minutes;
 
 	UPROPERTY()
-	uint8 Hours;
+	uint8 Tenths;
 
 	FTimeStruct()
 	{
-		Seconds = Minutes = Hours = 0;
+		Seconds = Minutes = Tenths = 0;
 	}
 
-	FTimeStruct(uint8 &Seconds, uint8 &Minutes, uint8 &Hours)
+	FTimeStruct(uint8 &Tenths, uint8 &Seconds, uint8 &Minutes)
 	{
 		this->Seconds = Seconds;
 		this->Minutes = Minutes;
-		this->Hours = Hours;
+		this->Tenths = Tenths;
 	}
 
 	FORCEINLINE bool operator==(const FTimeStruct &Other) const
 	{
-		return Seconds == Other.Seconds && Minutes == Other.Minutes && Hours == Other.Hours;
+		return Seconds == Other.Seconds && Minutes == Other.Minutes && Tenths == Other.Tenths;
 	}
 
 	FORCEINLINE bool operator<=(const FTimeStruct &Other) const
 	{
-		if (Hours > Other.Hours)
-		{
-			return false;
-		}
-		else if (Minutes > Other.Minutes)
+		if (Minutes > Other.Minutes)
 		{
 			return false;
 		}
 		else if (Seconds > Other.Seconds)
+		{
+			return false;
+		}
+		else if (Tenths > Other.Tenths)
 		{
 			return false;
 		}

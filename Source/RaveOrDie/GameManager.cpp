@@ -66,7 +66,11 @@ void UGameManager::InitializeFinishWidget()
 
 void UGameManager::ObjectiveAccomplished()
 {
-	FTimeStruct PlayTime = Cast<ARODCharacter>(UGameplayStatics::GetPlayerCharacter(GetWorld(), 0))->GetPlayTime();
+
+	InitializeFinishWidget();
+	pWinText->SetVisibility(ESlateVisibility::Visible);
+
+	FTimeStruct PlayTime = Cast<ARODCharacter>(UGameplayStatics::GetPlayerCharacter(World, 0))->GetPlayTime();
 
 	UMySaveGame* SaveGameInstance = Cast<UMySaveGame>(UGameplayStatics::CreateSaveGameObject(UMySaveGame::StaticClass()));
 	UMySaveGame* CheckSaveGameInstance = Cast<UMySaveGame>(UGameplayStatics::LoadGameFromSlot(SaveGameInstance->SaveSlotName, SaveGameInstance->UserIndex));
@@ -79,8 +83,7 @@ void UGameManager::ObjectiveAccomplished()
 	SaveGameInstance->UpdateRecords(Name, EventsCounter[EEvent::EVENT_KILL], Accuracy, PlayTime);
 	UGameplayStatics::SaveGameToSlot(SaveGameInstance, SaveGameInstance->SaveSlotName, SaveGameInstance->UserIndex);
 
-	InitializeFinishWidget();
-	pWinText->SetVisibility(ESlateVisibility::Visible);
+	
 	
 }
 

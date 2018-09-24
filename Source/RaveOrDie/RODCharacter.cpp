@@ -180,7 +180,7 @@ void ARODCharacter::Clock()
 {
 	UpdateTime(&Time);
 	HUDManager->UpdateTime(Time);
-	GetWorld()->GetTimerManager().SetTimer(ClockTimer, this, &ARODCharacter::Clock, 1.0f);
+	GetWorld()->GetTimerManager().SetTimer(ClockTimer, this, &ARODCharacter::Clock, 0.1f);
 }
 
 void ARODCharacter::Reload()
@@ -195,14 +195,14 @@ void ARODCharacter::Reload()
 
 void ARODCharacter::UpdateTime(FTimeStruct* Time)
 {
-	if (++(Time->Seconds) >= 60)
+	if (++(Time->Tenths) >= 10)
 	{
-		Time->Seconds = 0;
+		Time->Tenths = 0;
 
-		if (++(Time->Minutes) >= 60)
+		if (++(Time->Seconds) >= 60)
 		{
-			Time->Minutes = 0;
-			Time->Hours++;
+			Time->Seconds = 0;
+			Time->Minutes++;
 		}
 	}
 }

@@ -27,7 +27,6 @@ void ATriggerBoxMeta::OnOverlapBegin(AActor* OverlappedActor, AActor* OtherActor
 	if (RODCharacter)
 	{
 		MetaTriggerBoxSubject->Notify(this, EEvent::EVENT_FINISH);
-		MarkPendingKill();
 	}
 
 }

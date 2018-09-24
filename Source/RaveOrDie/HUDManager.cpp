@@ -94,7 +94,7 @@ void AHUDManager::UpdateAmo(const uint32 &Amo)
 
 void AHUDManager::UpdateTime(const FTimeStruct &Time)
 {
-	pTime->SetText(FText::Format(LOCTEXT("Time", "{0}:{1}:{2}"), FText::AsNumber(Time.Hours), FText::AsNumber(Time.Minutes), FText::AsNumber(Time.Seconds)));
+	pTime->SetText(FText::Format(LOCTEXT("Time", "{0}:{1}:{2}"), FText::AsNumber(Time.Minutes), FText::AsNumber(Time.Seconds), FText::AsNumber(Time.Tenths)));
 }
 
 
