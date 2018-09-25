@@ -1,7 +1,6 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "GameManager.h"
-#include "Enemigo.h"
 #include "RangedEnemigo.h"
 #include "RODCharacter.h"
 #include "Boss.h"
@@ -12,6 +11,7 @@
 #include "MySaveGame.h"
 #include "Blueprint/UserWidget.h"
 #include "TextWidgetTypes.h"
+#include "Runtime/CoreUObject/Public/UObject/ConstructorHelpers.h"
 #include "Runtime/UMG/Public/Components/TextBlock.h"
 
 UGameManager::UGameManager() 
@@ -20,11 +20,12 @@ UGameManager::UGameManager()
 	EventsCounter.Add(EEvent::EVENT_SHOT_ON_TARGET, 0);
 	EventsCounter.Add(EEvent::EVENT_KILL, 0);
 
+	SafeSpawnRange = 130.f;
+	DistanceBetweenAreas = 180.f;
+
 	InitializeEnemies();
 
-	SafeSpawnRange = 130.f;
-
-	DistanceBetweenAreas = 180.f;
+	SpawnedEnemies = 0;
 
 	auto FFinishWidget = ConstructorHelpers::FClassFinder<UUserWidget>(TEXT("'/Game/Blueprints/Menus/BP_FinishScreen'"));
 
@@ -91,13 +92,16 @@ void UGameManager::SpawnEnemies(int32 Enemies, FVector Position, FRotator Enemie
 
 	int NX = Enemies / 2 + Enemies % 2;
 	int NY = Enemies / 2;
-	int SpawnedEnemies = 0;
+
+	SpawnedEnemies += Enemies;
+
+	int AuxSpawnedEnemies = 0;
 
 	FVector StartSpawnLocation = FVector(Position.X - (NX*DistanceBetweenAreas / 2), Position.Y - (NY*DistanceBetweenAreas / 2),Position.Z);
 
 	for (int i = 0; i < NX; i++)
 	{
-		for (int j = 0; Enemies > SpawnedEnemies && j <= NY; j++, SpawnedEnemies++)
+		for (int j = 0; Enemies > AuxSpawnedEnemies && j <= NY; j++, AuxSpawnedEnemies++)
 		{
 			FVector NewSpawnLocation = StartSpawnLocation + (FVector(i, j, 0.f)*DistanceBetweenAreas);
 			SpawnEnemy(NewSpawnLocation,EnemiesRotation);
@@ -145,7 +149,11 @@ void UGameManager::OnNotify(UObject* Entity, EEvent Event)
 			break;
 
 		case EEvent::EVENT_FINISH:
-			ObjectiveAccomplished();
+
+			if (EventsCounter[EEvent::EVENT_KILL] == SpawnedEnemies)
+			{
+				ObjectiveAccomplished();
+			}
 			break;
 
 		default:
@@ -196,21 +204,23 @@ FVector UGameManager::GetRandomLocation(FVector &Location, float &SafeRange) con
 }
 
 
-void UGameManager::InitializeEnemies() {
-	static ConstructorHelpers::FObjectFinder<UBlueprint> ItemBlueprint(TEXT("Blueprint'/Game/AI/ZombieBoy/BP_MeleeEnemigo.BP_MeleeEnemigo'"));
+void UGameManager::InitializeEnemies() 
+{
+	
+	static ConstructorHelpers::FObjectFinder<UClass> ItemBlueprint(TEXT("Blueprint '/Game/AI/ZombieBoy/BP_MeleeEnemigo.BP_MeleeEnemigo_C'"));
 	if (ItemBlueprint.Object) {
-		MyMeleeBlueprint = (UClass*)ItemBlueprint.Object->GeneratedClass;
+		MyMeleeBlueprint = (UClass*)ItemBlueprint.Object;
 	}
 
-	static ConstructorHelpers::FObjectFinder<UBlueprint> RangedItemBlueprint(TEXT("Blueprint'/Game/AI/ZombieGirl/BP_RangedEnemigo.BP_RangedEnemigo'"));
+	static ConstructorHelpers::FObjectFinder<UClass> RangedItemBlueprint(TEXT("Blueprint'/Game/AI/ZombieGirl/BP_RangedEnemigo.BP_RangedEnemigo_C'"));
 	if (RangedItemBlueprint.Object) {
-		MyRangedBlueprint = (UClass*)RangedItemBlueprint.Object->GeneratedClass;
+		MyRangedBlueprint = (UClass*)RangedItemBlueprint.Object;
 	}
 
 
-	static ConstructorHelpers::FObjectFinder<UBlueprint> BossItemBlueprint(TEXT("Blueprint'/Game/AI/FinaBoss/BP_Boss.BP_Boss'"));
+	static ConstructorHelpers::FObjectFinder<UClass> BossItemBlueprint(TEXT("Blueprint '/Game/AI/FinaBoss/BP_Boss.BP_Boss_C'"));
 	if (BossItemBlueprint.Object) {
-		MyBossBlueprint = (UClass*)BossItemBlueprint.Object->GeneratedClass;
+		MyBossBlueprint = (UClass*)BossItemBlueprint.Object;
 	}
 
 }

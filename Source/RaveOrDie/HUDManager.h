@@ -22,6 +22,8 @@ public:
 	// Sets default values for this actor's properties
 	AHUDManager();
 
+	~AHUDManager();
+
 	void TurnToMelee();
 
 	void TurnToGun();

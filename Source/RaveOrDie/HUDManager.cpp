@@ -37,6 +37,14 @@ AHUDManager::AHUDManager()
 	}
 }
 
+AHUDManager::~AHUDManager()
+{
+	if (pHUDWidget.IsValid())
+	{
+		pHUDWidget->RemoveFromViewport();
+	}
+}
+
 void AHUDManager::BeginPlay()
 {
 	Super::BeginPlay();

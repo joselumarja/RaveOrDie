@@ -85,6 +85,14 @@ ARODCharacter::ARODCharacter()
 
 }
 
+ARODCharacter::~ARODCharacter()
+{
+	if (HUDManager.IsValid())
+	{
+		HUDManager.Get()->Destroy();
+	}
+}
+
 // Called when the game starts or when spawned
 void ARODCharacter::BeginPlay()
 {
@@ -97,6 +105,7 @@ void ARODCharacter::BeginPlay()
 
 	GetWorld()->GetTimerManager().SetTimer(ClockTimer, this, &ARODCharacter::Clock, 1.0f);
 	HUDManager=GetWorld()->SpawnActor<AHUDManager>();
+
 	InitializeHUDValues();
 }
 
@@ -161,6 +170,7 @@ void ARODCharacter::OnHit(AActor* SelfActor, AActor* OtherActor, FVector NormalI
 	if (OtherActor->IsA(AEnemyBullet::StaticClass())) {
 		AEnemyBullet* Bullet = Cast<AEnemyBullet>(OtherActor);
 		UpdateLife(Bullet->GetDamage());
+		Bullet->Destroy();
 	}
 
 }

@@ -20,6 +20,8 @@ public:
 	// Sets default values for this character's properties
 	ARODCharacter();
 
+	~ARODCharacter();
+
 	/** Returns TopDownCameraComponent subobject **/
 	FORCEINLINE class UCameraComponent* GetTopDownCameraComponent() const { return TopDownCameraComponent; }
 	/** Returns CameraBoom subobject **/

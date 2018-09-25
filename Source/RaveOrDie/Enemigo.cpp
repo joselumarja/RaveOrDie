@@ -91,6 +91,7 @@ void AEnemigo::DeadBehaviour()
 	isDead = true;
 	LifeBar->SetVisibility(ESlateVisibility::Hidden);
 	GetController()->Destroy();
+	EnemySubject->Notify(this, EEvent::EVENT_KILL);
 	GetMesh()->PlayAnimation(DeadAnimation.Get(), false);
 	GetWorld()->GetTimerManager().SetTimer(DeadDelay, this, &AEnemigo::FinishDeadDelay, 3.3f);
 
@@ -133,7 +134,6 @@ void AEnemigo::UpdateLife(float Damage)
 
 void AEnemigo::FinishDeadDelay()
 {
-	EnemySubject->Notify(this, EEvent::EVENT_KILL);
 	Destroy();
 }
 

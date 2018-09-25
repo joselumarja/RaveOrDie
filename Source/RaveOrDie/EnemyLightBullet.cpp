@@ -11,7 +11,6 @@ AEnemyLightBullet::AEnemyLightBullet() :Super()
 	ProjectileMesh->SetupAttachment(RootComponent);
 	ProjectileMesh->BodyInstance.SetCollisionProfileName("Bullet");
 	ProjectileMovement->UpdatedComponent = ProjectileMesh;
-	ProjectileMesh->OnComponentHit.AddDynamic(this, &ABullet::OnHit);		// set up a notification for when this component hits something
 	RootComponent = ProjectileMesh;
 	ProjectileMovement->InitialSpeed = 800.f;
 	ProjectileMovement->MaxSpeed = 800.f;
@@ -22,7 +21,7 @@ AEnemyLightBullet::AEnemyLightBullet() :Super()
 
 	InitialLifeSpan = 1.5f;
 
-	Damage = 25;
+	Damage = 20;
 }
 
 

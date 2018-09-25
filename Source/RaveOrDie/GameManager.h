@@ -2,7 +2,6 @@
 
 #pragma once
 
-#include "CoreMinimal.h"
 #include "UObject/NoExportTypes.h"
 #include "Observer.h"
 #include "GameManager.generated.h"
@@ -61,25 +60,9 @@ private:
 
 	TMap<EEvent, uint32> EventsCounter;
 
-	uint32 EnemiesKilled;
-
-	bool bIsGameSesionInProgress;
+	uint32 SpawnedEnemies;
 
 	void GameOver();
-
-	uint32 Score;
-
-	uint32 Kills;
-
-	uint32 Shots;
-
-	uint32 ShotsOnTarget;
-
-	float Accuracy;
-	
-	uint8 EnemiesAlived;
-
-	uint8 EnemiesKilledPerRound;
 
 	TArray<TSubclassOf<AEnemigo>> EnemyClasses;
 
